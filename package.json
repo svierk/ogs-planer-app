@@ -60,7 +60,7 @@
     "@angular-eslint/eslint-plugin-template": "16.0.3",
     "@angular-eslint/schematics": "16.0.3",
     "@angular-eslint/template-parser": "16.0.3",
-    "@angular/cli": "^16.0.3",
+    "@angular/cli": "^16.0.4",
     "@angular/compiler-cli": "^16.0.3",
     "@electron-forge/cli": "^6.1.1",
     "@electron-forge/maker-deb": "^6.1.1",
