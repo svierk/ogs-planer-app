@@ -1,0 +1,22 @@
+{
+  "files.eol": "\n",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.rulers": [120],
+  "editor.bracketPairColorization.enabled": true,
+  "redhat.telemetry.enabled": false,
+  "files.associations": {
+    "*.json": "jsonc",
+    "package.json": "json",
+    "package-lock.json": "json"
+  },
+  "[typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  },
+  "eslint.options": {
+    "extensions": [".ts", ".html"]
+  },
+  "eslint.validate": ["javascript", "typescript", "html"]
+}
