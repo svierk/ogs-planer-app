@@ -5,5 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  title = 'angular-starter-kit';
+  title = 'ogs-planer-app';
 }

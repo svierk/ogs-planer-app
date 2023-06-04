@@ -17,11 +17,11 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'angular-starter-kit'`, () => {
+  it(`should have as title 'ogs-planer-app'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
 
-    expect(app.title).toEqual('angular-starter-kit');
+    expect(app.title).toEqual('ogs-planer-app');
   });
 
   it('should render title', () => {
@@ -29,6 +29,6 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
 
-    expect(compiled.querySelector('.content span')?.textContent).toContain('angular-starter-kit app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('ogs-planer-app is running!');
   });
 });
