@@ -8,32 +8,26 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
+import { ActivitiesComponent } from './components/activities/activities.component';
+import { ChildrenComponent } from './components/children/children.component';
+import { ClassesComponent } from './components/classes/classes.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ToastComponent } from './components/toast/toast.component';
 import { ToasterComponent } from './components/toaster/toaster.component';
-import { ChildrenComponent } from './components/children/children.component';
-import { ClassesComponent } from './components/classes/classes.component';
-import { ActivitiesComponent } from './components/activities/activities.component';
+
+const materialModules = [MatButtonModule, MatIconModule, MatToolbarModule];
 
 @NgModule({
   declarations: [
     AppComponent,
-    ToastComponent,
-    ToasterComponent,
-    DashboardComponent,
+    ActivitiesComponent,
     ChildrenComponent,
     ClassesComponent,
-    ActivitiesComponent,
+    DashboardComponent,
+    ToastComponent,
+    ToasterComponent,
   ],
-  imports: [
-    RouterModule.forRoot(routes),
-    BrowserModule,
-    AppRoutingModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatButtonModule,
-    BrowserAnimationsModule,
-  ],
+  imports: [RouterModule.forRoot(routes), BrowserModule, AppRoutingModule, BrowserAnimationsModule, ...materialModules],
   providers: [],
   bootstrap: [AppComponent],
 })
