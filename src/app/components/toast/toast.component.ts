@@ -5,7 +5,7 @@ import { fromEvent, take } from 'rxjs';
 import { EventTypes } from 'src/app/models/event-types';
 
 @Component({
-  selector: 'app-toast',
+  selector: 'ogs-toast',
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.scss'],
 })

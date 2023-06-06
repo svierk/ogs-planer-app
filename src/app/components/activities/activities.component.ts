@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-activities',
+  selector: 'ogs-activities',
   templateUrl: './activities.component.html',
   styleUrls: ['./activities.component.scss'],
 })

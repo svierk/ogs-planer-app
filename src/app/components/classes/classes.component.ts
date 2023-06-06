@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-classes',
+  selector: 'ogs-classes',
   templateUrl: './classes.component.html',
   styleUrls: ['./classes.component.scss'],
 })

@@ -36,7 +36,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "app",
+            "prefix": "ogs",
             "style": "camelCase"
           }
         ],
@@ -44,7 +44,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "app",
+            "prefix": "ogs",
             "style": "kebab-case"
           }
         ],
