@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -8,21 +9,25 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
-import { ActivitiesComponent } from './components/activities/activities.component';
+import { ChildrenTableComponent } from './components/children-table/children-table.component';
 import { ChildrenComponent } from './components/children/children.component';
+import { ClassesTableComponent } from './components/classes-table/classes-table.component';
 import { ClassesComponent } from './components/classes/classes.component';
+import { CoursesComponent } from './components/courses/courses.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ToastComponent } from './components/toast/toast.component';
 import { ToasterComponent } from './components/toaster/toaster.component';
 
-const materialModules = [MatButtonModule, MatIconModule, MatToolbarModule];
+const materialModules = [MatButtonModule, MatIconModule, MatTableModule, MatToolbarModule];
 
 @NgModule({
   declarations: [
     AppComponent,
-    ActivitiesComponent,
     ChildrenComponent,
+    ChildrenTableComponent,
     ClassesComponent,
+    ClassesTableComponent,
+    CoursesComponent,
     DashboardComponent,
     ToastComponent,
     ToasterComponent,

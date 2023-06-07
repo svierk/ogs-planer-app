@@ -1,24 +1,30 @@
 import { Routes } from '@angular/router';
-import { ActivitiesComponent } from './components/activities/activities.component';
 import { ChildrenComponent } from './components/children/children.component';
 import { ClassesComponent } from './components/classes/classes.component';
+import { CoursesComponent } from './components/courses/courses.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 export const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
     component: DashboardComponent,
   },
   {
     path: 'children',
+    pathMatch: 'full',
+
     component: ChildrenComponent,
   },
   {
     path: 'classes',
+    pathMatch: 'full',
+
     component: ClassesComponent,
   },
   {
-    path: 'activities',
-    component: ActivitiesComponent,
+    path: 'courses',
+    pathMatch: 'full',
+    component: CoursesComponent,
   },
 ];
