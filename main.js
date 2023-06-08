@@ -29,12 +29,24 @@ app.on('ready', onReady);
 
 // ##### CHILDREN DB ACTIONS ####
 
-ipcMain.on('getAllChildren', () => {
-  const children = require(path.join(__dirname, 'dist/ogs-planer-app/assets/models/children'));
-  win.webContents.send('getAllChildren', children.getAllChildren());
+const modelsPath = 'dist/ogs-planer-app/assets/models';
+
+ipcMain.on('getChildren', () => {
+  const children = require(path.join(__dirname, `${modelsPath}/children`));
+  win.webContents.send('getChildren', children.getChildren());
 });
 
-ipcMain.on('addChild', () => {
-  const children = require(path.join(__dirname, 'dist/ogs-planer-app/assets/models/children'));
-  children.addChild('Test', 'Child');
+ipcMain.on('createChild', (event, child) => {
+  const children = require(path.join(__dirname, `${modelsPath}/children`));
+  children.createChild(child);
+});
+
+ipcMain.on('updateChild', (event, child) => {
+  const children = require(path.join(__dirname, `${modelsPath}/children`));
+  children.updateChild(child);
+});
+
+ipcMain.on('deleteChild', (event, child) => {
+  const children = require(path.join(__dirname, `${modelsPath}/children`));
+  children.deleteChild(child);
 });

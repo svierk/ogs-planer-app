@@ -12,6 +12,6 @@ export class AppComponent implements OnInit {
   constructor(private dbService: DbService) {}
 
   ngOnInit() {
-    this.dbService.getAllChildren();
+    this.dbService.getChildren();
   }
 }

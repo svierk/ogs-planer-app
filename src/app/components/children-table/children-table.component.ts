@@ -22,9 +22,4 @@ export class ChildrenTableComponent implements OnInit {
       this.cdr.detectChanges();
     });
   }
-
-  addChild() {
-    this.dbService.addChild();
-    this.dbService.getAllChildren();
-  }
 }
