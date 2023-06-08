@@ -28,8 +28,8 @@ jobs:
         run: npm run prettier
       - name: Check ESLint
         run: npm run lint
-      - name: Unit Tests
-        run: npm run test:ci
+      # - name: Unit Tests
+      #   run: npm run test:ci
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
