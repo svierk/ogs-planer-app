@@ -22,7 +22,7 @@ function onReady() {
   );
 
   // include following line to open the chrome dev tools on app start
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
 }
 
 app.on('ready', onReady);

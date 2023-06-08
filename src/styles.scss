@@ -1,3 +1,15 @@
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  4: $spacer * 0.25,
+  8: $spacer * 0.5,
+  16: $spacer,
+  24: $spacer * 1.5,
+  32: $spacer * 2,
+  48: $spacer * 3,
+  64: $spacer * 4,
+);
+
 @import 'bootstrap/scss/_functions';
 @import 'bootstrap/scss/_variables';
 @import 'bootstrap/scss/_mixins';
