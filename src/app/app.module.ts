@@ -9,7 +9,9 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
+import { ChildrenDeleteActionComponent } from './components/children-delete-action/children-delete-action.component';
 import { ChildrenTableComponent } from './components/children-table/children-table.component';
+import { ChildrenUpdateActionComponent } from './components/children-update-action/children-update-action.component';
 import { ChildrenComponent } from './components/children/children.component';
 import { ClassesTableComponent } from './components/classes-table/classes-table.component';
 import { ClassesComponent } from './components/classes/classes.component';
@@ -24,7 +26,9 @@ const materialModules = [MatButtonModule, MatIconModule, MatTableModule, MatTool
   declarations: [
     AppComponent,
     ChildrenComponent,
+    ChildrenDeleteActionComponent,
     ChildrenTableComponent,
+    ChildrenUpdateActionComponent,
     ClassesComponent,
     ClassesTableComponent,
     CoursesComponent,

@@ -12,7 +12,7 @@ export class ChildrenTableComponent implements OnInit {
   Days = Days;
 
   children: Child[] = [];
-  displayedColumns: string[] = ['firstName', 'lastName', 'phone'];
+  displayedColumns: string[] = ['firstName', 'lastName', 'phone', 'actions'];
 
   constructor(private dbService: DbService, private cdr: ChangeDetectorRef) {}
 
