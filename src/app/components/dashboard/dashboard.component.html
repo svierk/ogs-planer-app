@@ -1,1 +1,40 @@
-<p>dashboard works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <mat-action-list>
+        <div mat-subheader>Listen</div>
+        <mat-list-item>
+          <mat-icon matListItemIcon>attach_file</mat-icon>
+          <h3 matListItemTitle>Liste 1</h3>
+          <p matListItemLine>
+            <span>Neue Liste erstellen.</span>
+          </p>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+          <mat-icon matListItemIcon>attach_file</mat-icon>
+          <h3 matListItemTitle>Liste 2</h3>
+          <p matListItemLine>
+            <span>Neue Liste erstellen.</span>
+          </p>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </mat-action-list>
+    </div>
+    <div class="col-sm">
+      <mat-action-list>
+        <div mat-subheader>Administration</div>
+        <a href="assets/db/mysqlite.db">
+          <mat-list-item>
+            <mat-icon matListItemIcon>table_chart</mat-icon>
+            <h3 matListItemTitle>Datenbank exportieren</h3>
+            <p matListItemLine>
+              <span>Export der gesamten Datenbank.</span>
+            </p>
+          </mat-list-item>
+        </a>
+        <mat-divider></mat-divider>
+      </mat-action-list>
+    </div>
+  </div>
+</div>
