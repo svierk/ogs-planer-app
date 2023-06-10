@@ -3,19 +3,11 @@
     <div class="col-sm">
       <mat-action-list>
         <div mat-subheader>Listen</div>
-        <mat-list-item>
+        <mat-list-item (click)="exportChildrenList()">
           <mat-icon matListItemIcon>attach_file</mat-icon>
-          <h3 matListItemTitle>Liste 1</h3>
+          <h3 matListItemTitle>Schülerliste erstellen</h3>
           <p matListItemLine>
-            <span>Neue Liste erstellen.</span>
-          </p>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-        <mat-list-item>
-          <mat-icon matListItemIcon>attach_file</mat-icon>
-          <h3 matListItemTitle>Liste 2</h3>
-          <p matListItemLine>
-            <span>Neue Liste erstellen.</span>
+            <span>Neue Liste aller Schüler erstellen.</span>
           </p>
         </mat-list-item>
         <mat-divider></mat-divider>
