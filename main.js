@@ -46,7 +46,7 @@ ipcMain.on('updateChild', (event, child) => {
   children.updateChild(child);
 });
 
-ipcMain.on('deleteChild', (event, child) => {
+ipcMain.on('deleteChild', (event, id) => {
   const children = require(path.join(__dirname, `${modelsPath}/children`));
-  children.deleteChild(child);
+  children.deleteChild(id);
 });

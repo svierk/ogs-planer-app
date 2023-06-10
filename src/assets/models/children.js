@@ -24,8 +24,8 @@ exports.updateChild = (child) => {
   return res;
 };
 
-exports.deleteChild = (child) => {
-  const sql = `DELETE FROM children WHERE id = ${child.id}`;
+exports.deleteChild = (id) => {
+  const sql = `DELETE FROM children WHERE id = ${id}`;
   const stmt = db.prepare(sql);
   const res = stmt.run();
   return res;

@@ -31,7 +31,7 @@ export class DbService {
     electron.ipcRenderer.send('updateChild', child);
   }
 
-  deleteChild(child: Child) {
-    electron.ipcRenderer.send('deleteChild', child);
+  deleteChild(id: number) {
+    electron.ipcRenderer.send('deleteChild', id);
   }
 }
