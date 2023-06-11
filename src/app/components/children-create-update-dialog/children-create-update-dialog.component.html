@@ -1,0 +1,44 @@
+<form [formGroup]="childForm">
+  <h1 mat-dialog-title class="text-center">{{ child ? 'Schüler editieren' : 'Schüler hinzufügen' }}</h1>
+  <div mat-dialog-content class="text-center">
+    <div class="col-6">
+      <mat-form-field appearance="fill">
+        <mat-label>Vorname</mat-label>
+        <input matInput type="text" formControlName="firstName" placeholder="Max" />
+        <mat-error *ngIf="firstName?.errors?.['required']">Vorname ist erforderlich.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-6">
+      <mat-form-field appearance="fill">
+        <mat-label>Nachname</mat-label>
+        <input matInput type="text" formControlName="lastName" placeholder="Mustermann" />
+        <mat-error *ngIf="lastName?.errors?.['required']">Nachname ist erforderlich.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-6">
+      <mat-form-field appearance="fill">
+        <mat-label>Telefon</mat-label>
+        <input matInput type="text" formControlName="phone" placeholder="" />
+
+        <mat-error *ngIf="phone?.errors?.['pattern']"
+          >Bitte geben Sie eine gültige Telefonnummer ein, die mit + beginnt, gefolgt von Ziffern.</mat-error
+        >
+        <mat-error *ngIf="phone?.errors?.['minlength']">Die Telefonnummer sollte mindestens 7 Ziffern haben.</mat-error>
+        <mat-error *ngIf="phone?.errors?.['maxlength']">Die Telefonnummer sollte maximal 15 Ziffern haben.</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div mat-dialog-actions class="justify-content-center mb-16">
+    <button mat-raised-button mat-dialog-close color="basic" class="mx-8" (click)="closeDialog()">Abbrechen</button>
+    <button
+      mat-raised-button
+      color="primary"
+      class="mx-8"
+      (click)="submit($event)"
+      type="submit"
+      [disabled]="!childForm.valid"
+    >
+      {{ child ? 'Anpassen' : 'Erstellen' }}
+    </button>
+  </div>
+</form>

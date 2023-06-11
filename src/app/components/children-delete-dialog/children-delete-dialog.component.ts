@@ -11,8 +11,8 @@ export class ChildrenDeleteDialogComponent {
   userId!: number;
 
   constructor(
-    public dialogRef: MatDialogRef<ChildrenDeleteDialogComponent>,
     private dbService: DbService,
+    public dialogRef: MatDialogRef<ChildrenDeleteDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
   ) {
     const id = data.id ?? '';

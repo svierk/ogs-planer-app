@@ -21,10 +21,11 @@ export class DashboardComponent implements OnInit {
   }
 
   exportChildrenList() {
-    const list = this.children.map(({ id, firstName, lastName }) => ({
+    const list = this.children.map(({ id, firstName, lastName, phone }) => ({
       Id: id,
       Vorname: firstName,
       Nachname: lastName,
+      Telefon: phone,
     }));
     this.excelService.exportToExcel(list, `liste-${new Date().getTime()}`);
   }

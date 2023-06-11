@@ -1,5 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -18,6 +19,8 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
+import { ChildrenCreateButtonComponent } from './components/children-create-button/children-create-button.component';
+import { ChildrenCreateUpdateDialogComponent } from './components/children-create-update-dialog/children-create-update-dialog.component';
 import { ChildrenDeleteActionComponent } from './components/children-delete-action/children-delete-action.component';
 import { ChildrenDeleteDialogComponent } from './components/children-delete-dialog/children-delete-dialog.component';
 import { ChildrenTableComponent } from './components/children-table/children-table.component';
@@ -49,6 +52,8 @@ const materialModules = [
   declarations: [
     AppComponent,
     ChildrenComponent,
+    ChildrenCreateButtonComponent,
+    ChildrenCreateUpdateDialogComponent,
     ChildrenDeleteActionComponent,
     ChildrenDeleteDialogComponent,
     ChildrenTableComponent,
@@ -62,9 +67,11 @@ const materialModules = [
   ],
   imports: [
     AppRoutingModule,
-    BrowserAnimationsModule,
     BrowserModule,
+    BrowserAnimationsModule,
+    CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(routes),
     ...materialModules,
   ],

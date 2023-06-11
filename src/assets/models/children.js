@@ -11,7 +11,7 @@ exports.getChildren = () => {
 };
 
 exports.createChild = (child) => {
-  const sql = `INSERT INTO children (firstName, lastName) VALUES ('${child.firstName}', '${child.lastName}')`;
+  const sql = `INSERT INTO children (firstName, lastName, phone) VALUES ('${child.firstName}', '${child.lastName}', '${child.phone}')`;
   const stmt = db.prepare(sql);
   const res = stmt.run();
   return res;
