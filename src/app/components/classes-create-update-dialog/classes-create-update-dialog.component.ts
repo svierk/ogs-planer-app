@@ -26,6 +26,10 @@ export class ClassesCreateUpdateDialogComponent implements OnInit {
     return this.classForm.get('name');
   }
 
+  get teacher() {
+    return this.classForm.get('teacher');
+  }
+
   ngOnInit() {
     this.init();
   }
@@ -51,6 +55,7 @@ export class ClassesCreateUpdateDialogComponent implements OnInit {
   private init() {
     this.classForm = this.fb.group({
       name: this.fb.control(this.classItem?.name ?? '', [Validators.required]),
+      teacher: this.fb.control(this.classItem?.teacher ?? '', []),
     });
   }
 

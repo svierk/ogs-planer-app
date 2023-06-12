@@ -9,7 +9,7 @@ import { Class } from '../../models/class';
 })
 export class ClassesTableComponent implements OnInit {
   classes: Class[] = [];
-  displayedColumns: string[] = ['name', 'actions'];
+  displayedColumns: string[] = ['name', 'teacher', 'actions'];
 
   constructor(private dbService: DbService, private cdr: ChangeDetectorRef) {}
 

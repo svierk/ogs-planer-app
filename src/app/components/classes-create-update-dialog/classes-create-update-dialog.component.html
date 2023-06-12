@@ -8,6 +8,12 @@
         <mat-error *ngIf="name?.errors?.['required']">Name ist erforderlich.</mat-error>
       </mat-form-field>
     </div>
+    <div class="col-6">
+      <mat-form-field appearance="fill">
+        <mat-label>Lehrkraft</mat-label>
+        <input matInput type="text" formControlName="teacher" placeholder="Frau Schwarz" />
+      </mat-form-field>
+    </div>
   </div>
   <div mat-dialog-actions class="justify-content-center mb-16">
     <button mat-raised-button mat-dialog-close color="basic" class="mx-8" (click)="closeDialog()">Abbrechen</button>

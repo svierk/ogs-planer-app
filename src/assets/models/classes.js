@@ -11,14 +11,14 @@ exports.getClasses = () => {
 };
 
 exports.createClass = (classItem) => {
-  const sql = `INSERT INTO classes (name) VALUES ('${classItem.name}')`;
+  const sql = `INSERT INTO classes (name, teacher) VALUES ('${classItem.name}', '${classItem.teacher}')`;
   const stmt = db.prepare(sql);
   const res = stmt.run();
   return res;
 };
 
 exports.updateClass = (classItem) => {
-  const sql = `UPDATE classes SET name='${classItem.name}' WHERE classes.id = ${classItem.id}`;
+  const sql = `UPDATE classes SET name='${classItem.name}', teacher='${classItem.teacher}' WHERE classes.id = ${classItem.id}`;
   const stmt = db.prepare(sql);
   const res = stmt.run();
   return res;
