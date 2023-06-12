@@ -18,7 +18,7 @@ exports.createChild = (child) => {
 };
 
 exports.updateChild = (child) => {
-  const sql = `UPDATE children SET firstName=${child.firstName}, lastName=${child.lastName} WHERE id = ${child.id}`;
+  const sql = `UPDATE children SET firstName='${child.firstName}', lastName='${child.lastName}', phone='${child.phone}' WHERE children.id = ${child.id}`;
   const stmt = db.prepare(sql);
   const res = stmt.run();
   return res;

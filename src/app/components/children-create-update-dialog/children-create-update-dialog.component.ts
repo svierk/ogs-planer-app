@@ -10,6 +10,7 @@ const phoneRegex = /^[+][0-9]{1,15}?$/;
   selector: 'ogs-children-create-update-dialog',
   templateUrl: './children-create-update-dialog.component.html',
   styleUrls: ['./children-create-update-dialog.component.scss'],
+  providers: [FormBuilder],
 })
 export class ChildrenCreateUpdateDialogComponent implements OnInit {
   child!: Child;
@@ -34,7 +35,7 @@ export class ChildrenCreateUpdateDialogComponent implements OnInit {
     return this.childForm.get('phone');
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.init();
   }
 
@@ -42,13 +43,12 @@ export class ChildrenCreateUpdateDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  submit(event: Event) {
-    event.preventDefault();
-
+  submit() {
     if (this.childForm.valid) {
       const current = { ...this.childForm.getRawValue() };
 
       if (this.child) {
+        current.id = this.child.id;
         this.updateChild(current as Child);
         return;
       }

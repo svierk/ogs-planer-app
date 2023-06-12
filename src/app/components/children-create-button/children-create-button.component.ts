@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ChildrenCreateUpdateDialogComponent } from '../children-create-update-dialog/children-create-update-dialog.component';
 
@@ -8,11 +8,13 @@ import { ChildrenCreateUpdateDialogComponent } from '../children-create-update-d
   styleUrls: ['./children-create-button.component.scss'],
 })
 export class ChildrenCreateButtonComponent {
-  constructor(public dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private zone: NgZone) {}
 
-  openDialog(): void {
-    this.dialog.open(ChildrenCreateUpdateDialogComponent, {
-      autoFocus: false,
+  openDialog() {
+    this.zone.run(() => {
+      this.dialog.open(ChildrenCreateUpdateDialogComponent, {
+        autoFocus: false,
+      });
     });
   }
 }

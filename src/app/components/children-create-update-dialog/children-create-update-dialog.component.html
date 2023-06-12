@@ -1,4 +1,4 @@
-<form [formGroup]="childForm">
+<form [formGroup]="childForm" (ngSubmit)="submit()">
   <h1 mat-dialog-title class="text-center">{{ child ? 'Schüler editieren' : 'Schüler hinzufügen' }}</h1>
   <div mat-dialog-content class="text-center">
     <div class="col-6">
@@ -30,14 +30,7 @@
   </div>
   <div mat-dialog-actions class="justify-content-center mb-16">
     <button mat-raised-button mat-dialog-close color="basic" class="mx-8" (click)="closeDialog()">Abbrechen</button>
-    <button
-      mat-raised-button
-      color="primary"
-      class="mx-8"
-      (click)="submit($event)"
-      type="submit"
-      [disabled]="!childForm.valid"
-    >
+    <button mat-raised-button color="primary" class="mx-8" type="submit" [disabled]="!childForm.valid">
       {{ child ? 'Anpassen' : 'Erstellen' }}
     </button>
   </div>

@@ -14,12 +14,10 @@ export class ChildrenDeleteActionComponent {
 
   constructor(public dialog: MatDialog) {}
 
-  openDialog(): void {
+  openDialog() {
     const config = new MatDialogConfig();
     config.autoFocus = false;
-    config.data = {
-      id: this.child.id,
-    };
+    config.data = this.child.id;
     this.dialog.open(ChildrenDeleteDialogComponent, config);
   }
 }

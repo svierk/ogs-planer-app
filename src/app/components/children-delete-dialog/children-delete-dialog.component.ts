@@ -15,18 +15,17 @@ export class ChildrenDeleteDialogComponent {
     public dialogRef: MatDialogRef<ChildrenDeleteDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
   ) {
-    const id = data.id ?? '';
-    this.userId = +id;
+    this.userId = +data;
   }
 
   @HostListener('window:keydown.Enter', ['$event'])
-  handleKeyDown(event: KeyboardEvent): void {
+  handleKeyDown(event: KeyboardEvent) {
     event.preventDefault();
     this.deleteChild();
     this.closeDialog();
   }
 
-  closeDialog(): void {
+  closeDialog() {
     this.dialogRef.close();
   }
 
