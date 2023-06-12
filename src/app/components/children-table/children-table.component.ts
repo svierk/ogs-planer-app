@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Days } from 'src/app/models/days';
 import { DbService } from 'src/app/services/db.service';
 import { Child } from '../../models/child';
 
@@ -9,8 +8,6 @@ import { Child } from '../../models/child';
   styleUrls: ['./children-table.component.scss'],
 })
 export class ChildrenTableComponent implements OnInit {
-  Days = Days;
-
   children: Child[] = [];
   displayedColumns: string[] = ['firstName', 'lastName', 'phone', 'actions'];
 

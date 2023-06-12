@@ -5,16 +5,12 @@
       {{ class.name }}
     </td>
   </ng-container>
-  <ng-container matColumnDef="mascot">
-    <th mat-header-cell *matHeaderCellDef scope="col">Maskottchen</th>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef scope="col">Aktionen</th>
     <td mat-cell *matCellDef="let class">
-      {{ class.mascot }}
-    </td>
-  </ng-container>
-  <ng-container matColumnDef="teacher">
-    <th mat-header-cell *matHeaderCellDef scope="col">Lehrkraft</th>
-    <td mat-cell *matCellDef="let class">
-      {{ class.teacher }}
+      <ogs-classes-update-action [classItem]="class"></ogs-classes-update-action>
+      <ogs-classes-delete-action [classItem]="class"></ogs-classes-delete-action>
     </td>
   </ng-container>
 

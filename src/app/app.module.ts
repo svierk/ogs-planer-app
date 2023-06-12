@@ -26,7 +26,12 @@ import { ChildrenDeleteDialogComponent } from './components/children-delete-dial
 import { ChildrenTableComponent } from './components/children-table/children-table.component';
 import { ChildrenUpdateActionComponent } from './components/children-update-action/children-update-action.component';
 import { ChildrenComponent } from './components/children/children.component';
+import { ClassesCreateButtonComponent } from './components/classes-create-button/classes-create-button.component';
+import { ClassesCreateUpdateDialogComponent } from './components/classes-create-update-dialog/classes-create-update-dialog.component';
+import { ClassesDeleteActionComponent } from './components/classes-delete-action/classes-delete-action.component';
+import { ClassesDeleteDialogComponent } from './components/classes-delete-dialog/classes-delete-dialog.component';
 import { ClassesTableComponent } from './components/classes-table/classes-table.component';
+import { ClassesUpdateActionComponent } from './components/classes-update-action/classes-update-action.component';
 import { ClassesComponent } from './components/classes/classes.component';
 import { CoursesComponent } from './components/courses/courses.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -59,7 +64,12 @@ const materialModules = [
     ChildrenTableComponent,
     ChildrenUpdateActionComponent,
     ClassesComponent,
+    ClassesCreateButtonComponent,
+    ClassesCreateUpdateDialogComponent,
+    ClassesDeleteActionComponent,
+    ClassesDeleteDialogComponent,
     ClassesTableComponent,
+    ClassesUpdateActionComponent,
     CoursesComponent,
     DashboardComponent,
     ToastComponent,

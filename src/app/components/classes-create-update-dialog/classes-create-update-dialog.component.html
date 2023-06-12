@@ -1,0 +1,18 @@
+<form [formGroup]="classForm" (ngSubmit)="submit()">
+  <h1 mat-dialog-title class="text-center">{{ classItem ? 'Klasse editieren' : 'Klasse hinzufügen' }}</h1>
+  <div mat-dialog-content class="text-center">
+    <div class="col-6">
+      <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" formControlName="name" placeholder="4b" />
+        <mat-error *ngIf="name?.errors?.['required']">Name ist erforderlich.</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div mat-dialog-actions class="justify-content-center mb-16">
+    <button mat-raised-button mat-dialog-close color="basic" class="mx-8" (click)="closeDialog()">Abbrechen</button>
+    <button mat-raised-button color="primary" class="mx-8" type="submit" [disabled]="!classForm.valid">
+      {{ classItem ? 'Anpassen' : 'Erstellen' }}
+    </button>
+  </div>
+</form>
