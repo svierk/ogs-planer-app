@@ -19,19 +19,17 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
-import { ChildrenCreateButtonComponent } from './components/children-create-button/children-create-button.component';
+import { ChildrenCreateUpdateActionComponent } from './components/children-create-update-action/children-create-update-action.component';
 import { ChildrenCreateUpdateDialogComponent } from './components/children-create-update-dialog/children-create-update-dialog.component';
 import { ChildrenDeleteActionComponent } from './components/children-delete-action/children-delete-action.component';
 import { ChildrenDeleteDialogComponent } from './components/children-delete-dialog/children-delete-dialog.component';
 import { ChildrenTableComponent } from './components/children-table/children-table.component';
-import { ChildrenUpdateActionComponent } from './components/children-update-action/children-update-action.component';
 import { ChildrenComponent } from './components/children/children.component';
-import { ClassesCreateButtonComponent } from './components/classes-create-button/classes-create-button.component';
+import { ClassesCreateUpdateActionComponent } from './components/classes-create-update-action/classes-create-update-action.component';
 import { ClassesCreateUpdateDialogComponent } from './components/classes-create-update-dialog/classes-create-update-dialog.component';
 import { ClassesDeleteActionComponent } from './components/classes-delete-action/classes-delete-action.component';
 import { ClassesDeleteDialogComponent } from './components/classes-delete-dialog/classes-delete-dialog.component';
 import { ClassesTableComponent } from './components/classes-table/classes-table.component';
-import { ClassesUpdateActionComponent } from './components/classes-update-action/classes-update-action.component';
 import { ClassesComponent } from './components/classes/classes.component';
 import { CoursesComponent } from './components/courses/courses.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -58,19 +56,17 @@ const materialModules = [
   declarations: [
     AppComponent,
     ChildrenComponent,
-    ChildrenCreateButtonComponent,
+    ChildrenCreateUpdateActionComponent,
     ChildrenCreateUpdateDialogComponent,
     ChildrenDeleteActionComponent,
     ChildrenDeleteDialogComponent,
     ChildrenTableComponent,
-    ChildrenUpdateActionComponent,
     ClassesComponent,
-    ClassesCreateButtonComponent,
+    ClassesCreateUpdateActionComponent,
     ClassesCreateUpdateDialogComponent,
     ClassesDeleteActionComponent,
     ClassesDeleteDialogComponent,
     ClassesTableComponent,
-    ClassesUpdateActionComponent,
     ClassNamePipe,
     CoursesComponent,
     DashboardComponent,

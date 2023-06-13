@@ -4,13 +4,16 @@ import { Child } from 'src/app/models/child';
 import { ChildrenCreateUpdateDialogComponent } from '../children-create-update-dialog/children-create-update-dialog.component';
 
 @Component({
-  selector: 'ogs-children-update-action',
-  templateUrl: './children-update-action.component.html',
-  styleUrls: ['./children-update-action.component.scss'],
+  selector: 'ogs-children-create-update-action',
+  templateUrl: './children-create-update-action.component.html',
+  styleUrls: ['./children-create-update-action.component.scss'],
 })
-export class ChildrenUpdateActionComponent {
+export class ChildrenCreateUpdateActionComponent {
   @Input()
   child!: Child;
+
+  @Input()
+  isUpdate = false;
 
   constructor(private dialog: MatDialog, private zone: NgZone) {}
 

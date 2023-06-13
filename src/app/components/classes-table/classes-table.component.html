@@ -15,7 +15,7 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef scope="col">Aktionen</th>
     <td mat-cell *matCellDef="let class">
-      <ogs-classes-update-action [classItem]="class"></ogs-classes-update-action>
+      <ogs-classes-create-update-action [classItem]="class" [isUpdate]="true"></ogs-classes-create-update-action>
       <ogs-classes-delete-action [classItem]="class"></ogs-classes-delete-action>
     </td>
   </ng-container>
