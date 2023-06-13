@@ -19,12 +19,19 @@
       <mat-form-field appearance="fill">
         <mat-label>Telefon</mat-label>
         <input matInput type="text" formControlName="phone" placeholder="" />
-
         <mat-error *ngIf="phone?.errors?.['pattern']"
           >Bitte geben Sie eine gültige Telefonnummer ein, die mit + beginnt, gefolgt von Ziffern.</mat-error
         >
         <mat-error *ngIf="phone?.errors?.['minlength']">Die Telefonnummer sollte mindestens 7 Ziffern haben.</mat-error>
         <mat-error *ngIf="phone?.errors?.['maxlength']">Die Telefonnummer sollte maximal 15 Ziffern haben.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-6">
+      <mat-form-field appearance="fill">
+        <mat-label>Klasse</mat-label>
+        <mat-select formControlName="classSelect">
+          <mat-option *ngFor="let class of classes" [value]="class.id">{{ class.name }}</mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
   </div>

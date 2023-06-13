@@ -1,7 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Child } from 'src/app/models/child';
+import { Class } from 'src/app/models/class';
 import { DbService } from 'src/app/services/db.service';
 
 const phoneRegex = /^[+][0-9]{1,15}?$/;
@@ -14,23 +15,30 @@ const phoneRegex = /^[+][0-9]{1,15}?$/;
 })
 export class ChildrenCreateUpdateDialogComponent implements OnInit {
   child!: Child;
+  classes!: Class[];
   childForm!: FormGroup;
 
   constructor(
+    private cdr: ChangeDetectorRef,
     private dbService: DbService,
     public dialogRef: MatDialogRef<ChildrenCreateUpdateDialogComponent>,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
   ) {
     this.child = data as Child;
+    this.dbService.classes.subscribe((value) => {
+      this.classes = value;
+    });
   }
 
   get firstName() {
     return this.childForm.get('firstName');
   }
+
   get lastName() {
     return this.childForm.get('lastName');
   }
+
   get phone() {
     return this.childForm.get('phone');
   }
@@ -46,6 +54,7 @@ export class ChildrenCreateUpdateDialogComponent implements OnInit {
   submit() {
     if (this.childForm.valid) {
       const current = { ...this.childForm.getRawValue() };
+      current.classId = current.classSelect;
 
       if (this.child) {
         current.id = this.child.id;
@@ -66,6 +75,7 @@ export class ChildrenCreateUpdateDialogComponent implements OnInit {
         Validators.maxLength(15),
         Validators.pattern(phoneRegex),
       ]),
+      classSelect: this.fb.control(this.child?.classId ?? '', []),
     });
   }
 
