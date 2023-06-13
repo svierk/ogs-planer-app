@@ -37,6 +37,7 @@ import { CoursesComponent } from './components/courses/courses.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ToastComponent } from './components/toast/toast.component';
 import { ToasterComponent } from './components/toaster/toaster.component';
+import { ClassNamePipe } from './pipes/class-name.pipe';
 
 const materialModules = [
   MatButtonModule,
@@ -70,6 +71,7 @@ const materialModules = [
     ClassesDeleteDialogComponent,
     ClassesTableComponent,
     ClassesUpdateActionComponent,
+    ClassNamePipe,
     CoursesComponent,
     DashboardComponent,
     ToastComponent,
