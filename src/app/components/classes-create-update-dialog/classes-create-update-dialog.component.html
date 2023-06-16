@@ -4,18 +4,130 @@
     <div mat-dialog-content class="text-center">
       <div class="row">
         <div class="col-sm">
-          <mat-form-field appearance="fill">
+          <mat-form-field appearance="fill" class="float-sm-end">
             <mat-label>Name</mat-label>
             <input matInput type="text" formControlName="name" placeholder="4b" />
             <mat-error *ngIf="name?.errors?.['required']">Name ist erforderlich.</mat-error>
           </mat-form-field>
         </div>
         <div class="col-sm">
-          <mat-form-field appearance="fill">
+          <mat-form-field appearance="fill" class="float-sm-start">
             <mat-label>Lehrkraft</mat-label>
             <input matInput type="text" formControlName="teacher" placeholder="Frau Schwarz" />
           </mat-form-field>
         </div>
+      </div>
+      <div class="row">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Montag</th>
+              <th scope="col">Dienstag</th>
+              <th scope="col">Mittwoch</th>
+              <th scope="col">Donnerstag</th>
+              <th scope="col">Freitag</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row" class="align-middle"><mat-icon>restaurant</mat-icon></th>
+              <td>
+                <mat-form-field>
+                  <mat-select formControlName="lunchMonday">
+                    <mat-option *ngFor="let time of LunchTimes | keyvalue" [value]="time.value">{{
+                      time.value
+                    }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                  <mat-select formControlName="lunchTuesday">
+                    <mat-option *ngFor="let time of LunchTimes | keyvalue" [value]="time.value">{{
+                      time.value
+                    }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                  <mat-select formControlName="lunchWednesday">
+                    <mat-option *ngFor="let time of LunchTimes | keyvalue" [value]="time.value">{{
+                      time.value
+                    }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                  <mat-select formControlName="lunchThursday">
+                    <mat-option *ngFor="let time of LunchTimes | keyvalue" [value]="time.value">{{
+                      time.value
+                    }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                  <mat-select formControlName="lunchFriday">
+                    <mat-option *ngFor="let time of LunchTimes | keyvalue" [value]="time.value">{{
+                      time.value
+                    }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row" class="align-middle"><mat-icon>design_services</mat-icon></th>
+              <td>
+                <mat-form-field>
+                  <mat-select formControlName="homeworkMonday">
+                    <mat-option *ngFor="let time of HomeworkTimes | keyvalue" [value]="time.value">{{
+                      time.value
+                    }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                  <mat-select formControlName="homeworkTuesday">
+                    <mat-option *ngFor="let time of HomeworkTimes | keyvalue" [value]="time.value">{{
+                      time.value
+                    }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                  <mat-select formControlName="homeworkWednesday">
+                    <mat-option *ngFor="let time of HomeworkTimes | keyvalue" [value]="time.value">{{
+                      time.value
+                    }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                  <mat-select formControlName="homeworkThursday">
+                    <mat-option *ngFor="let time of HomeworkTimes | keyvalue" [value]="time.value">{{
+                      time.value
+                    }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                  <mat-select formControlName="homeworkFriday">
+                    <mat-option *ngFor="let time of HomeworkTimes | keyvalue" [value]="time.value">{{
+                      time.value
+                    }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <div mat-dialog-actions class="justify-content-center mb-16">

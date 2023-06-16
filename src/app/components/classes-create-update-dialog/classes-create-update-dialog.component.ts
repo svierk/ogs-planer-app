@@ -2,6 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Class } from 'src/app/models/class';
+import { HomeworkTimes } from 'src/app/models/homework-times';
+import { LunchTimes } from 'src/app/models/lunch-times';
 import { DbService } from 'src/app/services/db.service';
 
 @Component({
@@ -12,6 +14,8 @@ import { DbService } from 'src/app/services/db.service';
 export class ClassesCreateUpdateDialogComponent implements OnInit {
   classItem!: Class;
   classForm!: FormGroup;
+  LunchTimes = LunchTimes;
+  HomeworkTimes = HomeworkTimes;
 
   constructor(
     private dbService: DbService,
@@ -56,6 +60,16 @@ export class ClassesCreateUpdateDialogComponent implements OnInit {
     this.classForm = this.fb.group({
       name: this.fb.control(this.classItem?.name ?? '', [Validators.required]),
       teacher: this.fb.control(this.classItem?.teacher ?? '', []),
+      lunchMonday: this.fb.control(LunchTimes.first, []),
+      lunchTuesday: this.fb.control(LunchTimes.first, []),
+      lunchWednesday: this.fb.control(LunchTimes.first, []),
+      lunchThursday: this.fb.control(LunchTimes.first, []),
+      lunchFriday: this.fb.control(LunchTimes.first, []),
+      homeworkMonday: this.fb.control(HomeworkTimes.first, []),
+      homeworkTuesday: this.fb.control(HomeworkTimes.first, []),
+      homeworkWednesday: this.fb.control(HomeworkTimes.first, []),
+      homeworkThursday: this.fb.control(HomeworkTimes.first, []),
+      homeworkFriday: this.fb.control(HomeworkTimes.first, []),
     });
   }
 
