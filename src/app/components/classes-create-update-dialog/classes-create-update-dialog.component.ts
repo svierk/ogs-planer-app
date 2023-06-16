@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Class } from 'src/app/models/class';
+import { Days } from 'src/app/models/days';
 import { HomeworkTimes } from 'src/app/models/homework-times';
 import { LunchTimes } from 'src/app/models/lunch-times';
 import { DbService } from 'src/app/services/db.service';
@@ -14,6 +15,8 @@ import { DbService } from 'src/app/services/db.service';
 export class ClassesCreateUpdateDialogComponent implements OnInit {
   classItem!: Class;
   classForm!: FormGroup;
+
+  Days = Days;
   LunchTimes = LunchTimes;
   HomeworkTimes = HomeworkTimes;
 

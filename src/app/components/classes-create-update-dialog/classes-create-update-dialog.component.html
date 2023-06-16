@@ -32,45 +32,9 @@
           <tbody>
             <tr>
               <th scope="row" class="align-middle"><mat-icon>restaurant</mat-icon></th>
-              <td>
+              <td *ngFor="let day of Days | keyvalue">
                 <mat-form-field>
-                  <mat-select formControlName="lunchMonday">
-                    <mat-option *ngFor="let time of LunchTimes | keyvalue" [value]="time.value">{{
-                      time.value
-                    }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </td>
-              <td>
-                <mat-form-field>
-                  <mat-select formControlName="lunchTuesday">
-                    <mat-option *ngFor="let time of LunchTimes | keyvalue" [value]="time.value">{{
-                      time.value
-                    }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </td>
-              <td>
-                <mat-form-field>
-                  <mat-select formControlName="lunchWednesday">
-                    <mat-option *ngFor="let time of LunchTimes | keyvalue" [value]="time.value">{{
-                      time.value
-                    }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </td>
-              <td>
-                <mat-form-field>
-                  <mat-select formControlName="lunchThursday">
-                    <mat-option *ngFor="let time of LunchTimes | keyvalue" [value]="time.value">{{
-                      time.value
-                    }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </td>
-              <td>
-                <mat-form-field>
-                  <mat-select formControlName="lunchFriday">
+                  <mat-select formControlName="{{ 'lunch' + day.key }}">
                     <mat-option *ngFor="let time of LunchTimes | keyvalue" [value]="time.value">{{
                       time.value
                     }}</mat-option>
@@ -80,45 +44,9 @@
             </tr>
             <tr>
               <th scope="row" class="align-middle"><mat-icon>home</mat-icon></th>
-              <td>
+              <td *ngFor="let day of Days | keyvalue">
                 <mat-form-field>
-                  <mat-select formControlName="homeworkMonday">
-                    <mat-option *ngFor="let time of HomeworkTimes | keyvalue" [value]="time.value">{{
-                      time.value
-                    }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </td>
-              <td>
-                <mat-form-field>
-                  <mat-select formControlName="homeworkTuesday">
-                    <mat-option *ngFor="let time of HomeworkTimes | keyvalue" [value]="time.value">{{
-                      time.value
-                    }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </td>
-              <td>
-                <mat-form-field>
-                  <mat-select formControlName="homeworkWednesday">
-                    <mat-option *ngFor="let time of HomeworkTimes | keyvalue" [value]="time.value">{{
-                      time.value
-                    }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </td>
-              <td>
-                <mat-form-field>
-                  <mat-select formControlName="homeworkThursday">
-                    <mat-option *ngFor="let time of HomeworkTimes | keyvalue" [value]="time.value">{{
-                      time.value
-                    }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </td>
-              <td>
-                <mat-form-field>
-                  <mat-select formControlName="homeworkFriday">
+                  <mat-select formControlName="{{ 'homework' + day.key }}">
                     <mat-option *ngFor="let time of HomeworkTimes | keyvalue" [value]="time.value">{{
                       time.value
                     }}</mat-option>

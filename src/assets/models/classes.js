@@ -70,8 +70,7 @@ exports.deleteClass = (id) => {
   ].map((sql) => db.prepare(sql));
   const transaction = db.transaction(() => {
     for (const stmt of stmts) {
-      const res = stmt.run();
-      console.log(res);
+      stmt.run();
     }
   });
   transaction();
