@@ -64,8 +64,16 @@ exports.updateClass = (classItem) => {
 };
 
 exports.deleteClass = (id) => {
-  const sql = `DELETE FROM classes WHERE id = ${id}`;
-  const stmt = db.prepare(sql);
-  const res = stmt.run();
-  return res;
+  const stmts = [
+    `DELETE FROM classes WHERE id = ${id}`,
+    `UPDATE children SET classId=${null} WHERE children.classId = ${id}`,
+  ].map((sql) => db.prepare(sql));
+  const transaction = db.transaction(() => {
+    for (const stmt of stmts) {
+      const res = stmt.run();
+      console.log(res);
+    }
+  });
+  transaction();
+  return;
 };
