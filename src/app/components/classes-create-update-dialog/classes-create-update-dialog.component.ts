@@ -60,16 +60,16 @@ export class ClassesCreateUpdateDialogComponent implements OnInit {
     this.classForm = this.fb.group({
       name: this.fb.control(this.classItem?.name ?? '', [Validators.required]),
       teacher: this.fb.control(this.classItem?.teacher ?? '', []),
-      lunchMonday: this.fb.control(LunchTimes.first, []),
-      lunchTuesday: this.fb.control(LunchTimes.first, []),
-      lunchWednesday: this.fb.control(LunchTimes.first, []),
-      lunchThursday: this.fb.control(LunchTimes.first, []),
-      lunchFriday: this.fb.control(LunchTimes.first, []),
-      homeworkMonday: this.fb.control(HomeworkTimes.first, []),
-      homeworkTuesday: this.fb.control(HomeworkTimes.first, []),
-      homeworkWednesday: this.fb.control(HomeworkTimes.first, []),
-      homeworkThursday: this.fb.control(HomeworkTimes.first, []),
-      homeworkFriday: this.fb.control(HomeworkTimes.first, []),
+      lunchMonday: this.fb.control(this.classItem?.lunchMonday ?? LunchTimes.first, []),
+      lunchTuesday: this.fb.control(this.classItem?.lunchTuesday ?? LunchTimes.first, []),
+      lunchWednesday: this.fb.control(this.classItem?.lunchWednesday ?? LunchTimes.first, []),
+      lunchThursday: this.fb.control(this.classItem?.lunchThursday ?? LunchTimes.first, []),
+      lunchFriday: this.fb.control(this.classItem?.lunchFriday ?? LunchTimes.first, []),
+      homeworkMonday: this.fb.control(this.classItem?.homeworkMonday ?? HomeworkTimes.first, []),
+      homeworkTuesday: this.fb.control(this.classItem?.homeworkTuesday ?? HomeworkTimes.first, []),
+      homeworkWednesday: this.fb.control(this.classItem?.homeworkWednesday ?? HomeworkTimes.first, []),
+      homeworkThursday: this.fb.control(this.classItem?.homeworkThursday ?? HomeworkTimes.first, []),
+      homeworkFriday: this.fb.control(this.classItem?.homeworkFriday ?? HomeworkTimes.first, []),
     });
   }
 
