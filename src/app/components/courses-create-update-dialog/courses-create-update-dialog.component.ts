@@ -70,10 +70,10 @@ export class CoursesCreateUpdateDialogComponent implements OnInit {
     this.courseForm = this.fb.group({
       name: this.fb.control(this.course?.name ?? '', [Validators.required]),
       teacher: this.fb.control(this.course?.teacher ?? '', [Validators.required]),
-      daySelect: this.fb.control(this.course?.day ?? Days.Monday, []),
-      note: this.fb.control(this.course?.note ?? '', []),
       start: this.fb.control(this.course?.start ?? '', [Validators.required]),
       end: this.fb.control(this.course?.end ?? '', [Validators.required]),
+      daySelect: this.fb.control(this.course?.day ?? Days.Monday, []),
+      note: this.fb.control(this.course?.note ?? '', []),
     });
   }
 

@@ -21,22 +21,6 @@
       <div class="row">
         <div class="col-sm">
           <mat-form-field appearance="fill">
-            <mat-label>Tag</mat-label>
-            <mat-select formControlName="daySelect">
-              <mat-option *ngFor="let day of Days | keyvalue" [value]="day.value">{{ day.value }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="col-sm">
-          <mat-form-field appearance="fill">
-            <mat-label>Notiz</mat-label>
-            <input matInput type="text" formControlName="note" placeholder="Zusätzliche Notizen" />
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm">
-          <mat-form-field appearance="fill">
             <mat-label>Beginn</mat-label>
             <input matInput type="time" formControlName="start" placeholder="14:00" />
             <mat-error *ngIf="start?.errors?.['required']">Uhrzeit ist erforderlich.</mat-error>
@@ -47,6 +31,22 @@
             <mat-label>Ende</mat-label>
             <input matInput type="time" formControlName="end" placeholder="15:30" />
             <mat-error *ngIf="end?.errors?.['required']">Uhrzeit ist erforderlich.</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <mat-form-field appearance="fill">
+            <mat-label>Tag</mat-label>
+            <mat-select formControlName="daySelect">
+              <mat-option *ngFor="let day of Days | keyvalue" [value]="day.value">{{ day.value }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-sm">
+          <mat-form-field appearance="fill">
+            <mat-label>Notiz</mat-label>
+            <input matInput type="text" formControlName="note" placeholder="Zusätzliche Notizen" />
           </mat-form-field>
         </div>
       </div>
