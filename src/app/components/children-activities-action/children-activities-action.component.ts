@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, NgZone } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Child } from 'src/app/models/child';
 import { ChildrenActivitiesDialogComponent } from '../children-activities-dialog/children-activities-dialog.component';
@@ -12,12 +12,15 @@ export class ChildrenActivitiesActionComponent {
   @Input()
   child!: Child;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private zone: NgZone) {}
 
   openDialog() {
     const config = new MatDialogConfig();
     config.autoFocus = false;
     config.data = this.child.id;
-    this.dialog.open(ChildrenActivitiesDialogComponent, config);
+
+    this.zone.run(() => {
+      this.dialog.open(ChildrenActivitiesDialogComponent, config);
+    });
   }
 }
