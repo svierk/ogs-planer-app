@@ -1,5 +1,5 @@
 export interface Class {
-  id: string;
+  id?: number;
   name: string;
   teacher?: string;
   lunchMonday?: string;

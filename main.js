@@ -71,3 +71,25 @@ ipcMain.on('deleteClass', (event, id) => {
   const classes = require(path.join(__dirname, `${basePath}/classes`));
   classes.deleteClass(id);
 });
+
+// ##### COURSES DB ACTIONS #####
+
+ipcMain.on('getCourses', () => {
+  const courses = require(path.join(__dirname, `${basePath}/courses`));
+  win.webContents.send('getCourses', courses.getCourses());
+});
+
+ipcMain.on('createCourse', (event, course) => {
+  const courses = require(path.join(__dirname, `${basePath}/courses`));
+  courses.createCourse(course);
+});
+
+ipcMain.on('updateCourse', (event, course) => {
+  const courses = require(path.join(__dirname, `${basePath}/courses`));
+  courses.updateCourse(course);
+});
+
+ipcMain.on('deleteCourse', (event, id) => {
+  const courses = require(path.join(__dirname, `${basePath}/courses`));
+  courses.deleteCourse(id);
+});

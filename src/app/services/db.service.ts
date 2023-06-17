@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Child } from '../models/child';
 import { Class } from '../models/class';
+import { Course } from '../models/course';
 
 const electron = (<any>window).require('electron');
 
@@ -53,5 +54,21 @@ export class DbService {
 
   deleteClass(id: number) {
     electron.ipcRenderer.send('deleteClass', id);
+  }
+
+  getCourses() {
+    electron.ipcRenderer.send('getCourses');
+  }
+
+  createCourse(course: Course) {
+    electron.ipcRenderer.send('createCourse', course);
+  }
+
+  updateCourse(course: Course) {
+    electron.ipcRenderer.send('updateCourse', course);
+  }
+
+  deleteCourse(id: number) {
+    electron.ipcRenderer.send('deleteCourse', id);
   }
 }
