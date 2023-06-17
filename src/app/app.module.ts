@@ -19,6 +19,8 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
+import { ChildrenActivitiesActionComponent } from './components/children-activities-action/children-activities-action.component';
+import { ChildrenActivitiesDialogComponent } from './components/children-activities-dialog/children-activities-dialog.component';
 import { ChildrenCreateUpdateActionComponent } from './components/children-create-update-action/children-create-update-action.component';
 import { ChildrenCreateUpdateDialogComponent } from './components/children-create-update-dialog/children-create-update-dialog.component';
 import { ChildrenDeleteActionComponent } from './components/children-delete-action/children-delete-action.component';
@@ -56,6 +58,8 @@ const materialModules = [
   declarations: [
     AppComponent,
     ChildrenComponent,
+    ChildrenActivitiesActionComponent,
+    ChildrenActivitiesDialogComponent,
     ChildrenCreateUpdateActionComponent,
     ChildrenCreateUpdateDialogComponent,
     ChildrenDeleteActionComponent,
