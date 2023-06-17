@@ -1,0 +1,8 @@
+<ng-template [ngIf]="isUpdate" [ngIfElse]="create">
+  <button mat-icon-button color="basic" (click)="openDialog()">
+    <mat-icon>edit</mat-icon>
+  </button>
+</ng-template>
+<ng-template #create>
+  <button mat-raised-button color="primary" (click)="openDialog()">Kurs hinzufügen</button>
+</ng-template>

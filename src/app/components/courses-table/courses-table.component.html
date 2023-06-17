@@ -17,10 +17,16 @@
       {{ course.day }}
     </td>
   </ng-container>
-  <ng-container matColumnDef="time">
-    <th mat-header-cell *matHeaderCellDef scope="col">Uhrzeit</th>
+  <ng-container matColumnDef="start">
+    <th mat-header-cell *matHeaderCellDef scope="col">Beginn</th>
     <td mat-cell *matCellDef="let course">
-      {{ course.time }}
+      {{ course.start }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="end">
+    <th mat-header-cell *matHeaderCellDef scope="col">Ende</th>
+    <td mat-cell *matCellDef="let course">
+      {{ course.end }}
     </td>
   </ng-container>
   <ng-container matColumnDef="note">
@@ -33,8 +39,8 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef scope="col">Aktionen</th>
     <td mat-cell *matCellDef="let course">
-      <!-- <ogs-courses-create-update-action [course]="course" [isUpdate]="true"></ogs-courses-create-update-action>
-      <ogs-courses-delete-action [course]="course"></ogs-courses-delete-action> -->
+      <ogs-courses-create-update-action [course]="course" [isUpdate]="true"></ogs-courses-create-update-action>
+      <ogs-courses-delete-action [course]="course"></ogs-courses-delete-action>
     </td>
   </ng-container>
 

@@ -5,6 +5,7 @@ export interface Course {
   name: string;
   teacher: string;
   day: Days;
-  time: string;
+  start: string;
+  end: string;
   note?: string;
 }

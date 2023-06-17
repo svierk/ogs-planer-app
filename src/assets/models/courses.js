@@ -15,14 +15,16 @@ exports.createCourse = (course) => {
     name, 
     teacher, 
     day, 
-    time,
-    note
+    note,
+    start,
+    end
   ) VALUES (
     '${course.name}', 
     '${course.teacher}', 
     '${course.day}', 
-    '${course.time}',
-    '${course.note}'
+    '${course.note}',
+    '${course.start}',
+    '${course.end}'
   )`;
   const stmt = db.prepare(sql);
   const res = stmt.run();
@@ -34,8 +36,9 @@ exports.updateCourse = (course) => {
     name='${course.name}', 
     teacher='${course.teacher}', 
     day='${course.day}', 
-    time='${course.time}', 
-    note='${course.note}' 
+    note='${course.note}',
+    start='${course.start}',
+    end='${course.end}'
   WHERE courses.id = ${course.id}`;
   const stmt = db.prepare(sql);
   const res = stmt.run();

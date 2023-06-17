@@ -1,0 +1,61 @@
+<div class="container">
+  <form [formGroup]="courseForm" (ngSubmit)="submit()">
+    <h1 mat-dialog-title class="text-center">{{ course ? 'Kurs editieren' : 'Kurs hinzufügen' }}</h1>
+    <div mat-dialog-content class="text-center">
+      <div class="row">
+        <div class="col-sm">
+          <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput type="text" formControlName="name" placeholder="Fußball" />
+            <mat-error *ngIf="name?.errors?.['required']">Name ist erforderlich.</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-sm">
+          <mat-form-field appearance="fill">
+            <mat-label>Kursleitung</mat-label>
+            <input matInput type="text" formControlName="teacher" placeholder="Herr Meyer" />
+            <mat-error *ngIf="teacher?.errors?.['required']">Kursleitung ist erforderlich.</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <mat-form-field appearance="fill">
+            <mat-label>Tag</mat-label>
+            <mat-select formControlName="daySelect">
+              <mat-option *ngFor="let day of Days | keyvalue" [value]="day.value">{{ day.value }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-sm">
+          <mat-form-field appearance="fill">
+            <mat-label>Notiz</mat-label>
+            <input matInput type="text" formControlName="note" placeholder="Zusätzliche Notizen" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <mat-form-field appearance="fill">
+            <mat-label>Beginn</mat-label>
+            <input matInput type="time" formControlName="start" placeholder="14:00" />
+            <mat-error *ngIf="start?.errors?.['required']">Uhrzeit ist erforderlich.</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-sm">
+          <mat-form-field appearance="fill">
+            <mat-label>Ende</mat-label>
+            <input matInput type="time" formControlName="end" placeholder="15:30" />
+            <mat-error *ngIf="end?.errors?.['required']">Uhrzeit ist erforderlich.</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div mat-dialog-actions class="justify-content-center mb-16">
+      <button mat-raised-button mat-dialog-close color="basic" class="mx-8" (click)="closeDialog()">Abbrechen</button>
+      <button mat-raised-button color="primary" class="mx-8" type="submit" [disabled]="!courseForm.valid">
+        {{ course ? 'Anpassen' : 'Erstellen' }}
+      </button>
+    </div>
+  </form>
+</div>

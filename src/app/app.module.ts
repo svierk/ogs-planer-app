@@ -33,6 +33,10 @@ import { ClassesDeleteActionComponent } from './components/classes-delete-action
 import { ClassesDeleteDialogComponent } from './components/classes-delete-dialog/classes-delete-dialog.component';
 import { ClassesTableComponent } from './components/classes-table/classes-table.component';
 import { ClassesComponent } from './components/classes/classes.component';
+import { CoursesCreateUpdateActionComponent } from './components/courses-create-update-action/courses-create-update-action.component';
+import { CoursesCreateUpdateDialogComponent } from './components/courses-create-update-dialog/courses-create-update-dialog.component';
+import { CoursesDeleteActionComponent } from './components/courses-delete-action/courses-delete-action.component';
+import { CoursesDeleteDialogComponent } from './components/courses-delete-dialog/courses-delete-dialog.component';
 import { CoursesTableComponent } from './components/courses-table/courses-table.component';
 import { CoursesComponent } from './components/courses/courses.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -74,6 +78,10 @@ const materialModules = [
     ClassesTableComponent,
     ClassNamePipe,
     CoursesComponent,
+    CoursesCreateUpdateActionComponent,
+    CoursesCreateUpdateDialogComponent,
+    CoursesDeleteDialogComponent,
+    CoursesDeleteActionComponent,
     CoursesTableComponent,
     DashboardComponent,
     ToastComponent,

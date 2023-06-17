@@ -9,7 +9,7 @@ import { DbService } from 'src/app/services/db.service';
 })
 export class CoursesTableComponent implements OnInit {
   courses: Course[] = [];
-  displayedColumns: string[] = ['name', 'teacher', 'day', 'time', 'note', 'actions'];
+  displayedColumns: string[] = ['name', 'teacher', 'day', 'start', 'end', 'note', 'actions'];
 
   constructor(private dbService: DbService, private cdr: ChangeDetectorRef) {}
 
