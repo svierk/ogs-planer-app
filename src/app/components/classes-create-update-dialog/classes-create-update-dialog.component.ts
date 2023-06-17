@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MatSelectChange } from '@angular/material/select';
 import { Class } from 'src/app/models/class';
 import { Days } from 'src/app/models/days';
 import { HomeworkTimes } from 'src/app/models/homework-times';
@@ -45,6 +46,22 @@ export class ClassesCreateUpdateDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  onChange(evt: MatSelectChange) {
+    const controlName = evt.source.ngControl.name as string;
+    const time = evt.value;
+    let day;
+
+    if (controlName.startsWith('lunch')) {
+      day = controlName.split('lunch').pop() as string;
+      const key = Object.keys(LunchTimes)[Object.values(LunchTimes).indexOf(time as LunchTimes)];
+      this.classForm.get(`homework${day}`)?.setValue(this.getValueByKeyForHomeworkTimes(key));
+    } else {
+      day = controlName.split('homework').pop() as string;
+      const key = Object.keys(HomeworkTimes)[Object.values(HomeworkTimes).indexOf(time as HomeworkTimes)];
+      this.classForm.get(`lunch${day}`)?.setValue(this.getValueByKeyForLunchTimes(key));
+    }
+  }
+
   submit() {
     if (this.classForm.valid) {
       const current = { ...this.classForm.getRawValue() };
@@ -74,6 +91,14 @@ export class ClassesCreateUpdateDialogComponent implements OnInit {
       homeworkThursday: this.fb.control(this.classItem?.homeworkThursday ?? HomeworkTimes.first, []),
       homeworkFriday: this.fb.control(this.classItem?.homeworkFriday ?? HomeworkTimes.first, []),
     });
+  }
+
+  private getValueByKeyForLunchTimes(value: string) {
+    return Object.entries(LunchTimes).find(([key]) => key === value)?.[1];
+  }
+
+  private getValueByKeyForHomeworkTimes(value: string) {
+    return Object.entries(HomeworkTimes).find(([key]) => key === value)?.[1];
   }
 
   private createClass(classItem: Class) {

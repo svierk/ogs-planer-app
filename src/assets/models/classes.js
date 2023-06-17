@@ -52,11 +52,11 @@ exports.updateClass = (classItem) => {
     lunchWednesday='${classItem.lunchWednesday}',
     lunchThursday='${classItem.lunchThursday}',
     lunchFriday='${classItem.lunchFriday}',
-    homeworkMonday='${classItem.lunchMonday}',
-    homeworkTuesday='${classItem.lunchTuesday}',
-    homeworkWednesday='${classItem.lunchWednesday}',
-    homeworkThursday='${classItem.lunchThursday}',
-    homeworkFriday='${classItem.lunchFriday}'
+    homeworkMonday='${classItem.homeworkMonday}',
+    homeworkTuesday='${classItem.homeworkTuesday}',
+    homeworkWednesday='${classItem.homeworkWednesday}',
+    homeworkThursday='${classItem.homeworkThursday}',
+    homeworkFriday='${classItem.homeworkFriday}'
   WHERE classes.id = ${classItem.id}`;
   const stmt = db.prepare(sql);
   const res = stmt.run();
