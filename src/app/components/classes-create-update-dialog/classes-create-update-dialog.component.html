@@ -33,9 +33,9 @@
             <tbody>
               <tr>
                 <th scope="row" class="align-middle"><mat-icon>restaurant</mat-icon></th>
-                <td *ngFor="let day of Days | keyvalue">
+                <td *ngFor="let day of days">
                   <mat-form-field>
-                    <mat-select formControlName="{{ 'lunch' + day.key }}" (selectionChange)="onChange($event)">
+                    <mat-select formControlName="{{ 'lunch' + day }}" (selectionChange)="onChange($event)">
                       <mat-option *ngFor="let time of LunchTimes | keyvalue" [value]="time.value">{{
                         time.value
                       }}</mat-option>
@@ -45,9 +45,9 @@
               </tr>
               <tr>
                 <th scope="row" class="align-middle"><mat-icon>home</mat-icon></th>
-                <td *ngFor="let day of Days | keyvalue">
+                <td *ngFor="let day of days">
                   <mat-form-field>
-                    <mat-select formControlName="{{ 'homework' + day.key }}" (selectionChange)="onChange($event)">
+                    <mat-select formControlName="{{ 'homework' + day }}" (selectionChange)="onChange($event)">
                       <mat-option *ngFor="let time of HomeworkTimes | keyvalue" [value]="time.value">{{
                         time.value
                       }}</mat-option>

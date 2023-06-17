@@ -16,8 +16,7 @@ import { DbService } from 'src/app/services/db.service';
 export class ClassesCreateUpdateDialogComponent implements OnInit {
   classItem!: Class;
   classForm!: FormGroup;
-
-  Days = Days;
+  days = Object.keys(Days);
   LunchTimes = LunchTimes;
   HomeworkTimes = HomeworkTimes;
 
