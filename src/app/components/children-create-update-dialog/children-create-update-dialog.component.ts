@@ -28,6 +28,7 @@ export class ChildrenCreateUpdateDialogComponent implements OnInit {
     this.child = data as Child;
     this.dbService.classes.subscribe((value) => {
       this.classes = value;
+      this.classes.sort((a, b) => a.name.localeCompare(b.name));
     });
   }
 
