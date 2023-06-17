@@ -14,6 +14,7 @@ const electron = (<any>window).require('electron');
 export class DbService {
   children = new BehaviorSubject<any[]>([]);
   classes = new BehaviorSubject<any[]>([]);
+  courses = new BehaviorSubject<any[]>([]);
 
   constructor() {
     electron.ipcRenderer.on('getChildren', (event: any, children: any[]) => {
@@ -21,6 +22,9 @@ export class DbService {
     });
     electron.ipcRenderer.on('getClasses', (event: any, classes: any[]) => {
       this.classes.next(classes);
+    });
+    electron.ipcRenderer.on('getCourses', (event: any, courses: any[]) => {
+      this.courses.next(courses);
     });
   }
 

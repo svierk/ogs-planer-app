@@ -1,0 +1,43 @@
+<table mat-table [dataSource]="courses" class="mat-elevation-z8" aria-label="courses">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef scope="col">Name</th>
+    <td mat-cell *matCellDef="let course">
+      {{ course.name }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="teacher">
+    <th mat-header-cell *matHeaderCellDef scope="col">Kursleitung</th>
+    <td mat-cell *matCellDef="let course">
+      {{ course.teacher }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="day">
+    <th mat-header-cell *matHeaderCellDef scope="col">Tag</th>
+    <td mat-cell *matCellDef="let course">
+      {{ course.day }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="time">
+    <th mat-header-cell *matHeaderCellDef scope="col">Uhrzeit</th>
+    <td mat-cell *matCellDef="let course">
+      {{ course.time }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="note">
+    <th mat-header-cell *matHeaderCellDef scope="col">Notiz</th>
+    <td mat-cell *matCellDef="let course">
+      {{ course.note }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef scope="col">Aktionen</th>
+    <td mat-cell *matCellDef="let course">
+      <!-- <ogs-courses-create-update-action [course]="course" [isUpdate]="true"></ogs-courses-create-update-action>
+      <ogs-courses-delete-action [course]="course"></ogs-courses-delete-action> -->
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
