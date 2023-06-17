@@ -18,44 +18,46 @@
         </div>
       </div>
       <div class="row">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col"></th>
-              <th scope="col">Montag</th>
-              <th scope="col">Dienstag</th>
-              <th scope="col">Mittwoch</th>
-              <th scope="col">Donnerstag</th>
-              <th scope="col">Freitag</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row" class="align-middle"><mat-icon>restaurant</mat-icon></th>
-              <td *ngFor="let day of Days | keyvalue">
-                <mat-form-field>
-                  <mat-select formControlName="{{ 'lunch' + day.key }}" (selectionChange)="onChange($event)">
-                    <mat-option *ngFor="let time of LunchTimes | keyvalue" [value]="time.value">{{
-                      time.value
-                    }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row" class="align-middle"><mat-icon>home</mat-icon></th>
-              <td *ngFor="let day of Days | keyvalue">
-                <mat-form-field>
-                  <mat-select formControlName="{{ 'homework' + day.key }}" (selectionChange)="onChange($event)">
-                    <mat-option *ngFor="let time of HomeworkTimes | keyvalue" [value]="time.value">{{
-                      time.value
-                    }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <mat-card>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Montag</th>
+                <th scope="col">Dienstag</th>
+                <th scope="col">Mittwoch</th>
+                <th scope="col">Donnerstag</th>
+                <th scope="col">Freitag</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row" class="align-middle"><mat-icon>restaurant</mat-icon></th>
+                <td *ngFor="let day of Days | keyvalue">
+                  <mat-form-field>
+                    <mat-select formControlName="{{ 'lunch' + day.key }}" (selectionChange)="onChange($event)">
+                      <mat-option *ngFor="let time of LunchTimes | keyvalue" [value]="time.value">{{
+                        time.value
+                      }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" class="align-middle"><mat-icon>home</mat-icon></th>
+                <td *ngFor="let day of Days | keyvalue">
+                  <mat-form-field>
+                    <mat-select formControlName="{{ 'homework' + day.key }}" (selectionChange)="onChange($event)">
+                      <mat-option *ngFor="let time of HomeworkTimes | keyvalue" [value]="time.value">{{
+                        time.value
+                      }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-card>
       </div>
     </div>
     <div mat-dialog-actions class="justify-content-center mb-16">
