@@ -39,7 +39,7 @@
           <mat-form-field appearance="fill">
             <mat-label>Tag</mat-label>
             <mat-select formControlName="daySelect">
-              <mat-option *ngFor="let day of Days | keyvalue" [value]="day.value">{{ day.value }}</mat-option>
+              <mat-option *ngFor="let day of days" [value]="day">{{ day }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>

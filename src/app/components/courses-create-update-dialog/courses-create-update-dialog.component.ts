@@ -14,8 +14,7 @@ import { ChildrenCreateUpdateDialogComponent } from '../children-create-update-d
 export class CoursesCreateUpdateDialogComponent implements OnInit {
   course!: Course;
   courseForm!: FormGroup;
-
-  Days = Days;
+  days = Object.values(Days);
 
   constructor(
     private cdr: ChangeDetectorRef,
