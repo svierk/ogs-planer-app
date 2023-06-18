@@ -1,7 +1,7 @@
 export enum ActivityTypes {
   EarlyCare = 'Frühbetreuung',
   Homework = 'Hausaufgaben',
-  Lunch = 'Essen',
-  Course = 'Kurs',
+  Lunch = 'Mittagessen',
+  Courses = 'Kurse',
   Pickup = 'Abholung',
 }

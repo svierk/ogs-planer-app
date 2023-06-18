@@ -1,1 +1,200 @@
-<p>children-activities-dialog works!</p>
+<div class="container">
+  <form [formGroup]="activitiesForm" (ngSubmit)="submit()">
+    <h1 mat-dialog-title class="text-center">{{ 'Aktivitäten | ' + child.firstName + ' ' + child.lastName }}</h1>
+    <div mat-dialog-content>
+      <div formGroupName="earlyCareGroup" class="pb-4">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{ ActivityTypes.EarlyCare }}</mat-card-title>
+          </mat-card-header>
+
+          <div class="row px-24">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th *ngFor="let day of days2" scope="col">{{ day }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td *ngFor="let day of days">
+                    <mat-form-field>
+                      <mat-label>Teilnahme</mat-label>
+                      <mat-select formControlName="{{ 'earlyCareParticipation' + day }}">
+                        <mat-option [value]="1">Ja</mat-option>
+                        <mat-option [value]="0">Nein</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td *ngFor="let day of days">
+                    <mat-form-field>
+                      <mat-label>Start</mat-label>
+                      <mat-select formControlName="{{ 'earlyCareStart' + day }}">
+                        <mat-option value="1. Stunde">1. Stunde</mat-option>
+                        <mat-option value="2. Stunde">2. Stunde</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </mat-card>
+      </div>
+      <div formGroupName="lunchGroup" class="py-4">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{ ActivityTypes.Lunch }}</mat-card-title>
+          </mat-card-header>
+          <div class="row px-24">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th *ngFor="let day of days2" scope="col">{{ day }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td *ngFor="let day of days">
+                    <mat-form-field>
+                      <mat-label>Teilnahme</mat-label>
+                      <mat-select formControlName="{{ 'lunchParticipation' + day }}">
+                        <mat-option [value]="1">Ja</mat-option>
+                        <mat-option [value]="0">Nein</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td *ngFor="let day of days">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Notiz</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        formControlName="{{ 'lunchNote' + day }}"
+                        placeholder="z.B. Allergien"
+                      />
+                    </mat-form-field>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </mat-card>
+      </div>
+      <div formGroupName="homeworkGroup" class="py-4">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{ ActivityTypes.Homework }}</mat-card-title>
+          </mat-card-header>
+
+          <div class="row px-24">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th *ngFor="let day of days2" scope="col">{{ day }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td *ngFor="let day of days">
+                    <mat-form-field>
+                      <mat-label>Teilnahme</mat-label>
+                      <mat-select formControlName="{{ 'homeworkParticipation' + day }}">
+                        <mat-option [value]="1">Ja</mat-option>
+                        <mat-option [value]="0">Nein</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td *ngFor="let day of days">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Notiz</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        formControlName="{{ 'homeworkNote' + day }}"
+                        placeholder="Zusätzliche Notiz"
+                      />
+                    </mat-form-field>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </mat-card>
+      </div>
+      <div formGroupName="coursesGroup" class="py-4">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{ ActivityTypes.Courses }}</mat-card-title>
+          </mat-card-header>
+          <div class="row px-16">
+            <mat-form-field appearance="fill">
+              <mat-label>Kurse</mat-label>
+              <mat-select formControlName="courseSelect" multiple>
+                <mat-option *ngFor="let course of courses" [value]="course.id">{{ course.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </mat-card>
+      </div>
+      <div formGroupName="pickupGroup" class="pt-4">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{ ActivityTypes.Pickup }}</mat-card-title>
+          </mat-card-header>
+
+          <div class="row px-24">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th *ngFor="let day of days2" scope="col">{{ day }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td *ngFor="let day of days">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Uhrzeit</mat-label>
+                      <input matInput type="time" formControlName="{{ 'pickupTime' + day }}" />
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td *ngFor="let day of days">
+                    <mat-form-field>
+                      <mat-label>Art</mat-label>
+                      <mat-select formControlName="{{ 'pickupType' + day }}">
+                        <mat-option value="Wird abgeholt">Wird abgeholt</mat-option>
+                        <mat-option value="Alleine losschicken">Alleine losschicken</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </td>
+                </tr>
+                <tr>
+                  <td *ngFor="let day of days">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Notiz</mat-label>
+                      <input matInput type="text" formControlName="{{ 'pickupNote' + day }}" placeholder="z.B. Bus" />
+                    </mat-form-field>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    <div mat-dialog-actions class="justify-content-center mb-16">
+      <button mat-raised-button mat-dialog-close color="basic" class="mx-8" (click)="closeDialog()">Abbrechen</button>
+      <button mat-raised-button color="primary" class="mx-8" type="submit" [disabled]="!activitiesForm.valid">
+        Speichern
+      </button>
+    </div>
+  </form>
+</div>

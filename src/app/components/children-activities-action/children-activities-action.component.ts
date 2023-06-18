@@ -17,7 +17,7 @@ export class ChildrenActivitiesActionComponent {
   openDialog() {
     const config = new MatDialogConfig();
     config.autoFocus = false;
-    config.data = this.child.id;
+    config.data = this.child;
 
     this.zone.run(() => {
       this.dialog.open(ChildrenActivitiesDialogComponent, config);
