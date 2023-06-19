@@ -93,6 +93,6 @@
     "karma-junit-reporter": "^2.0.1",
     "lint-staged": "^13.2.2",
     "prettier": "^2.8.8",
-    "typescript": "~5.0.4"
+    "typescript": "~5.1.3"
   }
 }
