@@ -73,7 +73,7 @@
     "@electron-forge/maker-zip": "^6.2.1",
     "@electron/rebuild": "^3.2.13",
     "@types/bootstrap": "^5.2.6",
-    "@types/jasmine": "~4.3.3",
+    "@types/jasmine": "~4.3.4",
     "@types/node": "^20.3.1",
     "@typescript-eslint/eslint-plugin": "5.59.11",
     "@typescript-eslint/parser": "5.59.11",
