@@ -1,12 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { Injectable } from '@angular/core';
+import { ipcRenderer } from 'electron';
 import { BehaviorSubject } from 'rxjs';
 import { Child } from '../models/child';
 import { Class } from '../models/class';
 import { Course } from '../models/course';
-
-const electron = (<any>window).require('electron');
 
 @Injectable({
   providedIn: 'root',
@@ -15,64 +12,72 @@ export class DbService {
   children = new BehaviorSubject<any[]>([]);
   classes = new BehaviorSubject<any[]>([]);
   courses = new BehaviorSubject<any[]>([]);
+  ipcRenderer!: typeof ipcRenderer;
 
   constructor() {
-    electron.ipcRenderer.on('getChildren', (event: any, children: any[]) => {
-      this.children.next(children);
-    });
-    electron.ipcRenderer.on('getClasses', (event: any, classes: any[]) => {
-      this.classes.next(classes);
-    });
-    electron.ipcRenderer.on('getCourses', (event: any, courses: any[]) => {
-      this.courses.next(courses);
-    });
+    if (this.isElectron) {
+      this.ipcRenderer = window.require('electron').ipcRenderer;
+      this.ipcRenderer.on('getChildren', (event: any, children: any[]) => {
+        this.children.next(children);
+      });
+      this.ipcRenderer.on('getClasses', (event: any, classes: any[]) => {
+        this.classes.next(classes);
+      });
+      this.ipcRenderer.on('getCourses', (event: any, courses: any[]) => {
+        this.courses.next(courses);
+      });
+    }
+  }
+
+  get isElectron(): boolean {
+    return !!(window && window.process && window.process.type);
   }
 
   getChildren() {
-    electron.ipcRenderer.send('getChildren');
+    this.ipcRenderer.send('getChildren');
   }
 
   createChild(child: Child) {
-    electron.ipcRenderer.send('createChild', child);
+    this.ipcRenderer.send('createChild', child);
   }
 
   updateChild(child: Child) {
-    electron.ipcRenderer.send('updateChild', child);
+    this.ipcRenderer.send('updateChild', child);
   }
 
   deleteChild(id: number) {
-    electron.ipcRenderer.send('deleteChild', id);
+    this.ipcRenderer.send('deleteChild', id);
   }
 
   getClasses() {
-    electron.ipcRenderer.send('getClasses');
+    this.ipcRenderer.send('getClasses');
   }
 
   createClass(classItem: Class) {
-    electron.ipcRenderer.send('createClass', classItem);
+    this.ipcRenderer.send('createClass', classItem);
   }
 
   updateClass(classItem: Class) {
-    electron.ipcRenderer.send('updateClass', classItem);
+    this.ipcRenderer.send('updateClass', classItem);
   }
 
   deleteClass(id: number) {
-    electron.ipcRenderer.send('deleteClass', id);
+    this.ipcRenderer.send('deleteClass', id);
   }
 
   getCourses() {
-    electron.ipcRenderer.send('getCourses');
+    this.ipcRenderer.send('getCourses');
   }
 
   createCourse(course: Course) {
-    electron.ipcRenderer.send('createCourse', course);
+    this.ipcRenderer.send('createCourse', course);
   }
 
   updateCourse(course: Course) {
-    electron.ipcRenderer.send('updateCourse', course);
+    this.ipcRenderer.send('updateCourse', course);
   }
 
   deleteCourse(id: number) {
-    electron.ipcRenderer.send('deleteCourse', id);
+    this.ipcRenderer.send('deleteCourse', id);
   }
 }
