@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatTableModule } from '@angular/material/table';
 import { ChildrenTableComponent } from './children-table.component';
 
 describe('ChildrenTableComponent', () => {
@@ -9,6 +9,7 @@ describe('ChildrenTableComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ChildrenTableComponent],
+      imports: [MatTableModule],
     });
     fixture = TestBed.createComponent(ChildrenTableComponent);
     component = fixture.componentInstance;

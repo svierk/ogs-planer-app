@@ -28,13 +28,13 @@ jobs:
         run: npm run prettier
       - name: Check ESLint
         run: npm run lint
-      # - name: Unit Tests
-      #   run: npm run test:ci
-      # - name: SonarCloud Scan
-      #   uses: SonarSource/sonarcloud-github-action@master
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Unit Tests
+        run: npm run test:ci
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Codecov Coverage Upload
         uses: codecov/codecov-action@main
         env:

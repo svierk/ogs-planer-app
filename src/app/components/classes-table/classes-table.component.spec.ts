@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatTableModule } from '@angular/material/table';
 import { ClassesTableComponent } from './classes-table.component';
 
 describe('ClassesTableComponent', () => {
@@ -9,6 +9,7 @@ describe('ClassesTableComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ClassesTableComponent],
+      imports: [MatTableModule],
     });
     fixture = TestBed.createComponent(ClassesTableComponent);
     component = fixture.componentInstance;
