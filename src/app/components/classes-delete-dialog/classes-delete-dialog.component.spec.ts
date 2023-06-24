@@ -8,6 +8,11 @@ describe('ClassesDeleteDialogComponent', () => {
   let fixture: ComponentFixture<ClassesDeleteDialogComponent>;
 
   beforeEach(() => {
+    const dbService: Partial<DbService> = {
+      deleteClass: jasmine.createSpy('deleteClass'),
+      getClasses: jasmine.createSpy('getClasses'),
+    };
+
     TestBed.configureTestingModule({
       declarations: [ClassesDeleteDialogComponent],
       imports: [MatDialogModule],
@@ -18,7 +23,7 @@ describe('ClassesDeleteDialogComponent', () => {
           provide: MAT_DIALOG_DATA,
           useValue: null,
         },
-        DbService,
+        { provide: DbService, useValue: dbService },
       ],
     });
     fixture = TestBed.createComponent(ClassesDeleteDialogComponent);
@@ -28,5 +33,30 @@ describe('ClassesDeleteDialogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should delete class after clicking on delete button', () => {
+    // given
+    spyOn(component, 'deleteClass').and.callThrough();
+    const button = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
+
+    // when
+    button.click();
+    fixture.detectChanges();
+
+    // then
+    expect(component.deleteClass).toHaveBeenCalledTimes(1);
+  });
+
+  it('should delete class after pressing enter', () => {
+    // given
+    spyOn(component, 'deleteClass').and.callThrough();
+    const event = new KeyboardEvent('keydown', { key: 'Enter', keyCode: 13 });
+
+    // when
+    window.dispatchEvent(event);
+
+    // then
+    expect(component.deleteClass).toHaveBeenCalledTimes(1);
   });
 });
