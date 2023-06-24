@@ -5,6 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Days } from 'src/app/models/days';
 import { DbService } from 'src/app/services/db.service';
 import { CoursesCreateUpdateDialogComponent } from './courses-create-update-dialog.component';
 
@@ -40,5 +41,52 @@ describe('CoursesCreateUpdateDialogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should create course', () => {
+    // given
+    spyOn(component.dbService, 'createCourse');
+    spyOn(component.dbService, 'getCourses');
+    spyOn(component, 'submit').and.callThrough();
+    component.name?.setValue('course');
+    component.teacher?.setValue('teacher');
+    component.start?.setValue('start');
+    component.end?.setValue('end');
+
+    // when
+    fixture.detectChanges();
+    const button = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
+    button.click();
+    fixture.detectChanges();
+
+    // then
+    expect(component.submit).toHaveBeenCalledTimes(1);
+  });
+
+  it('should update course', () => {
+    // given
+    spyOn(component.dbService, 'updateCourse');
+    spyOn(component.dbService, 'getCourses');
+    spyOn(component, 'submit').and.callThrough();
+    component.name?.setValue('course');
+    component.teacher?.setValue('teacher');
+    component.start?.setValue('start');
+    component.end?.setValue('end');
+    component.course = {
+      name: 'course',
+      teacher: 'teacher',
+      day: Days.Monday,
+      start: 'start',
+      end: 'end',
+    };
+
+    // when
+    fixture.detectChanges();
+    const button = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
+    button.click();
+    fixture.detectChanges();
+
+    // then
+    expect(component.submit).toHaveBeenCalledTimes(1);
   });
 });

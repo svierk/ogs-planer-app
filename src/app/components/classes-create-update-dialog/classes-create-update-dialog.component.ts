@@ -21,7 +21,7 @@ export class ClassesCreateUpdateDialogComponent implements OnInit {
   HomeworkTimes = HomeworkTimes;
 
   constructor(
-    private dbService: DbService,
+    public dbService: DbService,
     public dialogRef: MatDialogRef<ClassesCreateUpdateDialogComponent>,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
@@ -102,13 +102,13 @@ export class ClassesCreateUpdateDialogComponent implements OnInit {
 
   private createClass(classItem: Class) {
     this.dbService.createClass(classItem);
-    this.dialogRef.close();
+    this.closeDialog();
     this.dbService.getClasses();
   }
 
   private updateClass(classItem: Class) {
     this.dbService.updateClass(classItem);
-    this.dialogRef.close();
+    this.closeDialog();
     this.dbService.getClasses();
   }
 }

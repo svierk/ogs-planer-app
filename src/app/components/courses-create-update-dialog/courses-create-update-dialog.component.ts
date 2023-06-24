@@ -17,7 +17,7 @@ export class CoursesCreateUpdateDialogComponent implements OnInit {
 
   constructor(
     private cdr: ChangeDetectorRef,
-    private dbService: DbService,
+    public dbService: DbService,
     public dialogRef: MatDialogRef<ChildrenCreateUpdateDialogComponent>,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
@@ -77,13 +77,13 @@ export class CoursesCreateUpdateDialogComponent implements OnInit {
 
   private createCourse(course: Course) {
     this.dbService.createCourse(course);
-    this.dialogRef.close();
+    this.closeDialog();
     this.dbService.getCourses();
   }
 
   private updateCourse(course: Course) {
     this.dbService.updateCourse(course);
-    this.dialogRef.close();
+    this.closeDialog();
     this.dbService.getCourses();
   }
 }

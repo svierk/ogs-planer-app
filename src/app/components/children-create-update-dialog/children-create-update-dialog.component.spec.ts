@@ -41,4 +41,44 @@ describe('ChildrenCreateUpdateDialogComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should create child', () => {
+    // given
+    spyOn(component.dbService, 'createChild');
+    spyOn(component.dbService, 'getChildren');
+    spyOn(component, 'submit').and.callThrough();
+    component.firstName?.setValue('test');
+    component.lastName?.setValue('child');
+
+    // when
+    fixture.detectChanges();
+    const button = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
+    button.click();
+    fixture.detectChanges();
+
+    // then
+    expect(component.submit).toHaveBeenCalledTimes(1);
+  });
+
+  it('should update child', () => {
+    // given
+    spyOn(component.dbService, 'updateChild');
+    spyOn(component.dbService, 'getChildren');
+    spyOn(component, 'submit').and.callThrough();
+    component.firstName?.setValue('test');
+    component.lastName?.setValue('child');
+    component.child = {
+      firstName: 'test',
+      lastName: 'child',
+    };
+
+    // when
+    fixture.detectChanges();
+    const button = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
+    button.click();
+    fixture.detectChanges();
+
+    // then
+    expect(component.submit).toHaveBeenCalledTimes(1);
+  });
 });
