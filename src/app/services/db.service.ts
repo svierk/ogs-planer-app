@@ -30,7 +30,7 @@ export class DbService {
   }
 
   get isElectron(): boolean {
-    return !!(window && window.process && window.process.type);
+    return !!window?.process?.type;
   }
 
   getChildren() {

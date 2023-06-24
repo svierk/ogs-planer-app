@@ -9,7 +9,6 @@ import { ChildrenCreateUpdateDialogComponent } from '../children-create-update-d
 @Component({
   selector: 'ogs-courses-create-update-dialog',
   templateUrl: './courses-create-update-dialog.component.html',
-  styleUrls: ['./courses-create-update-dialog.component.scss'],
 })
 export class CoursesCreateUpdateDialogComponent implements OnInit {
   course!: Course;

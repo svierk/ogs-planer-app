@@ -6,7 +6,6 @@ import { ChildrenCreateUpdateDialogComponent } from '../children-create-update-d
 @Component({
   selector: 'ogs-children-create-update-action',
   templateUrl: './children-create-update-action.component.html',
-  styleUrls: ['./children-create-update-action.component.scss'],
 })
 export class ChildrenCreateUpdateActionComponent {
   @Input()

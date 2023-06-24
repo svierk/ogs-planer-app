@@ -5,7 +5,6 @@ import { DbService } from 'src/app/services/db.service';
 @Component({
   selector: 'ogs-classes-delete-dialog',
   templateUrl: './classes-delete-dialog.component.html',
-  styleUrls: ['./classes-delete-dialog.component.scss'],
 })
 export class ClassesDeleteDialogComponent {
   classId!: number;

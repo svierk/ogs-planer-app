@@ -6,7 +6,6 @@ import { ChildrenActivitiesDialogComponent } from '../children-activities-dialog
 @Component({
   selector: 'ogs-children-activities-action',
   templateUrl: './children-activities-action.component.html',
-  styleUrls: ['./children-activities-action.component.scss'],
 })
 export class ChildrenActivitiesActionComponent {
   @Input()

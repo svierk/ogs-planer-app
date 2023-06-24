@@ -5,7 +5,6 @@ import { DbService } from 'src/app/services/db.service';
 @Component({
   selector: 'ogs-children-delete-dialog',
   templateUrl: './children-delete-dialog.component.html',
-  styleUrls: ['./children-delete-dialog.component.scss'],
 })
 export class ChildrenDeleteDialogComponent {
   userId!: number;
