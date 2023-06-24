@@ -5,8 +5,6 @@ import { Child } from 'src/app/models/child';
 import { Class } from 'src/app/models/class';
 import { DbService } from 'src/app/services/db.service';
 
-const phoneRegex = /^[+]\d{1,15}$/;
-
 @Component({
   selector: 'ogs-children-create-update-dialog',
   templateUrl: './children-create-update-dialog.component.html',
@@ -70,11 +68,7 @@ export class ChildrenCreateUpdateDialogComponent implements OnInit {
     this.childForm = this.fb.group({
       firstName: this.fb.control(this.child?.firstName ?? '', [Validators.required]),
       lastName: this.fb.control(this.child?.lastName ?? '', [Validators.required]),
-      phone: this.fb.control(this.child?.phone ?? '', [
-        Validators.minLength(7),
-        Validators.maxLength(15),
-        Validators.pattern(phoneRegex),
-      ]),
+      phone: this.fb.control(this.child?.phone ?? '', [Validators.minLength(7), Validators.maxLength(15)]),
       classSelect: this.fb.control(this.child?.classId ?? '', []),
     });
   }
