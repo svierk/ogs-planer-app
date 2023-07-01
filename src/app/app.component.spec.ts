@@ -16,6 +16,11 @@ describe('AppComponent', () => {
       getChildren: jasmine.createSpy('getChildren'),
       getClasses: jasmine.createSpy('getClasses'),
       getCourses: jasmine.createSpy('getCourses'),
+      getEarlyCare: jasmine.createSpy('getEarlyCare'),
+      getLunch: jasmine.createSpy('getLunch'),
+      getHomework: jasmine.createSpy('getHomework'),
+      getChildCourses: jasmine.createSpy('getChildCourses'),
+      getPickup: jasmine.createSpy('getPickup'),
     };
 
     await TestBed.configureTestingModule({

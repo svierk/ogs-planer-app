@@ -15,5 +15,10 @@ export class AppComponent implements OnInit {
     this.dbService.getChildren();
     this.dbService.getClasses();
     this.dbService.getCourses();
+    this.dbService.getEarlyCare();
+    this.dbService.getLunch();
+    this.dbService.getHomework();
+    this.dbService.getChildCourses();
+    this.dbService.getPickup();
   }
 }
