@@ -2,6 +2,13 @@
   <form [formGroup]="activitiesForm" (ngSubmit)="submit()">
     <h1 mat-dialog-title class="text-center">{{ 'Aktivitäten | ' + child.firstName + ' ' + child.lastName }}</h1>
     <div mat-dialog-content>
+      <p class="text-center" [ngClass]="color">
+        {{
+          color === 'create'
+            ? 'Bislang wurden noch keine Aktivitäten für dieses Kind gespeichert.'
+            : 'Es wurden bereits Aktivitäten gespeichert, die angepasst werden können.'
+        }}
+      </p>
       <div formGroupName="earlyCareGroup" class="pb-4">
         <mat-card>
           <mat-card-header>

@@ -29,6 +29,7 @@ export class ChildrenActivitiesDialogComponent implements OnInit {
   days = Object.keys(Days);
   days2 = Object.values(Days);
   ActivityTypes = ActivityTypes;
+  color = '';
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -59,6 +60,7 @@ export class ChildrenActivitiesDialogComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.color = this.hasActivities() ? 'update' : 'create';
     this.init();
   }
 
