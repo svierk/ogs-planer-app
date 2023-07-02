@@ -118,10 +118,6 @@ export class DbService {
     this.ipcRenderer.send('updateEarlyCare', item);
   }
 
-  deleteEarlyCare(id: number) {
-    this.ipcRenderer.send('deleteEarlyCare', id);
-  }
-
   getLunch() {
     this.ipcRenderer.send('getLunch');
   }
@@ -132,10 +128,6 @@ export class DbService {
 
   updateLunch(item: Lunch) {
     this.ipcRenderer.send('updateLunch', item);
-  }
-
-  deleteLunch(id: number) {
-    this.ipcRenderer.send('deleteLunch', id);
   }
 
   getHomework() {
@@ -150,10 +142,6 @@ export class DbService {
     this.ipcRenderer.send('updateHomework', item);
   }
 
-  deleteHomework(id: number) {
-    this.ipcRenderer.send('deleteHomework', id);
-  }
-
   getChildCourses() {
     this.ipcRenderer.send('getChildCourses');
   }
@@ -166,10 +154,6 @@ export class DbService {
     this.ipcRenderer.send('updateChildCourses', courses);
   }
 
-  deleteChildCourses(childId: number) {
-    this.ipcRenderer.send('deleteChildCourses', childId);
-  }
-
   getPickup() {
     this.ipcRenderer.send('getPickup');
   }
@@ -180,9 +164,5 @@ export class DbService {
 
   updatePickup(item: Pickup) {
     this.ipcRenderer.send('updatePickup', item);
-  }
-
-  deletePickup(id: number) {
-    this.ipcRenderer.send('deletePickup', id);
   }
 }

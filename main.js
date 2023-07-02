@@ -111,11 +111,6 @@ ipcMain.on('updateEarlyCare', (event, item) => {
   earlyCare.updateEarlyCare(item);
 });
 
-ipcMain.on('deleteEarlyCare', (event, id) => {
-  const earlyCare = require(path.join(__dirname, `${basePath}/early-care`));
-  earlyCare.deleteEarlyCare(id);
-});
-
 // ##### LUNCH DB ACTIONS #####
 
 ipcMain.on('getLunch', () => {
@@ -131,11 +126,6 @@ ipcMain.on('createLunch', (event, item) => {
 ipcMain.on('updateLunch', (event, item) => {
   const lunch = require(path.join(__dirname, `${basePath}/lunch`));
   lunch.updateLunch(item);
-});
-
-ipcMain.on('deleteLunch', (event, id) => {
-  const lunch = require(path.join(__dirname, `${basePath}/lunch`));
-  lunch.deleteLunch(id);
 });
 
 // ##### HOMEWORK DB ACTIONS #####
@@ -155,11 +145,6 @@ ipcMain.on('updateHomework', (event, item) => {
   homework.updateHomework(item);
 });
 
-ipcMain.on('deleteHomework', (event, id) => {
-  const homework = require(path.join(__dirname, `${basePath}/homework`));
-  homework.deleteHomework(id);
-});
-
 // ##### CHILD COURSES DB ACTIONS #####
 
 ipcMain.on('getChildCourses', () => {
@@ -177,11 +162,6 @@ ipcMain.on('updateChildCourses', (event, courses) => {
   childCourses.updateChildCourses(courses);
 });
 
-ipcMain.on('deleteChildCourses', (event, childId) => {
-  const childCourses = require(path.join(__dirname, `${basePath}/child-courses`));
-  childCourses.deleteChildCourses(childId);
-});
-
 // ##### PICKUP DB ACTIONS #####
 
 ipcMain.on('getPickup', () => {
@@ -197,9 +177,4 @@ ipcMain.on('createPickup', (event, item) => {
 ipcMain.on('updatePickup', (event, item) => {
   const pickup = require(path.join(__dirname, `${basePath}/pickup`));
   pickup.updatePickup(item);
-});
-
-ipcMain.on('deletePickup', (event, id) => {
-  const pickup = require(path.join(__dirname, `${basePath}/pickup`));
-  pickup.deletePickup(id);
 });

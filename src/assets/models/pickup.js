@@ -74,10 +74,3 @@ exports.updatePickup = (item) => {
   const res = stmt.run();
   return res;
 };
-
-exports.deletePickup = (id) => {
-  const sql = `DELETE FROM pickup WHERE id = ${id}`;
-  const stmt = db.prepare(sql);
-  const res = stmt.run();
-  return res;
-};

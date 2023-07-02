@@ -59,10 +59,3 @@ exports.updateLunch = (item) => {
   const res = stmt.run();
   return res;
 };
-
-exports.deleteLunch = (id) => {
-  const sql = `DELETE FROM lunch WHERE id = ${id}`;
-  const stmt = db.prepare(sql);
-  const res = stmt.run();
-  return res;
-};

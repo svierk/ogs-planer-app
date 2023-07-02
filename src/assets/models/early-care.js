@@ -59,10 +59,3 @@ exports.updateEarlyCare = (item) => {
   const res = stmt.run();
   return res;
 };
-
-exports.deleteEarlyCare = (id) => {
-  const sql = `DELETE FROM earlyCare WHERE id = ${id}`;
-  const stmt = db.prepare(sql);
-  const res = stmt.run();
-  return res;
-};

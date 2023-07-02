@@ -59,10 +59,3 @@ exports.updateHomework = (item) => {
   const res = stmt.run();
   return res;
 };
-
-exports.deleteHomework = (id) => {
-  const sql = `DELETE FROM homework WHERE id = ${id}`;
-  const stmt = db.prepare(sql);
-  const res = stmt.run();
-  return res;
-};
