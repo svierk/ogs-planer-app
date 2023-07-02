@@ -46,8 +46,14 @@ exports.updateCourse = (course) => {
 };
 
 exports.deleteCourse = (id) => {
-  const sql = `DELETE FROM courses WHERE id = ${id}`;
-  const stmt = db.prepare(sql);
-  const res = stmt.run();
-  return res;
+  const stmts = [`DELETE FROM courses WHERE id = ${id}`, `DELETE FROM childCourses WHERE courseId = ${id}`].map((sql) =>
+    db.prepare(sql)
+  );
+  const transaction = db.transaction(() => {
+    for (const stmt of stmts) {
+      stmt.run();
+    }
+  });
+  transaction();
+  return;
 };

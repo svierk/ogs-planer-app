@@ -40,8 +40,19 @@ exports.updateChild = (child) => {
 };
 
 exports.deleteChild = (id) => {
-  const sql = `DELETE FROM children WHERE id = ${id}`;
-  const stmt = db.prepare(sql);
-  const res = stmt.run();
-  return res;
+  const stmts = [
+    `DELETE FROM children WHERE id = ${id}`,
+    `DELETE FROM earlyCare WHERE childId = ${id}`,
+    `DELETE FROM lunch WHERE childId = ${id}`,
+    `DELETE FROM homework WHERE childId = ${id}`,
+    `DELETE FROM childCourses WHERE childId = ${id}`,
+    `DELETE FROM pickup WHERE childId = ${id}`,
+  ].map((sql) => db.prepare(sql));
+  const transaction = db.transaction(() => {
+    for (const stmt of stmts) {
+      stmt.run();
+    }
+  });
+  transaction();
+  return;
 };
