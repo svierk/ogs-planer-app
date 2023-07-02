@@ -158,16 +158,16 @@ export class DbService {
     this.ipcRenderer.send('getChildCourses');
   }
 
-  createChildCourse(item: ChildCourse) {
-    this.ipcRenderer.send('createChildCourse', item);
+  createChildCourses(courses: ChildCourse[]) {
+    this.ipcRenderer.send('createChildCourses', courses);
   }
 
-  updateChildCourse(item: ChildCourse) {
-    this.ipcRenderer.send('updateChildCourse', item);
+  updateChildCourses(courses: ChildCourse[]) {
+    this.ipcRenderer.send('updateChildCourses', courses);
   }
 
-  deleteChildCourse(id: number) {
-    this.ipcRenderer.send('deleteChildCourse', id);
+  deleteChildCourses(childId: number) {
+    this.ipcRenderer.send('deleteChildCourses', childId);
   }
 
   getPickup() {

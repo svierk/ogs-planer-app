@@ -92,7 +92,7 @@ export class ChildrenActivitiesDialogComponent implements OnInit {
     const earlyCare = this.earlyCare.find((item) => item.childId === this.child.id);
     const lunch = this.lunch.find((item) => item.childId === this.child.id);
     const homework = this.homework.find((item) => item.childId === this.child.id);
-    // const childCourses = this.childCourses.find((item) => item.childId === this.child.id);
+    const childCourses = this.childCourses.filter((item) => item.childId === this.child.id);
     const pickup = this.pickup.find((item) => item.childId === this.child.id);
 
     this.activitiesForm = this.fb.group({
@@ -133,7 +133,10 @@ export class ChildrenActivitiesDialogComponent implements OnInit {
         homeworkNoteFriday: this.fb.control(homework?.homeworkNoteFriday ?? '', []),
       }),
       coursesGroup: this.fb.group({
-        courseSelect: this.fb.control([], []),
+        courseSelect: this.fb.control(
+          childCourses.map(({ courseId }) => courseId),
+          []
+        ),
       }),
       pickupGroup: this.fb.group({
         pickupTimeMonday: this.fb.control(pickup?.pickupTimeMonday ?? '', []),
@@ -160,6 +163,11 @@ export class ChildrenActivitiesDialogComponent implements OnInit {
     this.dbService.createLunch(activities.lunchGroup as Lunch);
     this.dbService.createHomework(activities.homeworkGroup as Homework);
     this.dbService.createPickup(activities.pickupGroup as Pickup);
+    const selectedCourses: ChildCourse[] = activities.coursesGroup.courseSelect.map((id: number) => ({
+      courseId: id,
+      childId: activities.coursesGroup.childId,
+    }));
+    this.dbService.createChildCourses(selectedCourses);
     this.closeDialog();
     this.dbService.getEarlyCare();
     this.dbService.getLunch();
@@ -173,6 +181,11 @@ export class ChildrenActivitiesDialogComponent implements OnInit {
     this.dbService.updateLunch(activities.lunchGroup as Lunch);
     this.dbService.updateHomework(activities.homeworkGroup as Homework);
     this.dbService.updatePickup(activities.pickupGroup as Pickup);
+    const selectedCourses: ChildCourse[] = activities.coursesGroup.courseSelect.map((id: number) => ({
+      courseId: id,
+      childId: activities.coursesGroup.childId,
+    }));
+    this.dbService.updateChildCourses(selectedCourses);
     this.closeDialog();
     this.dbService.getEarlyCare();
     this.dbService.getLunch();

@@ -10,31 +10,36 @@ exports.getChildCourses = () => {
   return res;
 };
 
-exports.createChildCourse = (course) => {
-  const sql = `INSERT INTO childCourses (
-    childId, 
-    courseId
-  ) VALUES (
-    '${course.childId}', 
-    '${course.courseId}'
-  )`;
-  const stmt = db.prepare(sql);
-  const res = stmt.run();
-  return res;
+exports.createChildCourses = (courses) => {
+  const queries = [];
+  courses.forEach((course) => {
+    queries.push(`INSERT INTO childCourses (
+      childId,
+      courseId
+    ) VALUES (
+      '${course.childId}',
+      '${course.courseId}'
+    )`);
+  });
+
+  const stmts = queries.map((sql) => db.prepare(sql));
+  const transaction = db.transaction(() => {
+    for (const stmt of stmts) {
+      stmt.run();
+    }
+  });
+  transaction();
+  return;
 };
 
-exports.updateChildCourse = (course) => {
-  const sql = `UPDATE childCourses SET 
-    childId='${course.childId}', 
-    courseId='${course.courseId}'
-  WHERE childCourses.childId = ${course.childId}`;
-  const stmt = db.prepare(sql);
-  const res = stmt.run();
-  return res;
+exports.updateChildCourses = (courses) => {
+  this.deleteChildCourses(courses[0].childId);
+  this.createChildCourses(courses);
+  return;
 };
 
-exports.deleteChildCourse = (id) => {
-  const sql = `DELETE FROM childCourses WHERE id = ${id}`;
+exports.deleteChildCourses = (childId) => {
+  const sql = `DELETE FROM childCourses WHERE childId = ${childId}`;
   const stmt = db.prepare(sql);
   const res = stmt.run();
   return res;

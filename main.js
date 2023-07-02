@@ -167,19 +167,19 @@ ipcMain.on('getChildCourses', () => {
   win.webContents.send('getChildCourses', childCourse.getChildCourses());
 });
 
-ipcMain.on('createChildCourse', (event, item) => {
-  const childCourse = require(path.join(__dirname, `${basePath}/child-courses`));
-  childCourse.createChildCourse(item);
+ipcMain.on('createChildCourses', (event, courses) => {
+  const childCourses = require(path.join(__dirname, `${basePath}/child-courses`));
+  childCourses.createChildCourses(courses);
 });
 
-ipcMain.on('updateChildCourse', (event, item) => {
-  const childCourse = require(path.join(__dirname, `${basePath}/child-courses`));
-  childCourse.updateChildCourse(item);
+ipcMain.on('updateChildCourses', (event, courses) => {
+  const childCourses = require(path.join(__dirname, `${basePath}/child-courses`));
+  childCourses.updateChildCourses(courses);
 });
 
-ipcMain.on('deleteChildCourse', (event, id) => {
-  const childCourse = require(path.join(__dirname, `${basePath}/child-courses`));
-  childCourse.deleteChildCourse(id);
+ipcMain.on('deleteChildCourses', (event, childId) => {
+  const childCourses = require(path.join(__dirname, `${basePath}/child-courses`));
+  childCourses.deleteChildCourses(childId);
 });
 
 // ##### PICKUP DB ACTIONS #####
