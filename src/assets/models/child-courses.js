@@ -33,7 +33,8 @@ exports.createChildCourses = (courses) => {
 };
 
 exports.updateChildCourses = (courses) => {
-  this.deleteChildCourses(courses[0].childId);
+  const id = courses[0]?.childId;
+  if (id) this.deleteChildCourses(id);
   this.createChildCourses(courses);
   return;
 };
