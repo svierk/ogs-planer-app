@@ -22,6 +22,14 @@ const earlyCare: any[] = [
     earlyCareStartMonday: '1. Stunde',
   },
 ];
+const lunch: any[] = [
+  {
+    id: 123,
+    childId: 123,
+    lunchParticipationMonday: 1,
+    lunchNoteMonday: 'note',
+  },
+];
 const homework: any[] = [
   {
     id: 123,
@@ -89,6 +97,9 @@ describe('DashboardListDialogComponent', () => {
 
   it('should export lunch list', () => {
     // given
+    component.children = children;
+    component.classes = classes;
+    component.lunch = lunch;
     component.type = ActivityTypes.Lunch;
     spyOn(component, 'submit').and.callThrough();
 

@@ -105,6 +105,11 @@ export class DashboardListDialogComponent implements OnInit {
           this.exportEarlyCareList(current.monthSelect as number, current.daySelect as number);
           break;
         case ActivityTypes.Lunch:
+          this.exportLunchList(
+            current.monthSelect as number,
+            current.daySelect as number,
+            current.classSelect as number
+          );
           break;
         case ActivityTypes.Homework:
           this.exportHomeworkList(
@@ -155,6 +160,38 @@ export class DashboardListDialogComponent implements OnInit {
     this.excelService.exportToExcel(
       list,
       `Frühbetreuung_${new Date().getFullYear()}_${selectedMonth?.label}_${selectedDay?.label}`
+    );
+    this.closeDialog();
+  }
+
+  private exportLunchList(month: number, day: number, classId: number) {
+    const list: any[] = [];
+    const selectedMonth = MONTHS.find((m) => m.value === month);
+    const selectedDay = DAYS.find((d) => d.value === day);
+    const selectedClass = this.classes.find((c) => c.id === classId);
+
+    this.children = this.children.filter((child) => +child.classId! === classId);
+    this.children.forEach((child) => {
+      const classId = child.classId;
+      const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
+      const lunch: any = this.lunch.find((item) => item.childId === child.id);
+
+      if (lunch[`lunchParticipation${selectedDay?.translation}`] === 1) {
+        const keys = ['Klasse', 'Name', 'Vorname', 'Hinweis', ...this.getSpecificDaysOfMonth(month, day)];
+        const item: any = keys.reduce((accumulator, value) => {
+          return { ...accumulator, [value]: '' };
+        }, {});
+        item.Klasse = className;
+        item.Name = child.lastName;
+        item.Vorname = child.firstName;
+        item.Hinweis = lunch[`lunchNote${selectedDay?.translation}`];
+        list.push(item);
+      }
+    });
+
+    this.excelService.exportToExcel(
+      list,
+      `Mittagessen_${new Date().getFullYear()}_${selectedMonth?.label}_${selectedDay?.label}_${selectedClass?.name}`
     );
     this.closeDialog();
   }
