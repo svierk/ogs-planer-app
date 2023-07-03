@@ -5,9 +5,11 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HomeworkTimes } from 'src/app/models/homework-times';
+import { LunchTimes } from 'src/app/models/lunch-times';
 import { DbService } from 'src/app/services/db.service';
 import { ClassesCreateUpdateDialogComponent } from './classes-create-update-dialog.component';
 
@@ -84,5 +86,37 @@ describe('ClassesCreateUpdateDialogComponent', () => {
 
     // then
     expect(component.submit).toHaveBeenCalledTimes(1);
+  });
+
+  it('should allow lunch slot change', () => {
+    // when
+    component.onChange({
+      value: LunchTimes.first,
+      source: {
+        ngControl: {
+          name: 'lunchMonday',
+        },
+      },
+    } as MatSelectChange);
+    fixture.detectChanges();
+
+    // then
+    expect(component.classForm.get('lunchMonday')?.value).toEqual(LunchTimes.first);
+  });
+
+  it('should allow homework slot change', () => {
+    // when
+    component.onChange({
+      value: HomeworkTimes.first,
+      source: {
+        ngControl: {
+          name: 'homeworkMonday',
+        },
+      },
+    } as MatSelectChange);
+    fixture.detectChanges();
+
+    // then
+    expect(component.classForm.get('homeworkMonday')?.value).toEqual(HomeworkTimes.first);
   });
 });
