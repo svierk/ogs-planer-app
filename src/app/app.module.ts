@@ -40,6 +40,7 @@ import { CoursesDeleteActionComponent } from './components/courses-delete-action
 import { CoursesDeleteDialogComponent } from './components/courses-delete-dialog/courses-delete-dialog.component';
 import { CoursesTableComponent } from './components/courses-table/courses-table.component';
 import { CoursesComponent } from './components/courses/courses.component';
+import { DashboardListDialogComponent } from './components/dashboard-list-dialog/dashboard-list-dialog.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ToastComponent } from './components/toast/toast.component';
 import { ToasterComponent } from './components/toaster/toaster.component';
@@ -86,6 +87,7 @@ const materialModules = [
     CoursesDeleteActionComponent,
     CoursesTableComponent,
     DashboardComponent,
+    DashboardListDialogComponent,
     ToastComponent,
     ToasterComponent,
   ],

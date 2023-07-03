@@ -1,32 +1,25 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Child } from 'src/app/models/child';
-import { DbService } from 'src/app/services/db.service';
-import { ExcelService } from 'src/app/services/excel.service';
+import { Component, NgZone } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ActivityTypes } from 'src/app/models/activity-types';
+import { DashboardListDialogComponent } from '../dashboard-list-dialog/dashboard-list-dialog.component';
 
 @Component({
   selector: 'ogs-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
-  children: Child[] = [];
+export class DashboardComponent {
+  ActivityTypes = ActivityTypes;
 
-  constructor(private cdr: ChangeDetectorRef, private dbService: DbService, private excelService: ExcelService) {}
+  constructor(public dialog: MatDialog, private zone: NgZone) {}
 
-  ngOnInit() {
-    this.dbService.children.subscribe((value) => {
-      this.children = value;
-      this.cdr.detectChanges();
+  openDialog(type: ActivityTypes) {
+    const config = new MatDialogConfig();
+    config.autoFocus = false;
+    config.data = type;
+
+    this.zone.run(() => {
+      this.dialog.open(DashboardListDialogComponent, config);
     });
-  }
-
-  exportChildrenList() {
-    const list = this.children.map(({ id, firstName, lastName, phone }) => ({
-      Id: id,
-      Vorname: firstName,
-      Nachname: lastName,
-      Telefon: phone,
-    }));
-    this.excelService.exportToExcel(list, `liste-${new Date().getTime()}`);
   }
 }

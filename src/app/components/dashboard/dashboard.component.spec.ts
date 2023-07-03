@@ -1,43 +1,40 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { ExcelService } from 'src/app/services/excel.service';
+import { of } from 'rxjs';
+import { ActivityTypes } from 'src/app/models/activity-types';
 import { DashboardComponent } from './dashboard.component';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
+  let dialogSpy: jasmine.Spy;
+  // eslint-disable-next-line jasmine/no-unsafe-spy
+  const dialogRefSpyObj: MatDialogRef<unknown, unknown> = jasmine.createSpyObj({ afterClosed: of({}), close: null });
+  dialogRefSpyObj.componentInstance = { body: '' };
 
   beforeEach(() => {
-    const excelService: Partial<ExcelService> = {
-      exportToExcel: jasmine.createSpy('exportToExcel'),
-    };
-
     TestBed.configureTestingModule({
       declarations: [DashboardComponent],
-      imports: [MatIconModule, MatListModule],
-      providers: [{ provide: ExcelService, useValue: excelService }],
+      imports: [MatDialogModule, MatIconModule, MatListModule],
     });
     fixture = TestBed.createComponent(DashboardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    dialogSpy = spyOn(TestBed.inject(MatDialog), 'open').and.returnValue(dialogRefSpyObj);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should export children list', () => {
-    // given
-    component.children = [{ firstName: 'test', lastName: 'child' }];
-    spyOn(component, 'exportChildrenList').and.callThrough();
-    const button = fixture.debugElement.nativeElement.querySelector('mat-list-item');
-
+  it('should open dialog', () => {
     // when
-    button.click();
+    component.openDialog(ActivityTypes.EarlyCare);
     fixture.detectChanges();
 
     // then
-    expect(component.exportChildrenList).toHaveBeenCalledTimes(1);
+    expect(dialogSpy).toHaveBeenCalledTimes(1);
   });
 });

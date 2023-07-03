@@ -3,11 +3,43 @@
     <div class="col-sm">
       <mat-action-list>
         <div mat-subheader>Listen</div>
-        <mat-list-item (click)="exportChildrenList()">
-          <mat-icon matListItemIcon>attach_file</mat-icon>
-          <h3 matListItemTitle>Schülerliste erstellen</h3>
+        <mat-list-item (click)="openDialog(ActivityTypes.EarlyCare)">
+          <mat-icon matListItemIcon>event_available</mat-icon>
+          <h3 matListItemTitle>Frühbetreuung</h3>
           <p matListItemLine>
-            <span>Neue Liste aller Schüler erstellen.</span>
+            <span>Neue Liste für die Frühbetreuung erstellen.</span>
+          </p>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item (click)="openDialog(ActivityTypes.Lunch)">
+          <mat-icon matListItemIcon>restaurant</mat-icon>
+          <h3 matListItemTitle>Mittagessen</h3>
+          <p matListItemLine>
+            <span>Neue Liste für das Mittagessen erstellen.</span>
+          </p>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item (click)="openDialog(ActivityTypes.Homework)">
+          <mat-icon matListItemIcon>home</mat-icon>
+          <h3 matListItemTitle>Hausaufgaben</h3>
+          <p matListItemLine>
+            <span>Neue Liste für die Hausaufgaben erstellen.</span>
+          </p>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item (click)="openDialog(ActivityTypes.Courses)">
+          <mat-icon matListItemIcon>school</mat-icon>
+          <h3 matListItemTitle>Kurse</h3>
+          <p matListItemLine>
+            <span>Neue Kursliste erstellen.</span>
+          </p>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item (click)="openDialog(ActivityTypes.Pickup)">
+          <mat-icon matListItemIcon>event_busy</mat-icon>
+          <h3 matListItemTitle>Abholung</h3>
+          <p matListItemLine>
+            <span>Neue Liste für die Abholung erstellen.</span>
           </p>
         </mat-list-item>
         <mat-divider></mat-divider>
