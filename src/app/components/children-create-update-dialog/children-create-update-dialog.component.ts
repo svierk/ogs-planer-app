@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { Child } from 'src/app/models/child';
@@ -16,7 +16,6 @@ export class ChildrenCreateUpdateDialogComponent implements OnInit {
   childForm!: FormGroup;
 
   constructor(
-    private cdr: ChangeDetectorRef,
     public dbService: DbService,
     public dialogRef: MatDialogRef<ChildrenCreateUpdateDialogComponent>,
     private fb: FormBuilder,

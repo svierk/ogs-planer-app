@@ -1,11 +1,16 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivityTypes } from 'src/app/models/activity-types';
 import { Child } from 'src/app/models/child';
+import { ChildCourse } from 'src/app/models/child-course';
 import { Class } from 'src/app/models/class';
 import { EarlyCare } from 'src/app/models/early-care';
+import { Homework } from 'src/app/models/homework';
+import { Lunch } from 'src/app/models/lunch';
+import { Pickup } from 'src/app/models/pickup';
 import { DbService } from 'src/app/services/db.service';
 import { ExcelService } from 'src/app/services/excel.service';
 import { ChildrenCreateUpdateDialogComponent } from '../children-create-update-dialog/children-create-update-dialog.component';
@@ -41,13 +46,17 @@ export class DashboardListDialogComponent implements OnInit {
   children: Child[] = [];
   classes: Class[] = [];
   earlyCare: EarlyCare[] = [];
+  lunch: Lunch[] = [];
+  homework: Homework[] = [];
+  childCourses: ChildCourse[] = [];
+  pickup: Pickup[] = [];
   type: ActivityTypes;
   listForm!: FormGroup;
   months = MONTHS;
   days = DAYS;
+  ActivityTypes = ActivityTypes;
 
   constructor(
-    private cdr: ChangeDetectorRef,
     public dbService: DbService,
     private excelService: ExcelService,
     public dialogRef: MatDialogRef<ChildrenCreateUpdateDialogComponent>,
@@ -55,22 +64,32 @@ export class DashboardListDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
   ) {
     this.type = data as unknown as ActivityTypes;
+    this.dbService.children.subscribe((value) => {
+      this.children = value;
+    });
+    this.dbService.classes.subscribe((value) => {
+      this.classes = value;
+      this.classes.sort((a, b) => a.name.localeCompare(b.name));
+    });
+    this.dbService.earlyCare.subscribe((value) => {
+      this.earlyCare = value;
+    });
+    this.dbService.lunch.subscribe((value) => {
+      this.lunch = value;
+    });
+    this.dbService.homework.subscribe((value) => {
+      this.homework = value;
+    });
+    this.dbService.childCourses.subscribe((value) => {
+      this.childCourses = value;
+    });
+    this.dbService.pickup.subscribe((value) => {
+      this.pickup = value;
+    });
   }
 
   ngOnInit() {
     this.init();
-    this.dbService.children.subscribe((value) => {
-      this.children = value;
-      this.cdr.detectChanges();
-    });
-    this.dbService.classes.subscribe((value) => {
-      this.classes = value;
-      this.cdr.detectChanges();
-    });
-    this.dbService.earlyCare.subscribe((value) => {
-      this.earlyCare = value;
-      this.cdr.detectChanges();
-    });
   }
 
   closeDialog() {
@@ -88,6 +107,11 @@ export class DashboardListDialogComponent implements OnInit {
         case ActivityTypes.Lunch:
           break;
         case ActivityTypes.Homework:
+          this.exportHomeworkList(
+            current.monthSelect as number,
+            current.daySelect as number,
+            current.classSelect as number
+          );
           break;
         case ActivityTypes.Courses:
           break;
@@ -101,6 +125,7 @@ export class DashboardListDialogComponent implements OnInit {
     this.listForm = this.fb.group({
       monthSelect: this.fb.control(0, []),
       daySelect: this.fb.control(1, []),
+      classSelect: this.fb.control(this.classes[0]?.id ?? '', []),
     });
   }
 
@@ -130,6 +155,38 @@ export class DashboardListDialogComponent implements OnInit {
     this.excelService.exportToExcel(
       list,
       `Frühbetreuung_${new Date().getFullYear()}_${selectedMonth?.label}_${selectedDay?.label}`
+    );
+    this.closeDialog();
+  }
+
+  private exportHomeworkList(month: number, day: number, classId: number) {
+    const list: any[] = [];
+    const selectedMonth = MONTHS.find((m) => m.value === month);
+    const selectedDay = DAYS.find((d) => d.value === day);
+    const selectedClass = this.classes.find((c) => c.id === classId);
+
+    this.children = this.children.filter((child) => +child.classId! === classId);
+    this.children.forEach((child) => {
+      const classId = child.classId;
+      const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
+      const homework: any = this.homework.find((item) => item.childId === child.id);
+
+      if (homework[`homeworkParticipation${selectedDay?.translation}`] === 1) {
+        const keys = ['Klasse', 'Name', 'Vorname', 'Bemerkung', ...this.getSpecificDaysOfMonth(month, day)];
+        const item: any = keys.reduce((accumulator, value) => {
+          return { ...accumulator, [value]: '' };
+        }, {});
+        item.Klasse = className;
+        item.Name = child.lastName;
+        item.Vorname = child.firstName;
+        item.Bemerkung = homework[`homeworkNote${selectedDay?.translation}`];
+        list.push(item);
+      }
+    });
+
+    this.excelService.exportToExcel(
+      list,
+      `Hausaufgaben_${new Date().getFullYear()}_${selectedMonth?.label}_${selectedDay?.label}_${selectedClass?.name}`
     );
     this.closeDialog();
   }

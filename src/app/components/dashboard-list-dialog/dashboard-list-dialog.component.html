@@ -20,6 +20,17 @@
           </mat-form-field>
         </div>
       </div>
+      <div *ngIf="type !== ActivityTypes.EarlyCare" class="row">
+        <div class="col-sm">
+          <mat-form-field appearance="fill">
+            <mat-label>Klasse</mat-label>
+            <mat-select formControlName="classSelect">
+              <mat-option *ngFor="let class of classes" [value]="class.id">{{ class.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-sm"></div>
+      </div>
     </div>
     <div mat-dialog-actions class="justify-content-center mb-16">
       <button mat-raised-button mat-dialog-close color="basic" class="mx-8" (click)="closeDialog()">Abbrechen</button>

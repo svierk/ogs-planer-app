@@ -8,27 +8,26 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivityTypes } from 'src/app/models/activity-types';
 import { Child } from 'src/app/models/child';
 import { Class } from 'src/app/models/class';
-import { EarlyCare } from 'src/app/models/early-care';
 import { DbService } from 'src/app/services/db.service';
 import { ExcelService } from 'src/app/services/excel.service';
 import { DashboardListDialogComponent } from './dashboard-list-dialog.component';
 
 const children: Child[] = [{ id: 123, firstName: 'test', lastName: 'child', classId: '123' }];
 const classes: Class[] = [{ id: 123, name: '1a' }];
-const earlyCare: EarlyCare[] = [
+const earlyCare: any[] = [
   {
     id: 123,
     childId: 123,
     earlyCareParticipationMonday: 1,
-    earlyCareParticipationTuesday: 1,
-    earlyCareParticipationWednesday: 1,
-    earlyCareParticipationThursday: 1,
-    earlyCareParticipationFriday: 1,
     earlyCareStartMonday: '1. Stunde',
-    earlyCareStartTuesday: '1. Stunde',
-    earlyCareStartWednesday: '1. Stunde',
-    earlyCareStartThursday: '1. Stunde',
-    earlyCareStartFriday: '1. Stunde',
+  },
+];
+const homework: any[] = [
+  {
+    id: 123,
+    childId: 123,
+    homeworkParticipationMonday: 1,
+    homeworkNoteMonday: 'note',
   },
 ];
 
@@ -64,7 +63,6 @@ describe('DashboardListDialogComponent', () => {
     });
     fixture = TestBed.createComponent(DashboardListDialogComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -106,6 +104,9 @@ describe('DashboardListDialogComponent', () => {
 
   it('should export homework list', () => {
     // given
+    component.children = children;
+    component.classes = classes;
+    component.homework = homework;
     component.type = ActivityTypes.Homework;
     spyOn(component, 'submit').and.callThrough();
 
