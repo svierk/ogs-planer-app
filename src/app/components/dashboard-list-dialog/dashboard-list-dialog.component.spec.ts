@@ -38,6 +38,15 @@ const homework: any[] = [
     homeworkNoteMonday: 'note',
   },
 ];
+const pickup: any[] = [
+  {
+    id: 123,
+    childId: 123,
+    pickupTimeMonday: '12:00',
+    pickupTypeMonday: 'Wird abgeholt',
+    pickupNoteMonday: 'note',
+  },
+];
 
 describe('DashboardListDialogComponent', () => {
   let component: DashboardListDialogComponent;
@@ -148,6 +157,9 @@ describe('DashboardListDialogComponent', () => {
 
   it('should export pickup list', () => {
     // given
+    component.children = children;
+    component.classes = classes;
+    component.pickup = pickup;
     component.type = ActivityTypes.Pickup;
     spyOn(component, 'submit').and.callThrough();
 

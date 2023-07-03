@@ -20,7 +20,7 @@
           </mat-form-field>
         </div>
       </div>
-      <div *ngIf="type !== ActivityTypes.EarlyCare" class="row">
+      <div *ngIf="type !== ActivityTypes.EarlyCare && type !== ActivityTypes.Pickup" class="row">
         <div class="col-sm">
           <mat-form-field appearance="fill">
             <mat-label>Klasse</mat-label>
