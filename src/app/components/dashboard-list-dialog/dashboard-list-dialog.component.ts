@@ -7,6 +7,7 @@ import { ActivityTypes } from 'src/app/models/activity-types';
 import { Child } from 'src/app/models/child';
 import { ChildCourse } from 'src/app/models/child-course';
 import { Class } from 'src/app/models/class';
+import { Course } from 'src/app/models/course';
 import { EarlyCare } from 'src/app/models/early-care';
 import { Homework } from 'src/app/models/homework';
 import { Lunch } from 'src/app/models/lunch';
@@ -45,6 +46,7 @@ const DAYS = [
 export class DashboardListDialogComponent implements OnInit {
   children: Child[] = [];
   classes: Class[] = [];
+  courses: Course[] = [];
   earlyCare: EarlyCare[] = [];
   lunch: Lunch[] = [];
   homework: Homework[] = [];
@@ -70,6 +72,9 @@ export class DashboardListDialogComponent implements OnInit {
     this.dbService.classes.subscribe((value) => {
       this.classes = value;
       this.classes.sort((a, b) => a.name.localeCompare(b.name));
+    });
+    this.dbService.courses.subscribe((value) => {
+      this.courses = value;
     });
     this.dbService.earlyCare.subscribe((value) => {
       this.earlyCare = value;
@@ -146,14 +151,14 @@ export class DashboardListDialogComponent implements OnInit {
       const earlyCare: any = this.earlyCare.find((item) => item.childId === child.id);
 
       if (earlyCare[`earlyCareParticipation${selectedDay?.translation}`] === 1) {
-        const keys = ['Klasse', 'Name', 'Vorname', 'Unterrichtsbeginn', ...this.getSpecificDaysOfMonth(month, day)];
+        const keys = ['Klasse', 'Name', 'Vorname', 'Beginn', ...this.getSpecificDaysOfMonth(month, day)];
         const item: any = keys.reduce((accumulator, value) => {
           return { ...accumulator, [value]: '' };
         }, {});
         item.Klasse = className;
         item.Name = child.lastName;
         item.Vorname = child.firstName;
-        item.Unterrichtsbeginn = earlyCare[`earlyCareStart${selectedDay?.translation}`];
+        item.Beginn = earlyCare[`earlyCareStart${selectedDay?.translation}`];
         list.push(item);
       }
     });
