@@ -165,7 +165,8 @@ export class DashboardListDialogComponent implements OnInit {
 
     this.excelService.exportToExcel(
       list,
-      `Frühbetreuung_${new Date().getFullYear()}_${selectedMonth?.label}_${selectedDay?.label}`
+      `Frühbetreuung_${new Date().getFullYear()}_${selectedMonth?.label}_${selectedDay?.label}`,
+      `Frühbetreuung ${selectedDay?.label}`
     );
     this.closeDialog();
   }
@@ -174,7 +175,7 @@ export class DashboardListDialogComponent implements OnInit {
     const list: any[] = [];
     const selectedMonth = MONTHS.find((m) => m.value === month);
     const selectedDay = DAYS.find((d) => d.value === day);
-    const selectedClass = this.classes.find((c) => c.id === classId);
+    const selectedClass: any = this.classes.find((c) => c.id === classId);
 
     this.children = this.children.filter((child) => +child.classId! === classId);
     this.children.forEach((child) => {
@@ -197,7 +198,8 @@ export class DashboardListDialogComponent implements OnInit {
 
     this.excelService.exportToExcel(
       list,
-      `Mittagessen_${new Date().getFullYear()}_${selectedMonth?.label}_${selectedDay?.label}_${selectedClass?.name}`
+      `Mittagessen_${new Date().getFullYear()}_${selectedMonth?.label}_${selectedDay?.label}_${selectedClass?.name}`,
+      `Mittagessen ${selectedDay?.label} ${selectedClass?.name} ${selectedClass[`lunch${selectedDay?.translation}`]}`
     );
     this.closeDialog();
   }
@@ -206,7 +208,7 @@ export class DashboardListDialogComponent implements OnInit {
     const list: any[] = [];
     const selectedMonth = MONTHS.find((m) => m.value === month);
     const selectedDay = DAYS.find((d) => d.value === day);
-    const selectedClass = this.classes.find((c) => c.id === classId);
+    const selectedClass: any = this.classes.find((c) => c.id === classId);
 
     this.children = this.children.filter((child) => +child.classId! === classId);
     this.children.forEach((child) => {
@@ -229,7 +231,10 @@ export class DashboardListDialogComponent implements OnInit {
 
     this.excelService.exportToExcel(
       list,
-      `Hausaufgaben_${new Date().getFullYear()}_${selectedMonth?.label}_${selectedDay?.label}_${selectedClass?.name}`
+      `Hausaufgaben_${new Date().getFullYear()}_${selectedMonth?.label}_${selectedDay?.label}_${selectedClass?.name}`,
+      `Hausaufgaben ${selectedDay?.label} ${selectedClass?.name} ${
+        selectedClass[`homework${selectedDay?.translation}`]
+      }`
     );
     this.closeDialog();
   }
@@ -269,7 +274,8 @@ export class DashboardListDialogComponent implements OnInit {
 
     this.excelService.exportToExcel(
       list,
-      `Abholung_${new Date().getFullYear()}_${selectedMonth?.label}_${selectedDay?.label}`
+      `Abholung_${new Date().getFullYear()}_${selectedMonth?.label}_${selectedDay?.label}`,
+      `Abholung ${selectedDay?.label}`
     );
     this.closeDialog();
   }

@@ -8,12 +8,12 @@ const EXCEL_EXTENSION = '.xlsx'; // excel file extension
   providedIn: 'root',
 })
 export class ExcelService {
-  exportToExcel(element: any[], fileName: string) {
+  exportToExcel(element: any[], fileName: string, heading: string) {
     // generate workbook
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
 
-    // add the worksheet
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(element);
+    // generate worksheet
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(element, { origin: 1 } as XLSX.JSON2SheetOpts);
 
     // count available columns
     const colCount = Object.keys(element[0] as object).length;
@@ -22,7 +22,7 @@ export class ExcelService {
     const colNames = [];
     const colWidths = [];
     for (let i = 0; i < colCount; i++) {
-      colNames.push(`${String.fromCharCode(i + 65)}1`);
+      colNames.push(`${String.fromCharCode(i + 65)}2`);
       colWidths.push({ wch: 10 });
     }
 
@@ -41,8 +41,24 @@ export class ExcelService {
     // set final column widths
     ws['!cols'] = maxWidths;
 
-    // save to file
+    // merge cells in first row based on overall column count
+    const merge = { s: { r: 0, c: 0 }, e: { r: 0, c: colCount - 1 } };
+    if (!ws['!merges']) ws['!merges'] = [];
+    ws['!merges'].push(merge);
+
+    // add worksheet to workbook
     XLSX.utils.book_append_sheet(workbook, ws, 'Liste');
+
+    // add heading row
+    XLSX.utils.sheet_add_json(workbook.Sheets['Liste'], [{ note: heading }], {
+      header: ['note'],
+      skipHeader: true,
+      origin: 0,
+    });
+    ws['A1'].s = { alignment: { horizontal: 'center', vertical: 'center' }, font: { sz: 20 } };
+    ws['!rows'] = [{ hpt: 50 }];
+
+    // save to file
     XLSX.writeFile(workbook, `${fileName}${EXCEL_EXTENSION}`);
   }
 }
