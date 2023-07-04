@@ -198,10 +198,11 @@ export class DashboardListDialogComponent implements OnInit {
       }
     });
 
+    const time = `lunch${selectedDay?.translation}`;
     this.excelService.exportToExcel(
       list,
       `Mittagessen_${new Date().getFullYear()}_${selectedMonth?.label}_${selectedDay?.label}_${selectedClass?.name}`,
-      `Mittagessen ${selectedDay?.label} ${selectedClass?.name} ${selectedClass[`lunch${selectedDay?.translation}`]}`
+      `Mittagessen ${selectedDay?.label} ${selectedClass?.name} ${selectedClass[time]}`
     );
     this.closeDialog();
   }
@@ -231,12 +232,11 @@ export class DashboardListDialogComponent implements OnInit {
       }
     });
 
+    const time = `homework${selectedDay?.translation}`;
     this.excelService.exportToExcel(
       list,
       `Hausaufgaben_${new Date().getFullYear()}_${selectedMonth?.label}_${selectedDay?.label}_${selectedClass?.name}`,
-      `Hausaufgaben ${selectedDay?.label} ${selectedClass?.name} ${
-        selectedClass[`homework${selectedDay?.translation}`]
-      }`
+      `Hausaufgaben ${selectedDay?.label} ${selectedClass?.name} ${selectedClass[time]}`
     );
     this.closeDialog();
   }
