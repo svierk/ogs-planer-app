@@ -124,6 +124,7 @@ export class DashboardListDialogComponent implements OnInit {
           );
           break;
         case ActivityTypes.Courses:
+          this.exportCoursesList(current.monthSelect as number, current.courseSelect as number);
           break;
         case ActivityTypes.Pickup:
           this.exportPickupList(current.monthSelect as number, current.daySelect as number);
@@ -137,6 +138,7 @@ export class DashboardListDialogComponent implements OnInit {
       monthSelect: this.fb.control(0, []),
       daySelect: this.fb.control(1, []),
       classSelect: this.fb.control(this.classes[0]?.id ?? '', []),
+      courseSelect: this.fb.control(this.courses[0]?.id ?? '', []),
     });
   }
 
@@ -235,6 +237,36 @@ export class DashboardListDialogComponent implements OnInit {
       `Hausaufgaben ${selectedDay?.label} ${selectedClass?.name} ${
         selectedClass[`homework${selectedDay?.translation}`]
       }`
+    );
+    this.closeDialog();
+  }
+
+  private exportCoursesList(month: number, courseId: number) {
+    const list: any[] = [];
+    const selectedMonth = MONTHS.find((m) => m.value === month);
+    const selectedCourse = this.courses.find((c) => c.id === courseId);
+    const selectedDay = DAYS.find((d) => d.label === selectedCourse?.day);
+    const courseChoices = this.childCourses.filter((course) => course.courseId === courseId);
+    const childIds = courseChoices.map(({ childId }) => childId);
+
+    this.children = this.children.filter((child) => childIds.includes(child.id!));
+    this.children.forEach((child) => {
+      const classId = child.classId;
+      const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
+      const keys = ['Klasse', 'Name', 'Vorname', ...this.getSpecificDaysOfMonth(month, selectedDay?.value as number)];
+      const item: any = keys.reduce((accumulator, value) => {
+        return { ...accumulator, [value]: '' };
+      }, {});
+      item.Klasse = className;
+      item.Name = child.lastName;
+      item.Vorname = child.firstName;
+      list.push(item);
+    });
+
+    this.excelService.exportToExcel(
+      list,
+      `Kursliste_${new Date().getFullYear()}_${selectedMonth?.label}_${selectedDay?.label}_${selectedCourse?.name}`,
+      `Kursliste ${selectedCourse?.name} | ${selectedDay?.label} ${selectedCourse?.start} - ${selectedCourse?.end} | ${selectedCourse?.teacher}`
     );
     this.closeDialog();
   }

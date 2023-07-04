@@ -11,7 +11,7 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="col-sm">
+        <div *ngIf="type !== ActivityTypes.Courses" class="col-sm">
           <mat-form-field appearance="fill">
             <mat-label>Tag</mat-label>
             <mat-select formControlName="daySelect">
@@ -19,9 +19,17 @@
             </mat-select>
           </mat-form-field>
         </div>
+        <div *ngIf="type === ActivityTypes.Courses" class="col-sm">
+          <mat-form-field appearance="fill">
+            <mat-label>Kurs</mat-label>
+            <mat-select formControlName="courseSelect">
+              <mat-option *ngFor="let course of courses" [value]="course.id">{{ course.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
-      <div *ngIf="type !== ActivityTypes.EarlyCare && type !== ActivityTypes.Pickup" class="row">
-        <div class="col-sm">
+      <div class="row">
+        <div *ngIf="type === ActivityTypes.Lunch || type === ActivityTypes.Homework" class="col-sm">
           <mat-form-field appearance="fill">
             <mat-label>Klasse</mat-label>
             <mat-select formControlName="classSelect">
@@ -29,7 +37,6 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="col-sm"></div>
       </div>
     </div>
     <div mat-dialog-actions class="justify-content-center mb-16">

@@ -7,13 +7,26 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivityTypes } from 'src/app/models/activity-types';
 import { Child } from 'src/app/models/child';
+import { ChildCourse } from 'src/app/models/child-course';
 import { Class } from 'src/app/models/class';
+import { Course } from 'src/app/models/course';
+import { Days } from 'src/app/models/days';
 import { DbService } from 'src/app/services/db.service';
 import { ExcelService } from 'src/app/services/excel.service';
 import { DashboardListDialogComponent } from './dashboard-list-dialog.component';
 
 const children: Child[] = [{ id: 123, firstName: 'test', lastName: 'child', classId: '123' }];
 const classes: Class[] = [{ id: 123, name: '1a' }];
+const courses: Course[] = [
+  {
+    id: 123,
+    name: 'course',
+    teacher: 'teacher',
+    day: Days.Monday,
+    start: 'start',
+    end: 'end',
+  },
+];
 const earlyCare: any[] = [
   {
     id: 123,
@@ -38,6 +51,7 @@ const homework: any[] = [
     homeworkNoteMonday: 'note',
   },
 ];
+const childCourses: ChildCourse[] = [{ id: 123, childId: 123, courseId: 123 }];
 const pickup: any[] = [
   {
     id: 123,
@@ -142,6 +156,10 @@ describe('DashboardListDialogComponent', () => {
 
   it('should export child course list', () => {
     // given
+    component.children = children;
+    component.classes = classes;
+    component.courses = courses;
+    component.childCourses = childCourses;
     component.type = ActivityTypes.Courses;
     spyOn(component, 'submit').and.callThrough();
 
