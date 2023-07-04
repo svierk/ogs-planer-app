@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
@@ -152,7 +150,7 @@ export class DashboardListDialogComponent implements OnInit {
       const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
       const earlyCare: any = this.earlyCare.find((item) => item.childId === child.id);
 
-      if (earlyCare[`earlyCareParticipation${selectedDay?.translation}`] === 1) {
+      if (earlyCare[`earlyCareParticipation${selectedDay?.translation as string}`] === 1) {
         const keys = ['Klasse', 'Name', 'Vorname', 'Beginn', ...this.getSpecificDaysOfMonth(month, day)];
         const item: any = keys.reduce((accumulator, value) => {
           return { ...accumulator, [value]: '' };
@@ -160,15 +158,15 @@ export class DashboardListDialogComponent implements OnInit {
         item.Klasse = className;
         item.Name = child.lastName;
         item.Vorname = child.firstName;
-        item.Beginn = earlyCare[`earlyCareStart${selectedDay?.translation}`];
+        item.Beginn = earlyCare[`earlyCareStart${selectedDay?.translation as string}`];
         list.push(item);
       }
     });
 
     this.excelService.exportToExcel(
       list,
-      `Frühbetreuung_${new Date().getFullYear()}_${selectedMonth?.label}_${selectedDay?.label}`,
-      `Frühbetreuung ${selectedDay?.label}`
+      `Frühbetreuung_${new Date().getFullYear()}_${selectedMonth?.label as string}_${selectedDay?.label as string}`,
+      `Frühbetreuung ${selectedDay?.label as string}`
     );
     this.closeDialog();
   }
@@ -179,13 +177,13 @@ export class DashboardListDialogComponent implements OnInit {
     const selectedDay = DAYS.find((d) => d.value === day);
     const selectedClass: any = this.classes.find((c) => c.id === classId);
 
-    this.children = this.children.filter((child) => +child.classId! === classId);
+    this.children = this.children.filter((child) => child.classId === classId.toString());
     this.children.forEach((child) => {
       const classId = child.classId;
       const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
       const lunch: any = this.lunch.find((item) => item.childId === child.id);
 
-      if (lunch[`lunchParticipation${selectedDay?.translation}`] === 1) {
+      if (lunch[`lunchParticipation${selectedDay?.translation as string}`] === 1) {
         const keys = ['Klasse', 'Name', 'Vorname', 'Hinweis', ...this.getSpecificDaysOfMonth(month, day)];
         const item: any = keys.reduce((accumulator, value) => {
           return { ...accumulator, [value]: '' };
@@ -193,16 +191,18 @@ export class DashboardListDialogComponent implements OnInit {
         item.Klasse = className;
         item.Name = child.lastName;
         item.Vorname = child.firstName;
-        item.Hinweis = lunch[`lunchNote${selectedDay?.translation}`];
+        item.Hinweis = lunch[`lunchNote${selectedDay?.translation as string}`];
         list.push(item);
       }
     });
 
-    const time = `lunch${selectedDay?.translation}`;
+    const time = `lunch${selectedDay?.translation as string}`;
     this.excelService.exportToExcel(
       list,
-      `Mittagessen_${new Date().getFullYear()}_${selectedMonth?.label}_${selectedDay?.label}_${selectedClass?.name}`,
-      `Mittagessen ${selectedDay?.label} ${selectedClass?.name} ${selectedClass[time]}`
+      `Mittagessen_${new Date().getFullYear()}_${selectedMonth?.label as string}_${selectedDay?.label as string}_${
+        selectedClass?.name as string
+      }`,
+      `Mittagessen ${selectedDay?.label as string} ${selectedClass?.name as string} ${selectedClass[time] as string}`
     );
     this.closeDialog();
   }
@@ -213,13 +213,13 @@ export class DashboardListDialogComponent implements OnInit {
     const selectedDay = DAYS.find((d) => d.value === day);
     const selectedClass: any = this.classes.find((c) => c.id === classId);
 
-    this.children = this.children.filter((child) => +child.classId! === classId);
+    this.children = this.children.filter((child) => child.classId === classId.toString());
     this.children.forEach((child) => {
       const classId = child.classId;
       const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
       const homework: any = this.homework.find((item) => item.childId === child.id);
 
-      if (homework[`homeworkParticipation${selectedDay?.translation}`] === 1) {
+      if (homework[`homeworkParticipation${selectedDay?.translation as string}`] === 1) {
         const keys = ['Klasse', 'Name', 'Vorname', 'Bemerkung', ...this.getSpecificDaysOfMonth(month, day)];
         const item: any = keys.reduce((accumulator, value) => {
           return { ...accumulator, [value]: '' };
@@ -227,16 +227,18 @@ export class DashboardListDialogComponent implements OnInit {
         item.Klasse = className;
         item.Name = child.lastName;
         item.Vorname = child.firstName;
-        item.Bemerkung = homework[`homeworkNote${selectedDay?.translation}`];
+        item.Bemerkung = homework[`homeworkNote${selectedDay?.translation as string}`];
         list.push(item);
       }
     });
 
-    const time = `homework${selectedDay?.translation}`;
+    const time = `homework${selectedDay?.translation as string}`;
     this.excelService.exportToExcel(
       list,
-      `Hausaufgaben_${new Date().getFullYear()}_${selectedMonth?.label}_${selectedDay?.label}_${selectedClass?.name}`,
-      `Hausaufgaben ${selectedDay?.label} ${selectedClass?.name} ${selectedClass[time]}`
+      `Hausaufgaben_${new Date().getFullYear()}_${selectedMonth?.label as string}_${selectedDay?.label as string}_${
+        selectedClass?.name as string
+      }`,
+      `Hausaufgaben ${selectedDay?.label as string} ${selectedClass?.name as string} ${selectedClass[time] as string}`
     );
     this.closeDialog();
   }
@@ -249,7 +251,7 @@ export class DashboardListDialogComponent implements OnInit {
     const courseChoices = this.childCourses.filter((course) => course.courseId === courseId);
     const childIds = courseChoices.map(({ childId }) => childId);
 
-    this.children = this.children.filter((child) => childIds.includes(child.id!));
+    this.children = this.children.filter((child) => childIds.includes(child.id as number));
     this.children.forEach((child) => {
       const classId = child.classId;
       const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
@@ -265,8 +267,12 @@ export class DashboardListDialogComponent implements OnInit {
 
     this.excelService.exportToExcel(
       list,
-      `Kursliste_${new Date().getFullYear()}_${selectedMonth?.label}_${selectedDay?.label}_${selectedCourse?.name}`,
-      `Kursliste ${selectedCourse?.name} | ${selectedDay?.label} ${selectedCourse?.start} - ${selectedCourse?.end} | ${selectedCourse?.teacher}`
+      `Kursliste_${new Date().getFullYear()}_${selectedMonth?.label as string}_${selectedDay?.label as string}_${
+        selectedCourse?.name as string
+      }`,
+      `Kursliste ${selectedCourse?.name as string} | ${selectedDay?.label as string} ${
+        selectedCourse?.start as string
+      } - ${selectedCourse?.end as string} | ${selectedCourse?.teacher as string}`
     );
     this.closeDialog();
   }
@@ -281,7 +287,7 @@ export class DashboardListDialogComponent implements OnInit {
       const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
       const pickup: any = this.pickup.find((item) => item.childId === child.id);
 
-      if (pickup[`pickupTime${selectedDay?.translation}`] !== '') {
+      if (pickup[`pickupTime${selectedDay?.translation as string}`] !== '') {
         const keys = [
           'Klasse',
           'Name',
@@ -297,17 +303,17 @@ export class DashboardListDialogComponent implements OnInit {
         item.Klasse = className;
         item.Name = child.lastName;
         item.Vorname = child.firstName;
-        item.Uhrzeit = pickup[`pickupTime${selectedDay?.translation}`];
-        item.Abholung = pickup[`pickupType${selectedDay?.translation}`];
-        item.Hinweis = pickup[`pickupNote${selectedDay?.translation}`];
+        item.Uhrzeit = pickup[`pickupTime${selectedDay?.translation as string}`];
+        item.Abholung = pickup[`pickupType${selectedDay?.translation as string}`];
+        item.Hinweis = pickup[`pickupNote${selectedDay?.translation as string}`];
         list.push(item);
       }
     });
 
     this.excelService.exportToExcel(
       list,
-      `Abholung_${new Date().getFullYear()}_${selectedMonth?.label}_${selectedDay?.label}`,
-      `Abholung ${selectedDay?.label}`
+      `Abholung_${new Date().getFullYear()}_${selectedMonth?.label as string}_${selectedDay?.label as string}`,
+      `Abholung ${selectedDay?.label as string}`
     );
     this.closeDialog();
   }
