@@ -14,7 +14,10 @@ export class ChildrenCreateUpdateActionComponent {
   @Input()
   isUpdate = false;
 
-  constructor(private dialog: MatDialog, private zone: NgZone) {}
+  constructor(
+    private dialog: MatDialog,
+    private zone: NgZone
+  ) {}
 
   openDialog() {
     const config = new MatDialogConfig();

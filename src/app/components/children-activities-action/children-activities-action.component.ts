@@ -11,7 +11,10 @@ export class ChildrenActivitiesActionComponent {
   @Input()
   child!: Child;
 
-  constructor(public dialog: MatDialog, private zone: NgZone) {}
+  constructor(
+    public dialog: MatDialog,
+    private zone: NgZone
+  ) {}
 
   openDialog() {
     const config = new MatDialogConfig();

@@ -15,7 +15,10 @@ export class ChildrenTableComponent implements OnInit {
   classes: Class[] = [];
   displayedColumns: string[] = ['firstName', 'lastName', 'phone', 'classId', 'actions'];
 
-  constructor(private dbService: DbService, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private dbService: DbService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.dbService.children.subscribe((value) => {

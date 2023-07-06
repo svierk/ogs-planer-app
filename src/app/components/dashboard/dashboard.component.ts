@@ -11,7 +11,10 @@ import { DashboardListDialogComponent } from '../dashboard-list-dialog/dashboard
 export class DashboardComponent {
   ActivityTypes = ActivityTypes;
 
-  constructor(public dialog: MatDialog, private zone: NgZone) {}
+  constructor(
+    public dialog: MatDialog,
+    private zone: NgZone
+  ) {}
 
   openDialog(type: ActivityTypes) {
     const config = new MatDialogConfig();

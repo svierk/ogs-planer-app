@@ -11,7 +11,10 @@ export class CoursesTableComponent implements OnInit {
   courses: Course[] = [];
   displayedColumns: string[] = ['name', 'teacher', 'day', 'start', 'end', 'note', 'actions'];
 
-  constructor(private dbService: DbService, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private dbService: DbService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.dbService.courses.subscribe((value) => {
