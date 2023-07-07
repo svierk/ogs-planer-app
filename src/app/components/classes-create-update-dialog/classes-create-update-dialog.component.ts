@@ -7,6 +7,7 @@ import { Days } from 'src/app/models/days';
 import { HomeworkTimes } from 'src/app/models/homework-times';
 import { LunchTimes } from 'src/app/models/lunch-times';
 import { DbService } from 'src/app/services/db.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'ogs-classes-create-update-dialog',
@@ -24,6 +25,7 @@ export class ClassesCreateUpdateDialogComponent implements OnInit {
     public dbService: DbService,
     public dialogRef: MatDialogRef<ClassesCreateUpdateDialogComponent>,
     private fb: FormBuilder,
+    private toastService: ToastService,
     @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
   ) {
     this.classItem = data as Class;
@@ -102,12 +104,14 @@ export class ClassesCreateUpdateDialogComponent implements OnInit {
 
   private createClass(classItem: Class) {
     this.dbService.createClass(classItem);
+    this.toastService.showSuccessToast('Erstellen erfolgreich', 'Klasse wurde angelegt.');
     this.closeDialog();
     this.dbService.getClasses();
   }
 
   private updateClass(classItem: Class) {
     this.dbService.updateClass(classItem);
+    this.toastService.showSuccessToast('Update erfolgreich', 'Klasse wurde aktualisiert.');
     this.closeDialog();
     this.dbService.getClasses();
   }

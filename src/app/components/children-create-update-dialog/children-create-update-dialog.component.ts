@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/materia
 import { Child } from 'src/app/models/child';
 import { Class } from 'src/app/models/class';
 import { DbService } from 'src/app/services/db.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'ogs-children-create-update-dialog',
@@ -19,6 +20,7 @@ export class ChildrenCreateUpdateDialogComponent implements OnInit {
     public dbService: DbService,
     public dialogRef: MatDialogRef<ChildrenCreateUpdateDialogComponent>,
     private fb: FormBuilder,
+    private toastService: ToastService,
     @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
   ) {
     this.child = data as Child;
@@ -74,12 +76,14 @@ export class ChildrenCreateUpdateDialogComponent implements OnInit {
 
   private createChild(child: Child) {
     this.dbService.createChild(child);
+    this.toastService.showSuccessToast('Erstellen erfolgreich', 'Schüler wurde angelegt.');
     this.closeDialog();
     this.dbService.getChildren();
   }
 
   private updateChild(child: Child) {
     this.dbService.updateChild(child);
+    this.toastService.showSuccessToast('Update erfolgreich', 'Schüler wurde aktualisiert.');
     this.closeDialog();
     this.dbService.getChildren();
   }

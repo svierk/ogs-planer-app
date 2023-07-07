@@ -1,6 +1,7 @@
 import { Component, HostListener, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { DbService } from 'src/app/services/db.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'ogs-classes-delete-dialog',
@@ -11,6 +12,7 @@ export class ClassesDeleteDialogComponent {
 
   constructor(
     private dbService: DbService,
+    private toastService: ToastService,
     public dialogRef: MatDialogRef<ClassesDeleteDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
   ) {
@@ -31,6 +33,7 @@ export class ClassesDeleteDialogComponent {
   deleteClass() {
     this.dbService.deleteClass(this.classId);
     this.dbService.getClasses();
+    this.toastService.showSuccessToast('Löschen erfolgreich', 'Klasse wurde entfernt.');
     this.closeDialog();
   }
 }

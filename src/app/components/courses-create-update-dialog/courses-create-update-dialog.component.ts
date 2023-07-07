@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/materia
 import { Course } from 'src/app/models/course';
 import { Days } from 'src/app/models/days';
 import { DbService } from 'src/app/services/db.service';
+import { ToastService } from 'src/app/services/toast.service';
 import { ChildrenCreateUpdateDialogComponent } from '../children-create-update-dialog/children-create-update-dialog.component';
 
 @Component({
@@ -19,6 +20,7 @@ export class CoursesCreateUpdateDialogComponent implements OnInit {
     public dbService: DbService,
     public dialogRef: MatDialogRef<ChildrenCreateUpdateDialogComponent>,
     private fb: FormBuilder,
+    private toastService: ToastService,
     @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
   ) {
     this.course = data as Course;
@@ -76,12 +78,14 @@ export class CoursesCreateUpdateDialogComponent implements OnInit {
 
   private createCourse(course: Course) {
     this.dbService.createCourse(course);
+    this.toastService.showSuccessToast('Erstellen erfolgreich', 'Kurs wurde angelegt.');
     this.closeDialog();
     this.dbService.getCourses();
   }
 
   private updateCourse(course: Course) {
     this.dbService.updateCourse(course);
+    this.toastService.showSuccessToast('Update erfolgreich', 'Kurs wurde aktualisiert.');
     this.closeDialog();
     this.dbService.getCourses();
   }

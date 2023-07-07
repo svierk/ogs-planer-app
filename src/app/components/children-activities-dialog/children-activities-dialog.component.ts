@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ActivityTypes } from 'src/app/models/activity-types';
@@ -11,6 +11,7 @@ import { Homework } from 'src/app/models/homework';
 import { Lunch } from 'src/app/models/lunch';
 import { Pickup } from 'src/app/models/pickup';
 import { DbService } from 'src/app/services/db.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'ogs-children-activities-dialog',
@@ -32,10 +33,10 @@ export class ChildrenActivitiesDialogComponent implements OnInit {
   color = '';
 
   constructor(
-    private cdr: ChangeDetectorRef,
     public dbService: DbService,
     public dialogRef: MatDialogRef<ChildrenActivitiesDialogComponent>,
     private fb: FormBuilder,
+    private toastService: ToastService,
     @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
   ) {
     this.child = data as Child;
@@ -170,6 +171,7 @@ export class ChildrenActivitiesDialogComponent implements OnInit {
       childId: activities.coursesGroup.childId,
     }));
     this.dbService.createChildCourses(selectedCourses);
+    this.toastService.showSuccessToast('Speichern erfolgreich', 'Schüler Aktivitäten wurden angelegt.');
     this.closeDialog();
     this.dbService.getEarlyCare();
     this.dbService.getLunch();
@@ -188,6 +190,7 @@ export class ChildrenActivitiesDialogComponent implements OnInit {
       childId: activities.coursesGroup.childId,
     }));
     this.dbService.updateChildCourses(selectedCourses);
+    this.toastService.showSuccessToast('Update erfolgreich', 'Schüler Aktivitäten wurden aktualisiert.');
     this.closeDialog();
     this.dbService.getEarlyCare();
     this.dbService.getLunch();

@@ -1,5 +1,6 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatIconModule } from '@angular/material/icon';
 import { EventTypes } from 'src/app/models/event-types';
 import { ToastComponent } from './toast.component';
 
@@ -11,6 +12,7 @@ describe('ToastComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ToastComponent],
+      imports: [MatIconModule],
     }).compileComponents();
   });
 
@@ -41,7 +43,7 @@ describe('ToastComponent', () => {
     component.title = 'infp';
     component.message = 'info';
     spyOn(component.disposeEvent, 'emit');
-    const button = debugElement.nativeElement.querySelector('button[class="btn-close"]');
+    const button = debugElement.nativeElement.querySelector('button');
 
     // when
     fixture.detectChanges();

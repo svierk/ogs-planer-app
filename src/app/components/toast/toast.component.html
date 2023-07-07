@@ -8,7 +8,9 @@
 >
   <div class="toast-header">
     <strong class="me-auto">{{ title }}</strong>
-    <button type="button" class="btn-close" aria-label="Close" (click)="hide()"></button>
+    <button mat-icon-button color="basic" (click)="hide()">
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
   <div class="toast-body">{{ message }}</div>
 </div>
