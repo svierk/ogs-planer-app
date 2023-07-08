@@ -1,25 +1,55 @@
-<table mat-table [dataSource]="classes" class="mat-elevation-z8" aria-label="classes">
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef scope="col">Bezeichnung</th>
-    <td mat-cell *matCellDef="let class">
-      {{ class.name }}
-    </td>
-  </ng-container>
-  <ng-container matColumnDef="teacher">
-    <th mat-header-cell *matHeaderCellDef scope="col">Lehrkraft</th>
-    <td mat-cell *matCellDef="let class">
-      {{ class.teacher }}
-    </td>
-  </ng-container>
+<div class="row">
+  <div class="col-7 d-flex align-items-start justify-content-start">
+    <mat-form-field>
+      <mat-label>Suche</mat-label>
+      <input matInput (keyup)="search($event)" placeholder="Suche nach Klasse..." #input />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+  <div class="col-5 d-flex align-items-end justify-content-end">
+    <ogs-classes-create-update-action></ogs-classes-create-update-action>
+  </div>
+</div>
+<div class="row flex-fill flex-grow-1">
+  <div class="col-12">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      class="mat-elevation-z8"
+      aria-label="classes"
+      matSort
+      (matSortChange)="sortData($event)"
+      matSortActive="name"
+      matSortDirection="asc"
+      matSortDisableClear
+    >
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="name" scope="col">Bezeichnung</th>
+        <td mat-cell *matCellDef="let class">
+          {{ class.name }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="teacher">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="teacher" scope="col">Lehrkraft</th>
+        <td mat-cell *matCellDef="let class">
+          {{ class.teacher }}
+        </td>
+      </ng-container>
 
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef scope="col">Aktionen</th>
-    <td mat-cell *matCellDef="let class">
-      <ogs-classes-create-update-action [classItem]="class" [isUpdate]="true"></ogs-classes-create-update-action>
-      <ogs-classes-delete-action [classItem]="class"></ogs-classes-delete-action>
-    </td>
-  </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef scope="col">Aktionen</th>
+        <td mat-cell *matCellDef="let class">
+          <ogs-classes-create-update-action [classItem]="class" [isUpdate]="true"></ogs-classes-create-update-action>
+          <ogs-classes-delete-action [classItem]="class"></ogs-classes-delete-action>
+        </td>
+      </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-</table>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell ps-8">Keine Ergebnisse gefunden.</td>
+      </tr>
+    </table>
+  </div>
+</div>
