@@ -3,6 +3,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Class } from 'src/app/models/class';
 import { DbService } from 'src/app/services/db.service';
+import { SearchService } from 'src/app/services/search.service';
 
 @Component({
   selector: 'ogs-classes-table',
@@ -17,6 +18,7 @@ export class ClassesTableComponent implements AfterViewInit, OnInit {
 
   constructor(
     private dbService: DbService,
+    private searchService: SearchService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -34,31 +36,11 @@ export class ClassesTableComponent implements AfterViewInit, OnInit {
   }
 
   search(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource = this.searchService.search(event, this.dataSource);
   }
 
   sortData(sort: Sort) {
-    const data = this.dataSource.data;
-    if (!sort.active || sort.direction === '') {
-      this.dataSource.data = data;
-      return;
-    }
-
-    this.dataSource.data = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'name':
-          return this.compare(a.name, b.name, isAsc);
-        case 'teacher':
-          return this.compare(a.teacher as string, b.teacher as string, isAsc);
-        default:
-          return 0;
-      }
-    });
-  }
-
-  private compare(a: number | string, b: number | string, isAsc: boolean) {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+    this.dataSource = this.searchService.sort(sort, this.dataSource);
+    this.dataSource.sort = this.sort;
   }
 }

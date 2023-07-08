@@ -73,10 +73,6 @@ describe('ClassesTableComponent', () => {
     component.dataSource = new MatTableDataSource(classes);
 
     // when
-    component.sortData({ active: 'default', direction: '' } as Sort);
-    fixture.detectChanges();
-    component.sortData({ active: 'teacher', direction: 'desc' } as Sort);
-    fixture.detectChanges();
     component.sortData({ active: 'name', direction: 'asc' } as Sort);
     fixture.detectChanges();
 
