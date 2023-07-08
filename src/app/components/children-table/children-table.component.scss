@@ -1,3 +1,17 @@
 table {
   width: 100%;
 }
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.table-container {
+  max-height: calc(100vh - 11rem);
+  max-width: 100%;
+  overflow-y: scroll;
+  overflow-x: auto;
+  border: 1px solid #898989;
+  position: relative;
+}
