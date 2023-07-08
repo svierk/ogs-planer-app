@@ -58,7 +58,10 @@ export class ExcelService {
     ws['A1'].s = { alignment: { horizontal: 'center', vertical: 'center' }, font: { sz: 20 } };
     ws['!rows'] = [{ hpt: 50 }];
 
-    // save to file
+    this.downloadExcel(workbook, fileName);
+  }
+
+  downloadExcel(workbook: XLSX.WorkBook, fileName: string) {
     XLSX.writeFile(workbook, `${fileName}${EXCEL_EXTENSION}`);
   }
 }
