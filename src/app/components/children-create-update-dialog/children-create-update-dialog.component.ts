@@ -42,6 +42,10 @@ export class ChildrenCreateUpdateDialogComponent implements OnInit {
     return this.childForm.get('phone');
   }
 
+  get mobile() {
+    return this.childForm.get('mobile');
+  }
+
   ngOnInit() {
     this.init();
   }
@@ -70,6 +74,8 @@ export class ChildrenCreateUpdateDialogComponent implements OnInit {
       firstName: this.fb.control(this.child?.firstName ?? '', [Validators.required]),
       lastName: this.fb.control(this.child?.lastName ?? '', [Validators.required]),
       phone: this.fb.control(this.child?.phone ?? '', [Validators.minLength(7), Validators.maxLength(15)]),
+      mobile: this.fb.control(this.child?.mobile ?? '', [Validators.minLength(7), Validators.maxLength(15)]),
+      emergencyContact: this.fb.control(this.child?.emergencyContact ?? '', []),
       classSelect: this.fb.control(this.child?.classId ?? '', []),
     });
   }

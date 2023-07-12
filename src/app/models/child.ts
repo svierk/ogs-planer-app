@@ -3,5 +3,7 @@ export interface Child {
   firstName: string;
   lastName: string;
   phone?: string;
+  mobile?: string;
+  emergencyContact?: string;
   classId?: string;
 }

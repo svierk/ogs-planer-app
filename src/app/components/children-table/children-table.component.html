@@ -42,6 +42,18 @@
             {{ child.phone }}
           </td>
         </ng-container>
+        <ng-container matColumnDef="mobile">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="mobile" scope="col">Mobil</th>
+          <td mat-cell *matCellDef="let child">
+            {{ child.mobile }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="emergencyContact">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="emergencyContact" scope="col">Notfallkontakt</th>
+          <td mat-cell *matCellDef="let child">
+            {{ child.emergencyContact }}
+          </td>
+        </ng-container>
         <ng-container matColumnDef="classId">
           <th mat-header-cell *matHeaderCellDef scope="col">Klasse</th>
           <td mat-cell *matCellDef="let child">

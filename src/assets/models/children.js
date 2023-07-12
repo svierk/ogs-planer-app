@@ -14,12 +14,16 @@ exports.createChild = (child) => {
   const sql = `INSERT INTO children (
     firstName, 
     lastName, 
-    phone, 
+    phone,
+    mobile,
+    emergencyContact,
     classId
   ) VALUES (
     '${child.firstName}', 
     '${child.lastName}', 
-    '${child.phone}', 
+    '${child.phone}',
+    '${child.mobile}',
+    '${child.emergencyContact}',
     '${+child.classId}'
   )`;
   const stmt = db.prepare(sql);
@@ -31,7 +35,9 @@ exports.updateChild = (child) => {
   const sql = `UPDATE children SET 
     firstName='${child.firstName}', 
     lastName='${child.lastName}', 
-    phone='${child.phone}', 
+    phone='${child.phone}',
+    mobile='${child.mobile}',
+    emergencyContact='${child.emergencyContact}',
     classId='${child.classId}' 
   WHERE children.id = ${child.id}`;
   const stmt = db.prepare(sql);

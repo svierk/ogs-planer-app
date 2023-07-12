@@ -17,7 +17,7 @@ export class ChildrenTableComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   children: Child[] = [];
   classes: Class[] = [];
-  displayedColumns: string[] = ['firstName', 'lastName', 'phone', 'classId', 'actions'];
+  displayedColumns: string[] = ['firstName', 'lastName', 'phone', 'mobile', 'emergencyContact', 'classId', 'actions'];
   dataSource!: MatTableDataSource<Child>;
 
   constructor(
