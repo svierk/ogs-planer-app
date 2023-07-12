@@ -177,7 +177,7 @@ export class DashboardListDialogComponent implements OnInit {
     const selectedDay = DAYS.find((d) => d.value === day);
     const selectedClass: any = this.classes.find((c) => c.id === classId);
 
-    this.children = this.children.filter((child) => child.classId === classId.toString());
+    this.children = this.children.filter((child) => child.classId == classId.toString());
     this.children.forEach((child) => {
       const classId = child.classId;
       const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
@@ -213,7 +213,7 @@ export class DashboardListDialogComponent implements OnInit {
     const selectedDay = DAYS.find((d) => d.value === day);
     const selectedClass: any = this.classes.find((c) => c.id === classId);
 
-    this.children = this.children.filter((child) => child.classId === classId.toString());
+    this.children = this.children.filter((child) => child.classId == classId.toString());
     this.children.forEach((child) => {
       const classId = child.classId;
       const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
