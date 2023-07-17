@@ -149,8 +149,9 @@ export class DashboardListDialogComponent implements OnInit {
       const classId = child.classId;
       const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
       const earlyCare: any = this.earlyCare.find((item) => item.childId === child.id);
+      const earlyCareKey = `earlyCareParticipation${selectedDay?.translation as string}`;
 
-      if (earlyCare[`earlyCareParticipation${selectedDay?.translation as string}`] === 1) {
+      if (earlyCare && earlyCare[earlyCareKey] === 1) {
         const keys = ['Klasse', 'Name', 'Vorname', 'Beginn', ...this.getSpecificDaysOfMonth(month, day)];
         const item: any = keys.reduce((accumulator, value) => {
           return { ...accumulator, [value]: '' };
@@ -182,8 +183,9 @@ export class DashboardListDialogComponent implements OnInit {
       const classId = child.classId;
       const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
       const lunch: any = this.lunch.find((item) => item.childId === child.id);
+      const lunchKey = `lunchParticipation${selectedDay?.translation as string}`;
 
-      if (lunch[`lunchParticipation${selectedDay?.translation as string}`] === 1) {
+      if (lunch && lunch[lunchKey] === 1) {
         const keys = ['Klasse', 'Name', 'Vorname', 'Hinweis', ...this.getSpecificDaysOfMonth(month, day)];
         const item: any = keys.reduce((accumulator, value) => {
           return { ...accumulator, [value]: '' };
@@ -218,8 +220,9 @@ export class DashboardListDialogComponent implements OnInit {
       const classId = child.classId;
       const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
       const homework: any = this.homework.find((item) => item.childId === child.id);
+      const homeworkKey = `homeworkParticipation${selectedDay?.translation as string}`;
 
-      if (homework[`homeworkParticipation${selectedDay?.translation as string}`] === 1) {
+      if (homework && homework[homeworkKey] === 1) {
         const keys = ['Klasse', 'Name', 'Vorname', 'Bemerkung', ...this.getSpecificDaysOfMonth(month, day)];
         const item: any = keys.reduce((accumulator, value) => {
           return { ...accumulator, [value]: '' };
@@ -286,8 +289,9 @@ export class DashboardListDialogComponent implements OnInit {
       const classId = child.classId;
       const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
       const pickup: any = this.pickup.find((item) => item.childId === child.id);
+      const pickupKey = `pickupTime${selectedDay?.translation as string}`;
 
-      if (pickup[`pickupTime${selectedDay?.translation as string}`] !== '') {
+      if (pickup && pickup[pickupKey] !== '') {
         const keys = [
           'Klasse',
           'Name',
