@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Injectable } from '@angular/core';
 import * as XLSX from 'xlsx-js-style';
+import { ToastService } from './toast.service';
 
 const EXCEL_EXTENSION = '.xlsx'; // excel file extension
 
@@ -8,7 +9,14 @@ const EXCEL_EXTENSION = '.xlsx'; // excel file extension
   providedIn: 'root',
 })
 export class ExcelService {
+  constructor(private toastService: ToastService) {}
+
   exportToExcel(element: any[], fileName: string, heading: string) {
+    if (!element || element.length === 0) {
+      this.toastService.showErrorToast('Erstellen fehlgeschlagen', 'Liste würde keine Einträge enthalten.');
+      return;
+    }
+
     // generate workbook
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
 
