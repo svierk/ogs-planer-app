@@ -31,7 +31,7 @@ export class ExcelService {
     const colWidths = [];
     for (let i = 0; i < colCount; i++) {
       colNames.push(`${String.fromCharCode(i + 65)}2`);
-      colWidths.push({ wch: 10 });
+      colWidths.push({ wch: 15 });
     }
 
     // colorize header column
