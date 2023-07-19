@@ -6,6 +6,7 @@ import { Child } from 'src/app/models/child';
 import { ChildCourse } from 'src/app/models/child-course';
 import { Class } from 'src/app/models/class';
 import { Course } from 'src/app/models/course';
+import { Days } from 'src/app/models/days';
 import { EarlyCare } from 'src/app/models/early-care';
 import { Homework } from 'src/app/models/homework';
 import { Lunch } from 'src/app/models/lunch';
@@ -250,7 +251,7 @@ export class DashboardListDialogComponent implements OnInit {
     const list: any[] = [];
     const selectedMonth = MONTHS.find((m) => m.value === month);
     const selectedCourse = this.courses.find((c) => c.id === courseId);
-    const selectedDay = DAYS.find((d) => d.label === selectedCourse?.day);
+    const selectedDay = DAYS.find((d) => (d.label as Days) === selectedCourse?.day);
     const courseChoices = this.childCourses.filter((course) => course.courseId === courseId);
     const childIds = courseChoices.map(({ childId }) => childId);
 
