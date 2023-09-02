@@ -146,11 +146,11 @@ export class DbService {
     this.ipcRenderer.send('getChildCourses');
   }
 
-  createChildCourses(courses: ChildCourse[]) {
-    this.ipcRenderer.send('createChildCourses', courses);
+  createChildCourses(courseInfo: ChildCourse[]) {
+    this.ipcRenderer.send('createChildCourses', courseInfo);
   }
 
-  updateChildCourses(courses: ChildCourse[]) {
+  updateChildCourses(courses: ChildCourse[] | number) {
     this.ipcRenderer.send('updateChildCourses', courses);
   }
 

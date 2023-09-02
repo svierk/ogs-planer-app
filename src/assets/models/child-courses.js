@@ -10,7 +10,16 @@ exports.getChildCourses = () => {
   return res;
 };
 
+exports.getChildCoursesByChildId = (childId) => {
+  const sql = `SELECT * FROM childCourses WHERE childId = ${childId}`;
+  const stmt = db.prepare(sql);
+  const res = stmt.all();
+  return res;
+};
+
 exports.createChildCourses = (courses) => {
+  if (courses?.length === 0) return;
+
   const queries = [];
   courses.forEach((course) => {
     queries.push(`INSERT INTO childCourses (
@@ -32,10 +41,12 @@ exports.createChildCourses = (courses) => {
   return;
 };
 
-exports.updateChildCourses = (courses) => {
-  const id = courses[0]?.childId;
-  if (id) this.deleteChildCourses(id);
-  this.createChildCourses(courses);
+exports.updateChildCourses = (courseInfo) => {
+  const isNumber = typeof courseInfo === 'number';
+  const id = isNumber ? courseInfo : courseInfo[0]?.childId;
+  const courses = this.getChildCoursesByChildId(id);
+  if (id || courses?.length > 0) this.deleteChildCourses(id);
+  if (!isNumber) this.createChildCourses(courseInfo);
   return;
 };
 
