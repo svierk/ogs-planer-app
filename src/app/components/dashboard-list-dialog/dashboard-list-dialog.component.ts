@@ -106,7 +106,11 @@ export class DashboardListDialogComponent implements OnInit {
 
       switch (this.type) {
         case ActivityTypes.EarlyCare:
-          this.exportEarlyCareList(current.monthSelect as number, current.daySelect as number);
+          this.exportEarlyCareList(
+            current.monthSelect as number,
+            current.daySelect as number,
+            current.classSelect as number
+          );
           break;
         case ActivityTypes.Lunch:
           this.exportLunchList(
@@ -126,7 +130,11 @@ export class DashboardListDialogComponent implements OnInit {
           this.exportCoursesList(current.monthSelect as number, current.courseSelect as number);
           break;
         case ActivityTypes.Pickup:
-          this.exportPickupList(current.monthSelect as number, current.daySelect as number);
+          this.exportPickupList(
+            current.monthSelect as number,
+            current.daySelect as number,
+            current.classSelect as number
+          );
           break;
       }
     }
@@ -136,16 +144,21 @@ export class DashboardListDialogComponent implements OnInit {
     this.listForm = this.fb.group({
       monthSelect: this.fb.control(0, []),
       daySelect: this.fb.control(1, []),
-      classSelect: this.fb.control(this.classes[0]?.id ?? '', []),
+      classSelect: this.fb.control(
+        this.type === ActivityTypes.Lunch || this.type === ActivityTypes.Homework ? this.classes[0]?.id : '',
+        []
+      ),
       courseSelect: this.fb.control(this.courses[0]?.id ?? '', []),
     });
   }
 
-  private exportEarlyCareList(month: number, day: number) {
+  private exportEarlyCareList(month: number, day: number, classId: number) {
     const list: any[] = [];
     const selectedMonth = MONTHS.find((m) => m.value === month);
     const selectedDay = DAYS.find((d) => d.value === day);
+    const selectedClass: any = classId ? this.classes.find((c) => c.id === classId) : undefined;
 
+    if (classId) this.children = this.children.filter((child) => child.classId == classId.toString());
     this.children.forEach((child) => {
       const classId = child.classId;
       const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
@@ -167,8 +180,10 @@ export class DashboardListDialogComponent implements OnInit {
 
     this.excelService.exportToExcel(
       list,
-      `Frühbetreuung_${new Date().getFullYear()}_${selectedMonth?.label as string}_${selectedDay?.label as string}`,
-      `Frühbetreuung ${selectedDay?.label as string}`
+      `Frühbetreuung_${new Date().getFullYear()}_${selectedMonth?.label as string}_${selectedDay?.label as string}${
+        selectedClass ? '_' + selectedClass?.name : ''
+      }`,
+      `Frühbetreuung ${selectedDay?.label as string} ${selectedClass ? (selectedClass?.name as string) : ''}`
     );
     this.closeDialog();
   }
@@ -281,11 +296,13 @@ export class DashboardListDialogComponent implements OnInit {
     this.closeDialog();
   }
 
-  private exportPickupList(month: number, day: number) {
+  private exportPickupList(month: number, day: number, classId: number) {
     const list: any[] = [];
     const selectedMonth = MONTHS.find((m) => m.value === month);
     const selectedDay = DAYS.find((d) => d.value === day);
+    const selectedClass: any = classId ? this.classes.find((c) => c.id === classId) : undefined;
 
+    if (classId) this.children = this.children.filter((child) => child.classId == classId.toString());
     this.children.forEach((child) => {
       const classId = child.classId;
       const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
@@ -317,8 +334,10 @@ export class DashboardListDialogComponent implements OnInit {
 
     this.excelService.exportToExcel(
       list,
-      `Abholung_${new Date().getFullYear()}_${selectedMonth?.label as string}_${selectedDay?.label as string}`,
-      `Abholung ${selectedDay?.label as string}`
+      `Abholung_${new Date().getFullYear()}_${selectedMonth?.label as string}_${selectedDay?.label as string}${
+        selectedClass ? '_' + selectedClass?.name : ''
+      }`,
+      `Abholung ${selectedDay?.label as string} ${selectedClass ? (selectedClass?.name as string) : ''}`
     );
     this.closeDialog();
   }
