@@ -180,10 +180,8 @@ export class DashboardListDialogComponent implements OnInit {
 
     this.excelService.exportToExcel(
       list,
-      `Frühbetreuung_${new Date().getFullYear()}_${selectedMonth?.label as string}_${selectedDay?.label as string}${
-        selectedClass ? '_' + selectedClass?.name : ''
-      }`,
-      `Frühbetreuung ${selectedDay?.label as string} ${selectedClass ? (selectedClass?.name as string) : ''}`
+      this.getFileName(ActivityTypes.EarlyCare, selectedMonth, selectedDay, selectedClass),
+      this.getFileHeading(ActivityTypes.EarlyCare, selectedDay, selectedClass)
     );
     this.closeDialog();
   }
@@ -217,10 +215,8 @@ export class DashboardListDialogComponent implements OnInit {
     const time = `lunch${selectedDay?.translation as string}`;
     this.excelService.exportToExcel(
       list,
-      `Mittagessen_${new Date().getFullYear()}_${selectedMonth?.label as string}_${selectedDay?.label as string}_${
-        selectedClass?.name as string
-      }`,
-      `Mittagessen ${selectedDay?.label as string} ${selectedClass?.name as string} ${selectedClass[time] as string}`
+      this.getFileName(ActivityTypes.Lunch, selectedMonth, selectedDay, selectedClass),
+      this.getFileHeading(ActivityTypes.Lunch, selectedDay, selectedClass, time)
     );
     this.closeDialog();
   }
@@ -254,10 +250,8 @@ export class DashboardListDialogComponent implements OnInit {
     const time = `homework${selectedDay?.translation as string}`;
     this.excelService.exportToExcel(
       list,
-      `Hausaufgaben_${new Date().getFullYear()}_${selectedMonth?.label as string}_${selectedDay?.label as string}_${
-        selectedClass?.name as string
-      }`,
-      `Hausaufgaben ${selectedDay?.label as string} ${selectedClass?.name as string} ${selectedClass[time] as string}`
+      this.getFileName(ActivityTypes.Homework, selectedMonth, selectedDay, selectedClass),
+      this.getFileHeading(ActivityTypes.Homework, selectedDay, selectedClass, time)
     );
     this.closeDialog();
   }
@@ -286,12 +280,8 @@ export class DashboardListDialogComponent implements OnInit {
 
     this.excelService.exportToExcel(
       list,
-      `Kursliste_${new Date().getFullYear()}_${selectedMonth?.label as string}_${selectedDay?.label as string}_${
-        selectedCourse?.name as string
-      }`,
-      `Kursliste ${selectedCourse?.name as string} | ${selectedDay?.label as string} ${
-        selectedCourse?.start as string
-      } - ${selectedCourse?.end as string} | ${selectedCourse?.teacher as string}`
+      this.getFileName('Kursliste', selectedMonth, selectedDay, selectedCourse),
+      this.getFileHeading('Kursliste', selectedDay, selectedCourse)
     );
     this.closeDialog();
   }
@@ -334,10 +324,8 @@ export class DashboardListDialogComponent implements OnInit {
 
     this.excelService.exportToExcel(
       list,
-      `Abholung_${new Date().getFullYear()}_${selectedMonth?.label as string}_${selectedDay?.label as string}${
-        selectedClass ? '_' + selectedClass?.name : ''
-      }`,
-      `Abholung ${selectedDay?.label as string} ${selectedClass ? (selectedClass?.name as string) : ''}`
+      this.getFileName(ActivityTypes.Pickup, selectedMonth, selectedDay, selectedClass),
+      this.getFileHeading(ActivityTypes.Pickup, selectedDay, selectedClass)
     );
     this.closeDialog();
   }
@@ -363,5 +351,14 @@ export class DashboardListDialogComponent implements OnInit {
     month = month.toString().padStart(2, '0');
 
     return `${date}.${month}.${year}`;
+  }
+
+  private getFileName(a: any, m: any, d: any, c: any): string {
+    return `${a}_${new Date().getFullYear()}_${m?.label}_${d?.label}${c ? '_' + c?.name : ''}`;
+  }
+
+  private getFileHeading(a: any, d: any, c: any, t?: any): string {
+    if (a === 'Kursliste') return `${a} ${c?.name} | ${d?.label} ${c?.start} - ${c?.end} | ${c?.teacher}`;
+    return `${a} ${d?.label} ${c ? c?.name : ''} ${t ? c[t] : ''}`;
   }
 }
