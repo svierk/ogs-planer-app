@@ -106,7 +106,11 @@ export class DashboardListDialogComponent implements OnInit {
 
       switch (this.type) {
         case ActivityTypes.EarlyCare:
-          this.exportEarlyCareList(current.monthSelect as number, current.daySelect as number);
+          this.exportEarlyCareList(
+            current.monthSelect as number,
+            current.daySelect as number,
+            current.classSelect as number
+          );
           break;
         case ActivityTypes.Lunch:
           this.exportLunchList(
@@ -126,7 +130,11 @@ export class DashboardListDialogComponent implements OnInit {
           this.exportCoursesList(current.monthSelect as number, current.courseSelect as number);
           break;
         case ActivityTypes.Pickup:
-          this.exportPickupList(current.monthSelect as number, current.daySelect as number);
+          this.exportPickupList(
+            current.monthSelect as number,
+            current.daySelect as number,
+            current.classSelect as number
+          );
           break;
       }
     }
@@ -136,16 +144,21 @@ export class DashboardListDialogComponent implements OnInit {
     this.listForm = this.fb.group({
       monthSelect: this.fb.control(0, []),
       daySelect: this.fb.control(1, []),
-      classSelect: this.fb.control(this.classes[0]?.id ?? '', []),
+      classSelect: this.fb.control(
+        this.type === ActivityTypes.Lunch || this.type === ActivityTypes.Homework ? this.classes[0]?.id : '',
+        []
+      ),
       courseSelect: this.fb.control(this.courses[0]?.id ?? '', []),
     });
   }
 
-  private exportEarlyCareList(month: number, day: number) {
+  private exportEarlyCareList(month: number, day: number, classId: number) {
     const list: any[] = [];
     const selectedMonth = MONTHS.find((m) => m.value === month);
     const selectedDay = DAYS.find((d) => d.value === day);
+    const selectedClass: any = classId ? this.classes.find((c) => c.id === classId) : undefined;
 
+    if (classId) this.children = this.children.filter((child) => child.classId == classId.toString());
     this.children.forEach((child) => {
       const classId = child.classId;
       const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
@@ -167,8 +180,8 @@ export class DashboardListDialogComponent implements OnInit {
 
     this.excelService.exportToExcel(
       list,
-      `Frühbetreuung_${new Date().getFullYear()}_${selectedMonth?.label as string}_${selectedDay?.label as string}`,
-      `Frühbetreuung ${selectedDay?.label as string}`
+      this.getFileName(ActivityTypes.EarlyCare, selectedMonth, selectedDay, selectedClass),
+      this.getFileHeading(ActivityTypes.EarlyCare, selectedDay, selectedClass)
     );
     this.closeDialog();
   }
@@ -202,10 +215,8 @@ export class DashboardListDialogComponent implements OnInit {
     const time = `lunch${selectedDay?.translation as string}`;
     this.excelService.exportToExcel(
       list,
-      `Mittagessen_${new Date().getFullYear()}_${selectedMonth?.label as string}_${selectedDay?.label as string}_${
-        selectedClass?.name as string
-      }`,
-      `Mittagessen ${selectedDay?.label as string} ${selectedClass?.name as string} ${selectedClass[time] as string}`
+      this.getFileName(ActivityTypes.Lunch, selectedMonth, selectedDay, selectedClass),
+      this.getFileHeading(ActivityTypes.Lunch, selectedDay, selectedClass, time)
     );
     this.closeDialog();
   }
@@ -239,10 +250,8 @@ export class DashboardListDialogComponent implements OnInit {
     const time = `homework${selectedDay?.translation as string}`;
     this.excelService.exportToExcel(
       list,
-      `Hausaufgaben_${new Date().getFullYear()}_${selectedMonth?.label as string}_${selectedDay?.label as string}_${
-        selectedClass?.name as string
-      }`,
-      `Hausaufgaben ${selectedDay?.label as string} ${selectedClass?.name as string} ${selectedClass[time] as string}`
+      this.getFileName(ActivityTypes.Homework, selectedMonth, selectedDay, selectedClass),
+      this.getFileHeading(ActivityTypes.Homework, selectedDay, selectedClass, time)
     );
     this.closeDialog();
   }
@@ -271,21 +280,19 @@ export class DashboardListDialogComponent implements OnInit {
 
     this.excelService.exportToExcel(
       list,
-      `Kursliste_${new Date().getFullYear()}_${selectedMonth?.label as string}_${selectedDay?.label as string}_${
-        selectedCourse?.name as string
-      }`,
-      `Kursliste ${selectedCourse?.name as string} | ${selectedDay?.label as string} ${
-        selectedCourse?.start as string
-      } - ${selectedCourse?.end as string} | ${selectedCourse?.teacher as string}`
+      this.getFileName('Kursliste', selectedMonth, selectedDay, selectedCourse),
+      this.getFileHeading('Kursliste', selectedDay, selectedCourse)
     );
     this.closeDialog();
   }
 
-  private exportPickupList(month: number, day: number) {
+  private exportPickupList(month: number, day: number, classId: number) {
     const list: any[] = [];
     const selectedMonth = MONTHS.find((m) => m.value === month);
     const selectedDay = DAYS.find((d) => d.value === day);
+    const selectedClass: any = classId ? this.classes.find((c) => c.id === classId) : undefined;
 
+    if (classId) this.children = this.children.filter((child) => child.classId == classId.toString());
     this.children.forEach((child) => {
       const classId = child.classId;
       const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
@@ -317,8 +324,8 @@ export class DashboardListDialogComponent implements OnInit {
 
     this.excelService.exportToExcel(
       list,
-      `Abholung_${new Date().getFullYear()}_${selectedMonth?.label as string}_${selectedDay?.label as string}`,
-      `Abholung ${selectedDay?.label as string}`
+      this.getFileName(ActivityTypes.Pickup, selectedMonth, selectedDay, selectedClass),
+      this.getFileHeading(ActivityTypes.Pickup, selectedDay, selectedClass)
     );
     this.closeDialog();
   }
@@ -344,5 +351,14 @@ export class DashboardListDialogComponent implements OnInit {
     month = month.toString().padStart(2, '0');
 
     return `${date}.${month}.${year}`;
+  }
+
+  private getFileName(a: any, m: any, d: any, c: any): string {
+    return `${a}_${new Date().getFullYear()}_${m?.label}_${d?.label}${c ? '_' + c?.name : ''}`;
+  }
+
+  private getFileHeading(a: any, d: any, c: any, t?: any): string {
+    if (a === 'Kursliste') return `${a} ${c?.name} | ${d?.label} ${c?.start} - ${c?.end} | ${c?.teacher}`;
+    return `${a} ${d?.label} ${c ? c?.name : ''} ${t ? c[t] : ''}`;
   }
 }

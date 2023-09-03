@@ -189,7 +189,7 @@ export class ChildrenActivitiesDialogComponent implements OnInit {
       courseId: id,
       childId: activities.coursesGroup.childId,
     }));
-    this.dbService.updateChildCourses(selectedCourses);
+    this.dbService.updateChildCourses(selectedCourses?.length > 0 ? selectedCourses : (this.child.id as number));
     this.toastService.showSuccessToast('Update erfolgreich', 'Schüler Aktivitäten wurden aktualisiert.');
     this.closeDialog();
     this.dbService.getEarlyCare();

@@ -29,7 +29,7 @@
         </div>
       </div>
       <div class="row">
-        <div *ngIf="type === ActivityTypes.Lunch || type === ActivityTypes.Homework" class="col-sm">
+        <div *ngIf="type !== ActivityTypes.Courses" class="col-sm">
           <mat-form-field appearance="fill">
             <mat-label>Klasse</mat-label>
             <mat-select formControlName="classSelect">
