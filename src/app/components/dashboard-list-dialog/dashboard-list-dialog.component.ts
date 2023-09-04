@@ -136,6 +136,8 @@ export class DashboardListDialogComponent implements OnInit {
             current.classSelect as number
           );
           break;
+        default:
+          this.exportEmergencyContacts(current.classSelect as number);
       }
     }
   }
@@ -150,6 +152,35 @@ export class DashboardListDialogComponent implements OnInit {
       ),
       courseSelect: this.fb.control(this.courses[0]?.id ?? '', []),
     });
+  }
+
+  private exportEmergencyContacts(classId: number) {
+    const list: any[] = [];
+    const selectedClass: any = classId ? this.classes.find((c) => c.id === classId) : undefined;
+
+    if (classId) this.children = this.children.filter((child) => child.classId == classId.toString());
+    this.children.forEach((child) => {
+      const classId = child.classId;
+      const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
+      const keys = ['Klasse', 'Name', 'Vorname', 'Telefon', 'Mobil', 'Notfallkontakt'];
+      const item: any = keys.reduce((accumulator, value) => {
+        return { ...accumulator, [value]: '' };
+      }, {});
+      item.Klasse = className;
+      item.Name = child.lastName;
+      item.Vorname = child.firstName;
+      item.Telefon = child.phone;
+      item.Mobil = child.mobile;
+      item.Notfallkontakt = child.emergencyContact;
+      list.push(item);
+    });
+
+    this.excelService.exportToExcel(
+      list,
+      `Notfallkontakte${selectedClass ? '_' + selectedClass?.name : ''}`,
+      `Notfallkontakte ${selectedClass ? selectedClass?.name : ''}`
+    );
+    this.closeDialog();
   }
 
   private exportEarlyCareList(month: number, day: number, classId: number) {

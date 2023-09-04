@@ -16,7 +16,7 @@ export class DashboardComponent {
     private zone: NgZone
   ) {}
 
-  openDialog(type: ActivityTypes) {
+  openDialog(type?: ActivityTypes) {
     const config = new MatDialogConfig();
     config.autoFocus = false;
     config.data = type;

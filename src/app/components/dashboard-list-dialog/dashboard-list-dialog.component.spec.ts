@@ -190,4 +190,20 @@ describe('DashboardListDialogComponent', () => {
     // then
     expect(component.submit).toHaveBeenCalledTimes(1);
   });
+
+  it('should export emergency contacts list', () => {
+    // given
+    component.children = children;
+    component.classes = classes;
+    spyOn(component, 'submit').and.callThrough();
+
+    // when
+    fixture.detectChanges();
+    const button = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
+    button.click();
+    fixture.detectChanges();
+
+    // then
+    expect(component.submit).toHaveBeenCalledTimes(1);
+  });
 });
