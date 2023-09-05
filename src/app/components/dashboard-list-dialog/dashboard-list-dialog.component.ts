@@ -175,7 +175,7 @@ export class DashboardListDialogComponent implements OnInit {
       list.push(item);
     });
 
-    this.excelService.exportToExcel(
+    this.excelService.export(
       list,
       `Notfallkontakte${selectedClass ? '_' + selectedClass?.name : ''}`,
       `Notfallkontakte ${selectedClass ? selectedClass?.name : ''}`
@@ -209,7 +209,7 @@ export class DashboardListDialogComponent implements OnInit {
       }
     });
 
-    this.excelService.exportToExcel(
+    this.excelService.export(
       list,
       this.getFileName(ActivityTypes.EarlyCare, selectedMonth, selectedDay, selectedClass),
       this.getFileHeading(ActivityTypes.EarlyCare, selectedDay, selectedClass)
@@ -244,7 +244,7 @@ export class DashboardListDialogComponent implements OnInit {
     });
 
     const time = `lunch${selectedDay?.translation as string}`;
-    this.excelService.exportToExcel(
+    this.excelService.export(
       list,
       this.getFileName(ActivityTypes.Lunch, selectedMonth, selectedDay, selectedClass),
       this.getFileHeading(ActivityTypes.Lunch, selectedDay, selectedClass, time)
@@ -279,7 +279,7 @@ export class DashboardListDialogComponent implements OnInit {
     });
 
     const time = `homework${selectedDay?.translation as string}`;
-    this.excelService.exportToExcel(
+    this.excelService.export(
       list,
       this.getFileName(ActivityTypes.Homework, selectedMonth, selectedDay, selectedClass),
       this.getFileHeading(ActivityTypes.Homework, selectedDay, selectedClass, time)
@@ -309,7 +309,7 @@ export class DashboardListDialogComponent implements OnInit {
       list.push(item);
     });
 
-    this.excelService.exportToExcel(
+    this.excelService.export(
       list,
       this.getFileName('Kursliste', selectedMonth, selectedDay, selectedCourse),
       this.getFileHeading('Kursliste', selectedDay, selectedCourse)
@@ -353,7 +353,7 @@ export class DashboardListDialogComponent implements OnInit {
       }
     });
 
-    this.excelService.exportToExcel(
+    this.excelService.export(
       list,
       this.getFileName(ActivityTypes.Pickup, selectedMonth, selectedDay, selectedClass),
       this.getFileHeading(ActivityTypes.Pickup, selectedDay, selectedClass)

@@ -68,7 +68,7 @@ describe('DashboardListDialogComponent', () => {
 
   beforeEach(() => {
     const excelService: Partial<ExcelService> = {
-      exportToExcel: jasmine.createSpy('exportToExcel'),
+      export: jasmine.createSpy('export'),
     };
 
     TestBed.configureTestingModule({
