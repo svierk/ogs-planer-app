@@ -80,8 +80,13 @@ export class ExcelService {
   }
 
   exportActivities(data: any) {
-    if (!data || !data.earlyCare) {
+    if (!data?.earlyCare) {
       this.toastService.showErrorToast('Download fehlgeschlagen', 'Es wurden noch keine Aktivitäten gespeichert.');
+      return;
+    }
+
+    if (!data?.childClass) {
+      this.toastService.showErrorToast('Download fehlgeschlagen', 'Es wurde noch keine Klasse zugewiesen.');
       return;
     }
 

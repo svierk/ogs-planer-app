@@ -125,4 +125,26 @@ describe('ExcelService', () => {
     expect(service.exportActivities).toHaveBeenCalledTimes(1);
     expect(service.download).toHaveBeenCalledTimes(0);
   });
+
+  it('should show error toast for missing class assignment', () => {
+    // given
+    spyOn(service, 'download');
+    spyOn(service, 'exportActivities').and.callThrough();
+
+    // when
+    service.exportActivities({
+      child: children[0],
+      childClass: undefined,
+      courses: courses,
+      earlyCare: earlyCare.find((item) => item.childId === children[0].id),
+      lunch: lunch.find((item) => item.childId === children[0].id),
+      homework: homework.find((item) => item.childId === children[0].id),
+      childCourses: childCourses.filter((item) => item.childId === children[0].id),
+      pickup: pickup.find((item) => item.childId === children[0].id),
+    });
+
+    // then
+    expect(service.exportActivities).toHaveBeenCalledTimes(1);
+    expect(service.download).toHaveBeenCalledTimes(0);
+  });
 });
