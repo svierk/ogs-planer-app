@@ -64,11 +64,11 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef scope="col">Aktionen</th>
           <td mat-cell *matCellDef="let child">
+            <ogs-children-activities-action [child]="child"></ogs-children-activities-action>
+            <ogs-children-create-update-action [child]="child" [isUpdate]="true"></ogs-children-create-update-action>
             <button mat-icon-button color="basic" (click)="download(child)">
               <mat-icon>download</mat-icon>
             </button>
-            <ogs-children-activities-action [child]="child"></ogs-children-activities-action>
-            <ogs-children-create-update-action [child]="child" [isUpdate]="true"></ogs-children-create-update-action>
             <ogs-children-delete-action [child]="child"></ogs-children-delete-action>
           </td>
         </ng-container>
