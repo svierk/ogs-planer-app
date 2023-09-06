@@ -148,10 +148,10 @@ export class ExcelService {
       [
         ActivityTypes.Pickup,
         pickup.pickupTimeMonday ? `${pickup.pickupTypeMonday} (${pickup.pickupTimeMonday} Uhr)` : '-',
-        pickup.pickupTimeTuesday ? `${pickup.pickupTypeTuesday} ${pickup.pickupTimeTuesday} Uhr ()` : '-',
-        pickup.pickupTimeWednesday ? `${pickup.pickupTypeWednesday} ${pickup.pickupTimeWednesday} Uhr ()` : '-',
-        pickup.pickupTimeThursday ? `${pickup.pickupTypeThursday} ${pickup.pickupTimeThursday} Uhr ()` : '-',
-        pickup.pickupTimeFriday ? `${pickup.pickupTypeFriday} ${pickup.pickupTimeFriday} Uhr ()` : '-',
+        pickup.pickupTimeTuesday ? `${pickup.pickupTypeTuesday} (${pickup.pickupTimeTuesday} Uhr)` : '-',
+        pickup.pickupTimeWednesday ? `${pickup.pickupTypeWednesday} (${pickup.pickupTimeWednesday} Uhr)` : '-',
+        pickup.pickupTimeThursday ? `${pickup.pickupTypeThursday} (${pickup.pickupTimeThursday} Uhr)` : '-',
+        pickup.pickupTimeFriday ? `${pickup.pickupTypeFriday} (${pickup.pickupTimeFriday} Uhr)` : '-',
       ],
     ];
 
