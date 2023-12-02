@@ -22,7 +22,7 @@
       "prefix": "ogs",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:browser-esbuild",
           "options": {
             "outputPath": "dist/ogs-planer-app",
             "index": "src/index.html",
@@ -79,10 +79,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ogs-planer-app:build:production"
+              "buildTarget": "ogs-planer-app:build:production"
             },
             "development": {
-              "browserTarget": "ogs-planer-app:build:development"
+              "buildTarget": "ogs-planer-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -90,7 +90,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ogs-planer-app:build"
+            "buildTarget": "ogs-planer-app:build"
           }
         },
         "test": {
