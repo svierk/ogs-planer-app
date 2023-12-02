@@ -1,10 +1,12 @@
 <div class="toaster position-fixed top-0 end-0 px-3 py-2 m-16">
-  <div *ngFor="let toast of currentToasts; index as i">
-    <ogs-toast
-      [type]="toast.type"
-      [title]="toast.title"
-      [message]="toast.message"
-      (disposeEvent)="dispose(i)"
-    ></ogs-toast>
-  </div>
+  @for (toast of currentToasts; track toast; let i = $index) {
+    <div>
+      <ogs-toast
+        [type]="toast.type"
+        [title]="toast.title"
+        [message]="toast.message"
+        (disposeEvent)="dispose(i)"
+      ></ogs-toast>
+    </div>
+  }
 </div>
