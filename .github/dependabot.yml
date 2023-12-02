@@ -15,3 +15,4 @@ updates:
           - '*'
         exclude-patterns:
           - 'electron'
+          - 'typescript'
