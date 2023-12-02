@@ -6,25 +6,27 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'dashboard',
     pathMatch: 'full',
     component: DashboardComponent,
   },
   {
     path: 'children',
     pathMatch: 'full',
-
     component: ChildrenComponent,
   },
   {
     path: 'classes',
     pathMatch: 'full',
-
     component: ClassesComponent,
   },
   {
     path: 'courses',
     pathMatch: 'full',
     component: CoursesComponent,
+  },
+  {
+    path: '**',
+    redirectTo: '/dashboard',
   },
 ];
