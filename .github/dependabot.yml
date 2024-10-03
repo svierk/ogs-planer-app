@@ -15,4 +15,5 @@ updates:
           - '*'
         exclude-patterns:
           - 'electron'
+          - 'eslint'
           - 'typescript'
