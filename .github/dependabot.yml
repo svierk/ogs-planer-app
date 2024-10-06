@@ -13,7 +13,8 @@ updates:
       dependencies:
         patterns:
           - '*'
-        exclude-patterns:
-          - 'electron'
-          - 'eslint'
-          - 'typescript'
+    ignore:
+      - dependency-name: 'electron'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'eslint'
+        update-types: ['version-update:semver-major']
