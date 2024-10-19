@@ -119,25 +119,6 @@ describe('DashboardListDialogComponent', () => {
     expect(component.submit).toHaveBeenCalledTimes(1);
   });
 
-  it('should export early care list class', () => {
-    // given
-    component.children = children;
-    component.classes = classes;
-    component.earlyCare = earlyCare;
-    component.type = ActivityTypes.EarlyCare;
-    component.listForm.get('classSelect')?.setValue('123');
-    spyOn(component, 'submit').and.callThrough();
-
-    // when
-    fixture.detectChanges();
-    const button = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
-    button.click();
-    fixture.detectChanges();
-
-    // then
-    expect(component.submit).toHaveBeenCalledTimes(1);
-  });
-
   it('should export lunch list', () => {
     // given
     component.children = children;

@@ -8,7 +8,7 @@ Planungstool für den Ganztagsbereich einer Grundschule
 
 ## Vorschau
 
-<img src="./preview.png" alt="preview" width="500">
+<img src="./preview.png" alt="preview" width="700">
 
 ## Über das Projekt
 
