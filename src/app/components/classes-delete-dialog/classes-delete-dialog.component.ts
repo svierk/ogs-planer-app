@@ -11,8 +11,8 @@ export class ClassesDeleteDialogComponent {
   classId!: number;
 
   constructor(
-    private dbService: DbService,
-    private toastService: ToastService,
+    readonly dbService: DbService,
+    readonly toastService: ToastService,
     public dialogRef: MatDialogRef<ClassesDeleteDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
   ) {

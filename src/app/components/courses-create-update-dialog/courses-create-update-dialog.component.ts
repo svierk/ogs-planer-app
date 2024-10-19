@@ -19,8 +19,8 @@ export class CoursesCreateUpdateDialogComponent implements OnInit {
   constructor(
     public dbService: DbService,
     public dialogRef: MatDialogRef<ChildrenCreateUpdateDialogComponent>,
-    private fb: FormBuilder,
-    private toastService: ToastService,
+    readonly fb: FormBuilder,
+    readonly toastService: ToastService,
     @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
   ) {
     this.course = data as Course;

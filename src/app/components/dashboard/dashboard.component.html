@@ -3,7 +3,11 @@
     <div class="col-sm">
       <mat-action-list>
         <div mat-subheader>Planung</div>
-        <mat-list-item (click)="openDialog(ActivityTypes.EarlyCare)">
+        <mat-list-item
+          (click)="openDialog(ActivityTypes.EarlyCare)"
+          (keydown.enter)="openDialog(ActivityTypes.EarlyCare)"
+          tabindex="1"
+        >
           <mat-icon matListItemIcon>event_available</mat-icon>
           <h3 matListItemTitle>Frühbetreuung</h3>
           <p matListItemLine>
@@ -11,7 +15,11 @@
           </p>
         </mat-list-item>
         <mat-divider></mat-divider>
-        <mat-list-item (click)="openDialog(ActivityTypes.Lunch)">
+        <mat-list-item
+          (click)="openDialog(ActivityTypes.Lunch)"
+          (keydown.enter)="openDialog(ActivityTypes.Lunch)"
+          tabindex="2"
+        >
           <mat-icon matListItemIcon>restaurant</mat-icon>
           <h3 matListItemTitle>Mittagessen</h3>
           <p matListItemLine>
@@ -19,7 +27,11 @@
           </p>
         </mat-list-item>
         <mat-divider></mat-divider>
-        <mat-list-item (click)="openDialog(ActivityTypes.Homework)">
+        <mat-list-item
+          (click)="openDialog(ActivityTypes.Homework)"
+          (keydown.enter)="openDialog(ActivityTypes.Homework)"
+          tabindex="3"
+        >
           <mat-icon matListItemIcon>home</mat-icon>
           <h3 matListItemTitle>Hausaufgaben</h3>
           <p matListItemLine>
@@ -27,7 +39,11 @@
           </p>
         </mat-list-item>
         <mat-divider></mat-divider>
-        <mat-list-item (click)="openDialog(ActivityTypes.Courses)">
+        <mat-list-item
+          (click)="openDialog(ActivityTypes.Courses)"
+          (keydown.enter)="openDialog(ActivityTypes.Courses)"
+          tabindex="4"
+        >
           <mat-icon matListItemIcon>school</mat-icon>
           <h3 matListItemTitle>Kurse</h3>
           <p matListItemLine>
@@ -35,7 +51,11 @@
           </p>
         </mat-list-item>
         <mat-divider></mat-divider>
-        <mat-list-item (click)="openDialog(ActivityTypes.Pickup)">
+        <mat-list-item
+          (click)="openDialog(ActivityTypes.Pickup)"
+          (keydown.enter)="openDialog(ActivityTypes.Pickup)"
+          tabindex="5"
+        >
           <mat-icon matListItemIcon>event_busy</mat-icon>
           <h3 matListItemTitle>Abholung</h3>
           <p matListItemLine>
@@ -48,7 +68,11 @@
     <div class="col-sm">
       <mat-action-list>
         <div mat-subheader>Weitere Informationen</div>
-        <mat-list-item (click)="openDialog(InformationTypes.EmergencyContacts)">
+        <mat-list-item
+          (click)="openDialog(InformationTypes.EmergencyContacts)"
+          (keydown.enter)="openDialog(InformationTypes.EmergencyContacts)"
+          tabindex="6"
+        >
           <mat-icon matListItemIcon>contact_emergency</mat-icon>
           <h3 matListItemTitle>Notfallkontakte</h3>
           <p matListItemLine>
@@ -56,7 +80,11 @@
           </p>
         </mat-list-item>
         <mat-divider></mat-divider>
-        <mat-list-item (click)="openDialog(InformationTypes.PickupAuthorizations)">
+        <mat-list-item
+          (click)="openDialog(InformationTypes.PickupAuthorizations)"
+          (keydown.enter)="openDialog(InformationTypes.PickupAuthorizations)"
+          tabindex="7"
+        >
           <mat-icon matListItemIcon>no_crash</mat-icon>
           <h3 matListItemTitle>Abholberechtigungen</h3>
           <p matListItemLine>
@@ -64,7 +92,11 @@
           </p>
         </mat-list-item>
         <mat-divider></mat-divider>
-        <mat-list-item (click)="openDialog(InformationTypes.Allergies)">
+        <mat-list-item
+          (click)="openDialog(InformationTypes.Allergies)"
+          (keydown.enter)="openDialog(InformationTypes.Allergies)"
+          tabindex="8"
+        >
           <mat-icon matListItemIcon>sentiment_dissatisfied</mat-icon>
           <h3 matListItemTitle>Allergien</h3>
           <p matListItemLine>
@@ -75,7 +107,7 @@
       </mat-action-list>
       <mat-action-list class="space">
         <div mat-subheader>Administration</div>
-        <a href="assets/db/mysqlite.db">
+        <a href="assets/db/mysqlite.db" tabindex="9">
           <mat-list-item>
             <mat-icon matListItemIcon>table_chart</mat-icon>
             <h3 matListItemTitle>Datenbank exportieren</h3>

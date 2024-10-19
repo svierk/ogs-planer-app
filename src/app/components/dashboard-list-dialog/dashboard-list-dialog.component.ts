@@ -61,9 +61,9 @@ export class DashboardListDialogComponent implements OnInit {
 
   constructor(
     public dbService: DbService,
-    private excelService: ExcelService,
+    readonly excelService: ExcelService,
     public dialogRef: MatDialogRef<ChildrenCreateUpdateDialogComponent>,
-    private fb: FormBuilder,
+    readonly fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
   ) {
     this.type = data as unknown as ActivityTypes | InformationTypes;

@@ -17,9 +17,9 @@ export class CoursesTableComponent implements AfterViewInit, OnInit {
   dataSource!: MatTableDataSource<Course>;
 
   constructor(
-    private dbService: DbService,
-    private searchService: SearchService,
-    private cdr: ChangeDetectorRef
+    readonly dbService: DbService,
+    readonly searchService: SearchService,
+    readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {

@@ -6,16 +6,32 @@
   <img class="logo" alt="logo" src="./assets/img/calendar.png" width="40" height="40" />
   <span>OGS Planer</span>
   <div class="spacer"></div>
-  <a mat-button routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+  <a
+    mat-button
+    routerLink="/dashboard"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    tabindex="1"
     >Übersicht</a
   >
-  <a mat-button routerLink="/children" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Schüler</a>
-  <a mat-button routerLink="/classes" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Klassen</a>
-  <a mat-button routerLink="/courses" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Kurse</a>
+  <a
+    mat-button
+    routerLink="/children"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    tabindex="2"
+    >Schüler</a
+  >
+  <a mat-button routerLink="/classes" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" tabindex="3"
+    >Klassen</a
+  >
+  <a mat-button routerLink="/courses" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" tabindex="4"
+    >Kurse</a
+  >
 </mat-toolbar>
 
 <!-- Main Content -->
-<div class="content mx-auto my-16 px-16 py-0" role="main">
+<main class="content mx-auto my-16 px-16 py-0">
   <router-outlet></router-outlet>
 
   <svg id="clouds" xmlns="http://www.w3.org/2000/svg" width="2611.084" height="485.677" viewBox="0 0 2611.084 485.677">
@@ -28,4 +44,4 @@
       fill="#eee"
     />
   </svg>
-</div>
+</main>

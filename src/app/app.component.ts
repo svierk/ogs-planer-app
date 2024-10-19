@@ -9,7 +9,7 @@ import { DbService } from './services/db.service';
 export class AppComponent implements OnInit {
   title = 'ogs-planer-app';
 
-  constructor(private dbService: DbService) {}
+  constructor(readonly dbService: DbService) {}
 
   ngOnInit() {
     this.dbService.getChildren();

@@ -11,8 +11,8 @@ export class ChildrenDeleteDialogComponent {
   userId!: number;
 
   constructor(
-    private dbService: DbService,
-    private toastService: ToastService,
+    readonly dbService: DbService,
+    readonly toastService: ToastService,
     public dialogRef: MatDialogRef<ChildrenDeleteDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
   ) {

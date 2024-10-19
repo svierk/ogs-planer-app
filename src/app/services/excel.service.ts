@@ -19,7 +19,7 @@ const EXCEL_EXTENSION = '.xlsx'; // excel file extension
   providedIn: 'root',
 })
 export class ExcelService {
-  constructor(private toastService: ToastService) {}
+  constructor(readonly toastService: ToastService) {}
 
   export(element: any[], fileName: string, heading: string) {
     if (!element || element.length === 0) {

@@ -13,7 +13,7 @@ export class ChildrenActivitiesActionComponent {
 
   constructor(
     public dialog: MatDialog,
-    private zone: NgZone
+    readonly zone: NgZone
   ) {}
 
   openDialog() {

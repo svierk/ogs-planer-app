@@ -16,8 +16,8 @@ export class CoursesCreateUpdateActionComponent {
   isUpdate = false;
 
   constructor(
-    private dialog: MatDialog,
-    private zone: NgZone
+    readonly dialog: MatDialog,
+    readonly zone: NgZone
   ) {}
 
   openDialog() {

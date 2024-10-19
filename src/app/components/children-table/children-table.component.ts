@@ -34,10 +34,10 @@ export class ChildrenTableComponent implements AfterViewInit, OnInit {
   dataSource!: MatTableDataSource<Child>;
 
   constructor(
-    private dbService: DbService,
-    private excelService: ExcelService,
-    private searchService: SearchService,
-    private cdr: ChangeDetectorRef
+    readonly dbService: DbService,
+    readonly excelService: ExcelService,
+    readonly searchService: SearchService,
+    readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {

@@ -15,7 +15,7 @@ export class DashboardComponent {
 
   constructor(
     public dialog: MatDialog,
-    private zone: NgZone
+    readonly zone: NgZone
   ) {}
 
   openDialog(type?: ActivityTypes | InformationTypes) {
