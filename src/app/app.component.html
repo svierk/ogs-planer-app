@@ -6,28 +6,12 @@
   <img class="logo" alt="logo" src="./assets/img/calendar.png" width="40" height="40" />
   <span>OGS Planer</span>
   <div class="spacer"></div>
-  <a
-    mat-button
-    routerLink="/dashboard"
-    routerLinkActive="active"
-    [routerLinkActiveOptions]="{ exact: true }"
-    tabindex="1"
+  <a mat-button routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
     >Übersicht</a
   >
-  <a
-    mat-button
-    routerLink="/children"
-    routerLinkActive="active"
-    [routerLinkActiveOptions]="{ exact: true }"
-    tabindex="2"
-    >Schüler</a
-  >
-  <a mat-button routerLink="/classes" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" tabindex="3"
-    >Klassen</a
-  >
-  <a mat-button routerLink="/courses" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" tabindex="4"
-    >Kurse</a
-  >
+  <a mat-button routerLink="/children" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Schüler</a>
+  <a mat-button routerLink="/classes" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Klassen</a>
+  <a mat-button routerLink="/courses" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Kurse</a>
 </mat-toolbar>
 
 <!-- Main Content -->

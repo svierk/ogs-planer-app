@@ -6,7 +6,7 @@
         <mat-list-item
           (click)="openDialog(ActivityTypes.EarlyCare)"
           (keydown.enter)="openDialog(ActivityTypes.EarlyCare)"
-          tabindex="1"
+          tabindex="0"
         >
           <mat-icon matListItemIcon>event_available</mat-icon>
           <h3 matListItemTitle>Frühbetreuung</h3>
@@ -18,7 +18,7 @@
         <mat-list-item
           (click)="openDialog(ActivityTypes.Lunch)"
           (keydown.enter)="openDialog(ActivityTypes.Lunch)"
-          tabindex="2"
+          tabindex="0"
         >
           <mat-icon matListItemIcon>restaurant</mat-icon>
           <h3 matListItemTitle>Mittagessen</h3>
@@ -30,7 +30,7 @@
         <mat-list-item
           (click)="openDialog(ActivityTypes.Homework)"
           (keydown.enter)="openDialog(ActivityTypes.Homework)"
-          tabindex="3"
+          tabindex="0"
         >
           <mat-icon matListItemIcon>home</mat-icon>
           <h3 matListItemTitle>Hausaufgaben</h3>
@@ -42,7 +42,7 @@
         <mat-list-item
           (click)="openDialog(ActivityTypes.Courses)"
           (keydown.enter)="openDialog(ActivityTypes.Courses)"
-          tabindex="4"
+          tabindex="0"
         >
           <mat-icon matListItemIcon>school</mat-icon>
           <h3 matListItemTitle>Kurse</h3>
@@ -54,7 +54,7 @@
         <mat-list-item
           (click)="openDialog(ActivityTypes.Pickup)"
           (keydown.enter)="openDialog(ActivityTypes.Pickup)"
-          tabindex="5"
+          tabindex="0"
         >
           <mat-icon matListItemIcon>event_busy</mat-icon>
           <h3 matListItemTitle>Abholung</h3>
@@ -71,7 +71,7 @@
         <mat-list-item
           (click)="openDialog(InformationTypes.EmergencyContacts)"
           (keydown.enter)="openDialog(InformationTypes.EmergencyContacts)"
-          tabindex="6"
+          tabindex="0"
         >
           <mat-icon matListItemIcon>contact_emergency</mat-icon>
           <h3 matListItemTitle>Notfallkontakte</h3>
@@ -83,7 +83,7 @@
         <mat-list-item
           (click)="openDialog(InformationTypes.PickupAuthorizations)"
           (keydown.enter)="openDialog(InformationTypes.PickupAuthorizations)"
-          tabindex="7"
+          tabindex="0"
         >
           <mat-icon matListItemIcon>no_crash</mat-icon>
           <h3 matListItemTitle>Abholberechtigungen</h3>
@@ -95,7 +95,7 @@
         <mat-list-item
           (click)="openDialog(InformationTypes.Allergies)"
           (keydown.enter)="openDialog(InformationTypes.Allergies)"
-          tabindex="8"
+          tabindex="0"
         >
           <mat-icon matListItemIcon>sentiment_dissatisfied</mat-icon>
           <h3 matListItemTitle>Allergien</h3>
@@ -107,7 +107,7 @@
       </mat-action-list>
       <mat-action-list class="space">
         <div mat-subheader>Administration</div>
-        <a href="assets/db/mysqlite.db" tabindex="9">
+        <a href="assets/db/mysqlite.db">
           <mat-list-item>
             <mat-icon matListItemIcon>table_chart</mat-icon>
             <h3 matListItemTitle>Datenbank exportieren</h3>
