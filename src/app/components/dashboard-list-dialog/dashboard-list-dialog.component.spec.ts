@@ -11,6 +11,7 @@ import { ChildCourse } from 'src/app/models/child-course';
 import { Class } from 'src/app/models/class';
 import { Course } from 'src/app/models/course';
 import { Days } from 'src/app/models/days';
+import { InformationTypes } from 'src/app/models/information-types';
 import { DbService } from 'src/app/services/db.service';
 import { ExcelService } from 'src/app/services/excel.service';
 import { DashboardListDialogComponent } from './dashboard-list-dialog.component';
@@ -118,6 +119,25 @@ describe('DashboardListDialogComponent', () => {
     expect(component.submit).toHaveBeenCalledTimes(1);
   });
 
+  it('should export early care list class', () => {
+    // given
+    component.children = children;
+    component.classes = classes;
+    component.earlyCare = earlyCare;
+    component.type = ActivityTypes.EarlyCare;
+    component.listForm.get('classSelect')?.setValue('123');
+    spyOn(component, 'submit').and.callThrough();
+
+    // when
+    fixture.detectChanges();
+    const button = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
+    button.click();
+    fixture.detectChanges();
+
+    // then
+    expect(component.submit).toHaveBeenCalledTimes(1);
+  });
+
   it('should export lunch list', () => {
     // given
     component.children = children;
@@ -192,6 +212,57 @@ describe('DashboardListDialogComponent', () => {
   });
 
   it('should export emergency contacts list', () => {
+    // given
+    component.children = children;
+    component.classes = classes;
+    component.type = InformationTypes.EmergencyContacts;
+    spyOn(component, 'submit').and.callThrough();
+
+    // when
+    fixture.detectChanges();
+    const button = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
+    button.click();
+    fixture.detectChanges();
+
+    // then
+    expect(component.submit).toHaveBeenCalledTimes(1);
+  });
+
+  it('should export pickup authorizations list', () => {
+    // given
+    component.children = children;
+    component.classes = classes;
+    component.type = InformationTypes.PickupAuthorizations;
+    spyOn(component, 'submit').and.callThrough();
+
+    // when
+    fixture.detectChanges();
+    const button = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
+    button.click();
+    fixture.detectChanges();
+
+    // then
+    expect(component.submit).toHaveBeenCalledTimes(1);
+  });
+
+  it('should export allergies list', () => {
+    // given
+    component.children = children;
+    component.classes = classes;
+    component.type = InformationTypes.Allergies;
+    spyOn(component, 'submit').and.callThrough();
+
+    // when
+    fixture.detectChanges();
+    const button = fixture.debugElement.nativeElement.querySelector('button[type="submit"]');
+    button.click();
+    fixture.detectChanges();
+
+    // then
+    expect(component.submit).toHaveBeenCalledTimes(1);
+  });
+
+  it('should do nothing without specified type', () => {
     // given
     component.children = children;
     component.classes = classes;

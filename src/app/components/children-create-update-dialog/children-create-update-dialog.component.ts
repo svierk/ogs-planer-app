@@ -77,6 +77,8 @@ export class ChildrenCreateUpdateDialogComponent implements OnInit {
       mobile: this.fb.control(this.child?.mobile ?? '', [Validators.minLength(7), Validators.maxLength(15)]),
       emergencyContact: this.fb.control(this.child?.emergencyContact ?? '', []),
       classSelect: this.fb.control(this.child?.classId ?? '', []),
+      pickupAuthorization: this.fb.control(this.child?.pickupAuthorization ?? '', []),
+      allergies: this.fb.control(this.child?.allergies ?? '', []),
     });
   }
 

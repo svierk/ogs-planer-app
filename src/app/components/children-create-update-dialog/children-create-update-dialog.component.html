@@ -52,6 +52,20 @@
           </mat-form-field>
         </div>
       </div>
+      <div class="row">
+        <div class="col-sm">
+          <mat-form-field appearance="fill">
+            <mat-label>Abholberechtigung</mat-label>
+            <input matInput type="text" formControlName="pickupAuthorization" placeholder="" />
+          </mat-form-field>
+        </div>
+        <div class="col-sm">
+          <mat-form-field appearance="fill">
+            <mat-label>Allergien</mat-label>
+            <input matInput type="text" formControlName="allergies" placeholder="" />
+          </mat-form-field>
+        </div>
+      </div>
     </div>
     <div mat-dialog-actions class="justify-content-center mb-16">
       <button mat-raised-button mat-dialog-close color="basic" class="mx-8" (click)="closeDialog()">Abbrechen</button>

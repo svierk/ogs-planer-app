@@ -9,6 +9,7 @@ import { Course } from 'src/app/models/course';
 import { Days } from 'src/app/models/days';
 import { EarlyCare } from 'src/app/models/early-care';
 import { Homework } from 'src/app/models/homework';
+import { InformationTypes } from 'src/app/models/information-types';
 import { Lunch } from 'src/app/models/lunch';
 import { Pickup } from 'src/app/models/pickup';
 import { DbService } from 'src/app/services/db.service';
@@ -51,11 +52,12 @@ export class DashboardListDialogComponent implements OnInit {
   homework: Homework[] = [];
   childCourses: ChildCourse[] = [];
   pickup: Pickup[] = [];
-  type: ActivityTypes;
+  type: ActivityTypes | InformationTypes;
   listForm!: FormGroup;
   months = MONTHS;
   days = DAYS;
   ActivityTypes = ActivityTypes;
+  InformationTypes = InformationTypes;
 
   constructor(
     public dbService: DbService,
@@ -64,7 +66,7 @@ export class DashboardListDialogComponent implements OnInit {
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
   ) {
-    this.type = data as unknown as ActivityTypes;
+    this.type = data as unknown as ActivityTypes | InformationTypes;
     this.dbService.children.subscribe((value) => {
       this.children = value;
     });
@@ -98,6 +100,10 @@ export class DashboardListDialogComponent implements OnInit {
 
   closeDialog() {
     this.dialogRef.close();
+  }
+
+  isInformationType(value: any): value is InformationTypes {
+    return typeof value === 'string' && Object.values(InformationTypes).includes(value as InformationTypes);
   }
 
   submit() {
@@ -136,8 +142,17 @@ export class DashboardListDialogComponent implements OnInit {
             current.classSelect as number
           );
           break;
-        default:
+        case InformationTypes.EmergencyContacts:
           this.exportEmergencyContacts(current.classSelect as number);
+          break;
+        case InformationTypes.PickupAuthorizations:
+          this.exportPickupAuthorizations(current.classSelect as number);
+          break;
+        case InformationTypes.Allergies:
+          this.exportAllergies(current.classSelect as number);
+          break;
+        default:
+          break;
       }
     }
   }
@@ -152,35 +167,6 @@ export class DashboardListDialogComponent implements OnInit {
       ),
       courseSelect: this.fb.control(this.courses[0]?.id ?? '', []),
     });
-  }
-
-  private exportEmergencyContacts(classId: number) {
-    const list: any[] = [];
-    const selectedClass: any = classId ? this.classes.find((c) => c.id === classId) : undefined;
-
-    if (classId) this.children = this.children.filter((child) => child.classId == classId.toString());
-    this.children.forEach((child) => {
-      const classId = child.classId;
-      const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
-      const keys = ['Klasse', 'Name', 'Vorname', 'Telefon', 'Mobil', 'Notfallkontakt'];
-      const item: any = keys.reduce((accumulator, value) => {
-        return { ...accumulator, [value]: '' };
-      }, {});
-      item.Klasse = className;
-      item.Name = child.lastName;
-      item.Vorname = child.firstName;
-      item.Telefon = child.phone;
-      item.Mobil = child.mobile;
-      item.Notfallkontakt = child.emergencyContact;
-      list.push(item);
-    });
-
-    this.excelService.export(
-      list,
-      `Notfallkontakte${selectedClass ? '_' + selectedClass?.name : ''}`,
-      `Notfallkontakte ${selectedClass ? selectedClass?.name : ''}`
-    );
-    this.closeDialog();
   }
 
   private exportEarlyCareList(month: number, day: number, classId: number) {
@@ -357,6 +343,93 @@ export class DashboardListDialogComponent implements OnInit {
       list,
       this.getFileName(ActivityTypes.Pickup, selectedMonth, selectedDay, selectedClass),
       this.getFileHeading(ActivityTypes.Pickup, selectedDay, selectedClass)
+    );
+    this.closeDialog();
+  }
+
+  private exportEmergencyContacts(classId: number) {
+    const list: any[] = [];
+    const selectedClass: any = classId ? this.classes.find((c) => c.id === classId) : undefined;
+
+    if (classId) this.children = this.children.filter((child) => child.classId == classId.toString());
+    this.children.forEach((child) => {
+      const classId = child.classId;
+      const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
+      const keys = ['Klasse', 'Name', 'Vorname', 'Telefon', 'Mobil', 'Notfallkontakt'];
+      const item: any = keys.reduce((accumulator, value) => {
+        return { ...accumulator, [value]: '' };
+      }, {});
+      item.Klasse = className;
+      item.Name = child.lastName;
+      item.Vorname = child.firstName;
+      item.Telefon = child.phone;
+      item.Mobil = child.mobile;
+      item.Notfallkontakt = child.emergencyContact;
+      list.push(item);
+    });
+
+    this.excelService.export(
+      list,
+      `Notfallkontakte${selectedClass ? '_' + selectedClass?.name : ''}`,
+      `Notfallkontakte ${selectedClass ? selectedClass?.name : ''}`
+    );
+    this.closeDialog();
+  }
+
+  private exportPickupAuthorizations(classId: number) {
+    const list: any[] = [];
+    const selectedClass: any = classId ? this.classes.find((c) => c.id === classId) : undefined;
+
+    if (classId) this.children = this.children.filter((child) => child.classId == classId.toString());
+    this.children.forEach((child) => {
+      const classId = child.classId;
+      const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
+      const keys = ['Klasse', 'Name', 'Vorname', 'Telefon', 'Mobil', 'Abholberechtigung'];
+      const item: any = keys.reduce((accumulator, value) => {
+        return { ...accumulator, [value]: '' };
+      }, {});
+      item.Klasse = className;
+      item.Name = child.lastName;
+      item.Vorname = child.firstName;
+      item.Telefon = child.phone;
+      item.Mobil = child.mobile;
+      item.Abholberechtigung = child.pickupAuthorization;
+      list.push(item);
+    });
+
+    this.excelService.export(
+      list,
+      `Abholberechtigungen${selectedClass ? '_' + selectedClass?.name : ''}`,
+      `Abholberechtigungen ${selectedClass ? selectedClass?.name : ''}`
+    );
+    this.closeDialog();
+  }
+
+  private exportAllergies(classId: number) {
+    const list: any[] = [];
+    const selectedClass: any = classId ? this.classes.find((c) => c.id === classId) : undefined;
+
+    if (classId) this.children = this.children.filter((child) => child.classId == classId.toString());
+    this.children.forEach((child) => {
+      const classId = child.classId;
+      const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
+      const keys = ['Klasse', 'Name', 'Vorname', 'Telefon', 'Mobil', 'Allergien'];
+      const item: any = keys.reduce((accumulator, value) => {
+        return { ...accumulator, [value]: '' };
+      }, {});
+      item.Klasse = className;
+      item.Name = child.lastName;
+      item.Vorname = child.firstName;
+      item.Telefon = child.phone;
+      item.Mobil = child.mobile;
+      item.Allergien = child.allergies;
+      list.push(item);
+    });
+
+    this.excelService.export(
+      list,
+      `Allergien${selectedClass ? '_' + selectedClass?.name : ''}`,
+      `Allergien ${selectedClass ? selectedClass?.name : ''}`
     );
     this.closeDialog();
   }

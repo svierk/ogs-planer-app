@@ -6,4 +6,6 @@ export interface Child {
   mobile?: string;
   emergencyContact?: string;
   classId?: string;
+  pickupAuthorization?: string;
+  allergies?: string;
 }

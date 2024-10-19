@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-sm">
       <mat-action-list>
-        <div mat-subheader>Listen</div>
+        <div mat-subheader>Planung</div>
         <mat-list-item (click)="openDialog(ActivityTypes.EarlyCare)">
           <mat-icon matListItemIcon>event_available</mat-icon>
           <h3 matListItemTitle>Frühbetreuung</h3>
@@ -43,7 +43,12 @@
           </p>
         </mat-list-item>
         <mat-divider></mat-divider>
-        <mat-list-item (click)="openDialog()">
+      </mat-action-list>
+    </div>
+    <div class="col-sm">
+      <mat-action-list>
+        <div mat-subheader>Weitere Informationen</div>
+        <mat-list-item (click)="openDialog(InformationTypes.EmergencyContacts)">
           <mat-icon matListItemIcon>contact_emergency</mat-icon>
           <h3 matListItemTitle>Notfallkontakte</h3>
           <p matListItemLine>
@@ -51,10 +56,24 @@
           </p>
         </mat-list-item>
         <mat-divider></mat-divider>
+        <mat-list-item (click)="openDialog(InformationTypes.PickupAuthorizations)">
+          <mat-icon matListItemIcon>no_crash</mat-icon>
+          <h3 matListItemTitle>Abholberechtigungen</h3>
+          <p matListItemLine>
+            <span>Neue Liste mit Abholberechtigungen erstellen.</span>
+          </p>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item (click)="openDialog(InformationTypes.Allergies)">
+          <mat-icon matListItemIcon>sentiment_dissatisfied</mat-icon>
+          <h3 matListItemTitle>Allergien</h3>
+          <p matListItemLine>
+            <span>Neue Liste mit Allergien erstellen.</span>
+          </p>
+        </mat-list-item>
+        <mat-divider></mat-divider>
       </mat-action-list>
-    </div>
-    <div class="col-sm">
-      <mat-action-list>
+      <mat-action-list class="space">
         <div mat-subheader>Administration</div>
         <a href="assets/db/mysqlite.db">
           <mat-list-item>

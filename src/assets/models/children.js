@@ -17,14 +17,18 @@ exports.createChild = (child) => {
     phone,
     mobile,
     emergencyContact,
-    classId
+    classId,
+    pickupAuthorization,
+    allergies
   ) VALUES (
     '${child.firstName}', 
     '${child.lastName}', 
     '${child.phone}',
     '${child.mobile}',
     '${child.emergencyContact}',
-    '${+child.classId}'
+    '${+child.classId}',
+    '${child.pickupAuthorization}',
+    '${child.allergies}'
   )`;
   const stmt = db.prepare(sql);
   const res = stmt.run();
@@ -38,7 +42,9 @@ exports.updateChild = (child) => {
     phone='${child.phone}',
     mobile='${child.mobile}',
     emergencyContact='${child.emergencyContact}',
-    classId='${child.classId}' 
+    classId='${child.classId}',
+    pickupAuthorization='${child.pickupAuthorization}', 
+    allergies='${child.allergies}'
   WHERE children.id = ${child.id}`;
   const stmt = db.prepare(sql);
   const res = stmt.run();
