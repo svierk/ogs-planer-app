@@ -110,6 +110,11 @@ export class ChildrenActivitiesDialogComponent implements OnInit {
         earlyCareStartWednesday: this.fb.control(earlyCare?.earlyCareStartWednesday ?? '1. Stunde', []),
         earlyCareStartThursday: this.fb.control(earlyCare?.earlyCareStartThursday ?? '1. Stunde', []),
         earlyCareStartFriday: this.fb.control(earlyCare?.earlyCareStartFriday ?? '1. Stunde', []),
+        earlyCareNoteMonday: this.fb.control(earlyCare?.earlyCareNoteMonday ?? '', []),
+        earlyCareNoteTuesday: this.fb.control(earlyCare?.earlyCareNoteTuesday ?? '', []),
+        earlyCareNoteWednesday: this.fb.control(earlyCare?.earlyCareNoteWednesday ?? '', []),
+        earlyCareNoteThursday: this.fb.control(earlyCare?.earlyCareNoteThursday ?? '', []),
+        earlyCareNoteFriday: this.fb.control(earlyCare?.earlyCareNoteFriday ?? '', []),
       }),
       lunchGroup: this.fb.group({
         lunchParticipationMonday: this.fb.control(lunch?.lunchParticipationMonday ?? 1, []),

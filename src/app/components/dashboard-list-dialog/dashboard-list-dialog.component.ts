@@ -183,7 +183,7 @@ export class DashboardListDialogComponent implements OnInit {
       const earlyCareKey = `earlyCareParticipation${selectedDay?.translation as string}`;
 
       if (earlyCare && earlyCare[earlyCareKey] === 1) {
-        const keys = ['Klasse', 'Name', 'Vorname', 'Beginn', ...this.getSpecificDaysOfMonth(month, day)];
+        const keys = ['Klasse', 'Name', 'Vorname', 'Beginn', 'Hinweis', ...this.getSpecificDaysOfMonth(month, day)];
         const item: any = keys.reduce((accumulator, value) => {
           return { ...accumulator, [value]: '' };
         }, {});
@@ -191,6 +191,7 @@ export class DashboardListDialogComponent implements OnInit {
         item.Name = child.lastName;
         item.Vorname = child.firstName;
         item.Beginn = earlyCare[`earlyCareStart${selectedDay?.translation as string}`];
+        item.Hinweis = earlyCare[`earlyCareNote${selectedDay?.translation as string}`];
         list.push(item);
       }
     });

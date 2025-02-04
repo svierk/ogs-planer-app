@@ -45,6 +45,19 @@
                     </mat-form-field>
                   </td>
                 </tr>
+                <tr>
+                  <td *ngFor="let day of days">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Notiz</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        formControlName="{{ 'earlyCareNote' + day }}"
+                        placeholder="Zusätzliche Info"
+                      />
+                    </mat-form-field>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -125,7 +138,7 @@
                         matInput
                         type="text"
                         formControlName="{{ 'homeworkNote' + day }}"
-                        placeholder="Zusätzliche Notiz"
+                        placeholder="Zusätzliche Info"
                       />
                     </mat-form-field>
                   </td>

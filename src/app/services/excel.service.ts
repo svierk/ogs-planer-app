@@ -122,6 +122,14 @@ export class ExcelService {
         earlyCare.earlyCareParticipationFriday ? `Ja (${earlyCare.earlyCareStartFriday})` : 'Nein',
       ],
       [
+        '- Notiz',
+        earlyCare.earlyCareNoteMonday ?? ' ',
+        earlyCare.earlyCareNoteTuesday ?? ' ',
+        earlyCare.earlyCareNoteWednesday ?? ' ',
+        earlyCare.earlyCareNoteThursday ?? ' ',
+        earlyCare.earlyCareNoteFriday ?? ' ',
+      ],
+      [
         ActivityTypes.Lunch,
         lunch.lunchParticipationMonday ? `Ja (${childClass.lunchMonday} Uhr)` : 'Nein',
         lunch.lunchParticipationTuesday ? `Ja (${childClass.lunchTuesday} Uhr)` : 'Nein',
@@ -130,12 +138,28 @@ export class ExcelService {
         lunch.lunchParticipationFriday ? `Ja (${childClass.lunchFriday} Uhr)` : 'Nein',
       ],
       [
+        '- Notiz',
+        lunch.lunchNoteMonday ?? ' ',
+        lunch.lunchNoteTuesday ?? ' ',
+        lunch.lunchNoteWednesday ?? ' ',
+        lunch.lunchNoteThursday ?? ' ',
+        lunch.lunchNoteFriday ?? ' ',
+      ],
+      [
         ActivityTypes.Homework,
         homework.homeworkParticipationMonday ? `Ja (${childClass.homeworkMonday} Uhr)` : 'Nein',
         homework.homeworkParticipationTuesday ? `Ja (${childClass.homeworkTuesday} Uhr)` : 'Nein',
         homework.homeworkParticipationWednesday ? `Ja (${childClass.homeworkWednesday} Uhr)` : 'Nein',
         homework.homeworkParticipationThursday ? `Ja (${childClass.homeworkThursday} Uhr)` : 'Nein',
         homework.homeworkParticipationFriday ? `Ja (${childClass.homeworkFriday} Uhr)` : 'Nein',
+      ],
+      [
+        '- Notiz',
+        homework.homeworkNoteMonday ?? ' ',
+        homework.homeworkNoteTuesday ?? ' ',
+        homework.homeworkNoteWednesday ?? ' ',
+        homework.homeworkNoteThursday ?? ' ',
+        homework.homeworkNoteFriday ?? ' ',
       ],
       [
         ActivityTypes.Courses,
@@ -152,6 +176,14 @@ export class ExcelService {
         pickup.pickupTimeWednesday ? `${pickup.pickupTypeWednesday} (${pickup.pickupTimeWednesday} Uhr)` : '-',
         pickup.pickupTimeThursday ? `${pickup.pickupTypeThursday} (${pickup.pickupTimeThursday} Uhr)` : '-',
         pickup.pickupTimeFriday ? `${pickup.pickupTypeFriday} (${pickup.pickupTimeFriday} Uhr)` : '-',
+      ],
+      [
+        '- Notiz',
+        pickup.pickupNoteMonday ?? ' ',
+        pickup.pickupNoteTuesday ?? ' ',
+        pickup.pickupNoteWednesday ?? ' ',
+        pickup.pickupNoteThursday ?? ' ',
+        pickup.pickupNoteFriday ?? ' ',
       ],
     ];
 

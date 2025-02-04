@@ -22,7 +22,12 @@ exports.createEarlyCare = (item) => {
     earlyCareStartTuesday,
     earlyCareStartWednesday,
     earlyCareStartThursday,
-    earlyCareStartFriday
+    earlyCareStartFriday,
+    earlyCareNoteMonday,
+    earlyCareNoteTuesday,
+    earlyCareNoteWednesday,
+    earlyCareNoteThursday,
+    earlyCareNoteFriday
   ) VALUES (
     '${item.childId}', 
     '${item.earlyCareParticipationMonday}', 
@@ -34,7 +39,12 @@ exports.createEarlyCare = (item) => {
     '${item.earlyCareStartTuesday}',
     '${item.earlyCareStartWednesday}',
     '${item.earlyCareStartThursday}',
-    '${item.earlyCareStartFriday}'
+    '${item.earlyCareStartFriday}',
+    '${item.earlyCareNoteMonday}',
+    '${item.earlyCareNoteTuesday}',
+    '${item.earlyCareNoteWednesday}',
+    '${item.earlyCareNoteThursday}',
+    '${item.earlyCareNoteFriday}'
   )`;
   const stmt = db.prepare(sql);
   const res = stmt.run();
@@ -53,7 +63,12 @@ exports.updateEarlyCare = (item) => {
     earlyCareStartTuesday='${item.earlyCareStartTuesday}',
     earlyCareStartWednesday='${item.earlyCareStartWednesday}',
     earlyCareStartThursday='${item.earlyCareStartThursday}',
-    earlyCareStartFriday='${item.earlyCareStartFriday}'
+    earlyCareStartFriday='${item.earlyCareStartFriday}',
+    earlyCareNoteMonday='${item.earlyCareNoteMonday}',
+    earlyCareNoteTuesday='${item.earlyCareNoteTuesday}',
+    earlyCareNoteWednesday='${item.earlyCareNoteWednesday}',
+    earlyCareNoteThursday='${item.earlyCareNoteThursday}',
+    earlyCareNoteFriday='${item.earlyCareNoteFriday}'
   WHERE earlyCare.childId = ${item.childId}`;
   const stmt = db.prepare(sql);
   const res = stmt.run();
