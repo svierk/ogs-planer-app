@@ -4,5 +4,6 @@ import { Component } from '@angular/core';
   selector: 'ogs-courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss'],
+  standalone: false,
 })
 export class CoursesComponent {}

@@ -10,6 +10,7 @@ import { ToastService } from 'src/app/services/toast.service';
   selector: 'ogs-children-create-update-dialog',
   templateUrl: './children-create-update-dialog.component.html',
   providers: [FormBuilder],
+  standalone: false,
 })
 export class ChildrenCreateUpdateDialogComponent implements OnInit {
   child!: Child;

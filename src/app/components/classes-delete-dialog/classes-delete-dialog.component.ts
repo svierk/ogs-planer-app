@@ -6,6 +6,7 @@ import { ToastService } from 'src/app/services/toast.service';
 @Component({
   selector: 'ogs-classes-delete-dialog',
   templateUrl: './classes-delete-dialog.component.html',
+  standalone: false,
 })
 export class ClassesDeleteDialogComponent {
   classId!: number;

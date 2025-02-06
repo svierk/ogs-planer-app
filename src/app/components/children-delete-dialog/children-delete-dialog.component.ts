@@ -6,6 +6,7 @@ import { ToastService } from 'src/app/services/toast.service';
 @Component({
   selector: 'ogs-children-delete-dialog',
   templateUrl: './children-delete-dialog.component.html',
+  standalone: false,
 })
 export class ChildrenDeleteDialogComponent {
   userId!: number;

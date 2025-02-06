@@ -8,6 +8,7 @@ import { DashboardListDialogComponent } from '../dashboard-list-dialog/dashboard
   selector: 'ogs-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
+  standalone: false,
 })
 export class DashboardComponent {
   ActivityTypes = ActivityTypes;

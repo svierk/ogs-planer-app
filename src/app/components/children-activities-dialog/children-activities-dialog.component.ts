@@ -17,6 +17,7 @@ import { ToastService } from 'src/app/services/toast.service';
   selector: 'ogs-children-activities-dialog',
   templateUrl: './children-activities-dialog.component.html',
   styleUrls: ['./children-activities-dialog.component.scss'],
+  standalone: false,
 })
 export class ChildrenActivitiesDialogComponent implements OnInit {
   child!: Child;

@@ -42,6 +42,7 @@ const DAYS = [
 @Component({
   selector: 'ogs-dashboard-list-dialog',
   templateUrl: './dashboard-list-dialog.component.html',
+  standalone: false,
 })
 export class DashboardListDialogComponent implements OnInit {
   children: Child[] = [];
