@@ -19,6 +19,7 @@ import { Child } from '../../models/child';
   templateUrl: './children-table.component.html',
   styleUrls: ['./children-table.component.scss'],
   providers: [ClassNamePipe],
+  standalone: false,
 })
 export class ChildrenTableComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort!: MatSort;

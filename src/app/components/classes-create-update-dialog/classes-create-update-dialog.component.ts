@@ -13,6 +13,7 @@ import { ToastService } from 'src/app/services/toast.service';
   selector: 'ogs-classes-create-update-dialog',
   templateUrl: './classes-create-update-dialog.component.html',
   styleUrls: ['./classes-create-update-dialog.component.scss'],
+  standalone: false,
 })
 export class ClassesCreateUpdateDialogComponent implements OnInit {
   classItem!: Class;

@@ -6,6 +6,7 @@ import { ChildrenDeleteDialogComponent } from '../children-delete-dialog/childre
 @Component({
   selector: 'ogs-children-delete-action',
   templateUrl: './children-delete-action.component.html',
+  standalone: false,
 })
 export class ChildrenDeleteActionComponent {
   @Input()

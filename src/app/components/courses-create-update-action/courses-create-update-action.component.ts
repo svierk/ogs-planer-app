@@ -7,6 +7,7 @@ import { CoursesCreateUpdateDialogComponent } from '../courses-create-update-dia
   selector: 'ogs-courses-create-update-action',
   templateUrl: './courses-create-update-action.component.html',
   styleUrls: ['./courses-create-update-action.component.scss'],
+  standalone: false,
 })
 export class CoursesCreateUpdateActionComponent {
   @Input()

@@ -6,6 +6,7 @@ import { ClassesDeleteDialogComponent } from '../classes-delete-dialog/classes-d
 @Component({
   selector: 'ogs-classes-delete-action',
   templateUrl: './classes-delete-action.component.html',
+  standalone: false,
 })
 export class ClassesDeleteActionComponent {
   @Input()

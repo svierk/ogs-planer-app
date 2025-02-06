@@ -29,43 +29,44 @@
     "lint:fix": "ng lint --fix",
     "prettier": "prettier \"**/*.(ts|scss|html|js|json|yaml)\" --check",
     "prettier:fix": "prettier \"**/*.(ts|scss|html|js|json|yaml)\" --write",
-    "postinstall": "husky install",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "prepare": "husky"
   },
   "lint-staged": {
     "src/**/*.{ts,scss,html}": [
-      "npm run prettier"
+      "npm run prettier",
+      "ng lint --max-warnings 0"
     ]
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^18.2.6",
+    "@angular/animations": "^19.1.4",
     "@angular/cdk": "^18.2.6",
-    "@angular/common": "^18.2.6",
-    "@angular/compiler": "^18.2.6",
-    "@angular/core": "^18.2.6",
-    "@angular/forms": "^18.2.6",
+    "@angular/common": "^19.1.4",
+    "@angular/compiler": "^19.1.4",
+    "@angular/core": "^19.1.4",
+    "@angular/forms": "^19.1.4",
     "@angular/material": "^18.2.6",
-    "@angular/platform-browser": "^18.2.6",
-    "@angular/platform-browser-dynamic": "^18.2.6",
-    "@angular/router": "^18.2.6",
+    "@angular/platform-browser": "^19.1.4",
+    "@angular/platform-browser-dynamic": "^19.1.4",
+    "@angular/router": "^19.1.4",
     "better-sqlite3": "^11.3.0",
     "bootstrap": "^5.3.3",
     "electron-squirrel-startup": "^1.0.1",
     "rxjs": "~7.8.1",
     "tslib": "^2.7.0",
     "xlsx-js-style": "^1.2.0",
-    "zone.js": "~0.14.4"
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^18.2.6",
+    "@angular-devkit/build-angular": "^19.1.6",
     "@angular-eslint/builder": "18.3.1",
     "@angular-eslint/eslint-plugin": "18.3.1",
     "@angular-eslint/eslint-plugin-template": "18.3.1",
     "@angular-eslint/schematics": "18.3.1",
     "@angular-eslint/template-parser": "18.3.1",
-    "@angular/cli": "^18.2.6",
-    "@angular/compiler-cli": "^18.2.6",
+    "@angular/cli": "^19.1.6",
+    "@angular/compiler-cli": "^19.1.4",
     "@electron-forge/cli": "^7.5.0",
     "@electron-forge/maker-deb": "^7.5.0",
     "@electron-forge/maker-rpm": "^7.5.0",
