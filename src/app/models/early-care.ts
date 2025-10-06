@@ -11,4 +11,9 @@ export interface EarlyCare {
   earlyCareStartWednesday: '1. Stunde' | '2. Stunde';
   earlyCareStartThursday: '1. Stunde' | '2. Stunde';
   earlyCareStartFriday: '1. Stunde' | '2. Stunde';
+  earlyCareNoteMonday?: string;
+  earlyCareNoteTuesday?: string;
+  earlyCareNoteWednesday?: string;
+  earlyCareNoteThursday?: string;
+  earlyCareNoteFriday?: string;
 }
