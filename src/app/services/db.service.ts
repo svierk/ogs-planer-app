@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Child } from '../models/child';
 import { ChildCourse } from '../models/child-course';
 import { Class } from '../models/class';
+import { ClassSchedule } from '../models/class-schedule';
 import { Course } from '../models/course';
 import { EarlyCare } from '../models/early-care';
 import { Homework } from '../models/homework';
@@ -16,12 +17,13 @@ import { Pickup } from '../models/pickup';
 export class DbService {
   children = new BehaviorSubject<any[]>([]);
   classes = new BehaviorSubject<any[]>([]);
+  classSchedules = new BehaviorSubject<ClassSchedule[]>([]);
   courses = new BehaviorSubject<any[]>([]);
-  earlyCare = new BehaviorSubject<any[]>([]);
-  lunch = new BehaviorSubject<any[]>([]);
-  homework = new BehaviorSubject<any[]>([]);
+  earlyCare = new BehaviorSubject<EarlyCare[]>([]);
+  lunch = new BehaviorSubject<Lunch[]>([]);
+  homework = new BehaviorSubject<Homework[]>([]);
   childCourses = new BehaviorSubject<any[]>([]);
-  pickup = new BehaviorSubject<any[]>([]);
+  pickup = new BehaviorSubject<Pickup[]>([]);
   ipcRenderer!: typeof ipcRenderer;
 
   constructor() {
@@ -33,22 +35,25 @@ export class DbService {
       this.ipcRenderer.on('getClasses', (event: any, classes: any[]) => {
         this.classes.next(classes);
       });
+      this.ipcRenderer.on('getClassSchedules', (event: any, classSchedules: ClassSchedule[]) => {
+        this.classSchedules.next(classSchedules);
+      });
       this.ipcRenderer.on('getCourses', (event: any, courses: any[]) => {
         this.courses.next(courses);
       });
-      this.ipcRenderer.on('getEarlyCare', (event: any, earlyCare: any[]) => {
+      this.ipcRenderer.on('getEarlyCare', (event: any, earlyCare: EarlyCare[]) => {
         this.earlyCare.next(earlyCare);
       });
-      this.ipcRenderer.on('getLunch', (event: any, lunch: any[]) => {
+      this.ipcRenderer.on('getLunch', (event: any, lunch: Lunch[]) => {
         this.lunch.next(lunch);
       });
-      this.ipcRenderer.on('getHomework', (event: any, homework: any[]) => {
+      this.ipcRenderer.on('getHomework', (event: any, homework: Homework[]) => {
         this.homework.next(homework);
       });
       this.ipcRenderer.on('getChildCourses', (event: any, childCourses: any[]) => {
         this.childCourses.next(childCourses);
       });
-      this.ipcRenderer.on('getPickup', (event: any, pickup: any[]) => {
+      this.ipcRenderer.on('getPickup', (event: any, pickup: Pickup[]) => {
         this.pickup.next(pickup);
       });
     }
@@ -90,6 +95,10 @@ export class DbService {
     this.ipcRenderer.send('deleteClass', id);
   }
 
+  getClassSchedules() {
+    this.ipcRenderer.send('getClassSchedules');
+  }
+
   getCourses() {
     this.ipcRenderer.send('getCourses');
   }
@@ -110,36 +119,36 @@ export class DbService {
     this.ipcRenderer.send('getEarlyCare');
   }
 
-  createEarlyCare(item: EarlyCare) {
-    this.ipcRenderer.send('createEarlyCare', item);
+  createEarlyCare(items: EarlyCare[]) {
+    this.ipcRenderer.send('createEarlyCare', items);
   }
 
-  updateEarlyCare(item: EarlyCare) {
-    this.ipcRenderer.send('updateEarlyCare', item);
+  updateEarlyCare(items: EarlyCare[]) {
+    this.ipcRenderer.send('updateEarlyCare', items);
   }
 
   getLunch() {
     this.ipcRenderer.send('getLunch');
   }
 
-  createLunch(item: Lunch) {
-    this.ipcRenderer.send('createLunch', item);
+  createLunch(items: Lunch[]) {
+    this.ipcRenderer.send('createLunch', items);
   }
 
-  updateLunch(item: Lunch) {
-    this.ipcRenderer.send('updateLunch', item);
+  updateLunch(items: Lunch[]) {
+    this.ipcRenderer.send('updateLunch', items);
   }
 
   getHomework() {
     this.ipcRenderer.send('getHomework');
   }
 
-  createHomework(item: Homework) {
-    this.ipcRenderer.send('createHomework', item);
+  createHomework(items: Homework[]) {
+    this.ipcRenderer.send('createHomework', items);
   }
 
-  updateHomework(item: Homework) {
-    this.ipcRenderer.send('updateHomework', item);
+  updateHomework(items: Homework[]) {
+    this.ipcRenderer.send('updateHomework', items);
   }
 
   getChildCourses() {
@@ -158,11 +167,11 @@ export class DbService {
     this.ipcRenderer.send('getPickup');
   }
 
-  createPickup(item: Pickup) {
-    this.ipcRenderer.send('createPickup', item);
+  createPickup(items: Pickup[]) {
+    this.ipcRenderer.send('createPickup', items);
   }
 
-  updatePickup(item: Pickup) {
-    this.ipcRenderer.send('updatePickup', item);
+  updatePickup(items: Pickup[]) {
+    this.ipcRenderer.send('updatePickup', items);
   }
 }

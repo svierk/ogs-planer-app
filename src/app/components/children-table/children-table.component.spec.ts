@@ -14,13 +14,17 @@ import { ChildCourse } from 'src/app/models/child-course';
 import { Class } from 'src/app/models/class';
 import { Course } from 'src/app/models/course';
 import { Days } from 'src/app/models/days';
+import { EarlyCare } from 'src/app/models/early-care';
+import { Homework } from 'src/app/models/homework';
+import { Lunch } from 'src/app/models/lunch';
+import { Pickup } from 'src/app/models/pickup';
 import { ExcelService } from 'src/app/services/excel.service';
 import { ChildrenCreateUpdateActionComponent } from '../children-create-update-action/children-create-update-action.component';
 import { ChildrenDeleteActionComponent } from '../children-delete-action/children-delete-action.component';
 import { ChildrenTableComponent } from './children-table.component';
 
 const children: Child[] = [{ id: 123, firstName: 'test', lastName: 'child', classId: '123' }];
-const classes: Class[] = [{ id: 123, name: '1a', lunchMonday: '11:00', homeworkMonday: '12:00' }];
+const classes: Class[] = [{ id: 123, name: '1a' }];
 const courses: Course[] = [
   {
     id: 123,
@@ -31,39 +35,18 @@ const courses: Course[] = [
     end: 'end',
   },
 ];
-const earlyCare: any[] = [
-  {
-    id: 123,
-    childId: 123,
-    earlyCareParticipationMonday: 1,
-    earlyCareStartMonday: '1. Stunde',
-  },
+const earlyCare: EarlyCare[] = [
+  { id: 123, childId: 123, day: 'Montag', participation: 1, start: '1. Stunde' },
 ];
-const lunch: any[] = [
-  {
-    id: 123,
-    childId: 123,
-    lunchParticipationMonday: 1,
-    lunchNoteMonday: 'note',
-  },
+const lunch: Lunch[] = [
+  { id: 123, childId: 123, day: 'Montag', participation: 1, note: 'note' },
 ];
-const homework: any[] = [
-  {
-    id: 123,
-    childId: 123,
-    homeworkParticipationMonday: 1,
-    homeworkNoteMonday: 'note',
-  },
+const homework: Homework[] = [
+  { id: 123, childId: 123, day: 'Montag', participation: 1, note: 'note' },
 ];
 const childCourses: ChildCourse[] = [{ id: 123, childId: 123, courseId: 123 }];
-const pickup: any[] = [
-  {
-    id: 123,
-    childId: 123,
-    pickupTimeMonday: '12:00',
-    pickupTypeMonday: 'Wird abgeholt',
-    pickupNoteMonday: 'note',
-  },
+const pickup: Pickup[] = [
+  { id: 123, childId: 123, day: 'Montag', pickupTime: '12:00', pickupType: 'Wird abgeholt', note: 'note' },
 ];
 
 describe('ChildrenTableComponent', () => {

@@ -21,6 +21,7 @@ describe('AppComponent', () => {
       getHomework: jasmine.createSpy('getHomework'),
       getChildCourses: jasmine.createSpy('getChildCourses'),
       getPickup: jasmine.createSpy('getPickup'),
+      getClassSchedules: jasmine.createSpy('getClassSchedules'),
     };
 
     await TestBed.configureTestingModule({

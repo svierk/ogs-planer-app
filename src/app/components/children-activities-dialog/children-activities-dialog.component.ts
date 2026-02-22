@@ -13,6 +13,14 @@ import { Pickup } from 'src/app/models/pickup';
 import { DbService } from 'src/app/services/db.service';
 import { ToastService } from 'src/app/services/toast.service';
 
+const DAYS_MAP = [
+  { key: 'Monday', label: 'Montag' },
+  { key: 'Tuesday', label: 'Dienstag' },
+  { key: 'Wednesday', label: 'Mittwoch' },
+  { key: 'Thursday', label: 'Donnerstag' },
+  { key: 'Friday', label: 'Freitag' },
+];
+
 @Component({
   selector: 'ogs-children-activities-dialog',
   templateUrl: './children-activities-dialog.component.html',
@@ -72,11 +80,7 @@ export class ChildrenActivitiesDialogComponent implements OnInit {
   submit() {
     if (this.activitiesForm.valid) {
       const current = { ...this.activitiesForm.getRawValue() };
-      current.earlyCareGroup.childId = this.child.id;
-      current.lunchGroup.childId = this.child.id;
-      current.homeworkGroup.childId = this.child.id;
       current.coursesGroup.childId = this.child.id;
-      current.pickupGroup.childId = this.child.id;
 
       if (this.hasActivities()) {
         this.updateActivities(current);
@@ -92,53 +96,54 @@ export class ChildrenActivitiesDialogComponent implements OnInit {
   }
 
   private init() {
-    const earlyCare = this.earlyCare.find((item) => item.childId === this.child.id);
-    const lunch = this.lunch.find((item) => item.childId === this.child.id);
-    const homework = this.homework.find((item) => item.childId === this.child.id);
-    const childCourses = this.childCourses.filter((item) => item.childId === this.child.id);
-    const pickup = this.pickup.find((item) => item.childId === this.child.id);
+    const childId = this.child.id;
+    const ec = (day: string) => this.earlyCare.filter((i) => i.childId === childId).find((i) => i.day === day);
+    const lu = (day: string) => this.lunch.filter((i) => i.childId === childId).find((i) => i.day === day);
+    const hw = (day: string) => this.homework.filter((i) => i.childId === childId).find((i) => i.day === day);
+    const pu = (day: string) => this.pickup.filter((i) => i.childId === childId).find((i) => i.day === day);
+    const childCourses = this.childCourses.filter((item) => item.childId === childId);
 
     this.activitiesForm = this.fb.group({
       earlyCareGroup: this.fb.group({
-        earlyCareParticipationMonday: this.fb.control(earlyCare?.earlyCareParticipationMonday ?? 1, []),
-        earlyCareParticipationTuesday: this.fb.control(earlyCare?.earlyCareParticipationTuesday ?? 1, []),
-        earlyCareParticipationWednesday: this.fb.control(earlyCare?.earlyCareParticipationWednesday ?? 1, []),
-        earlyCareParticipationThursday: this.fb.control(earlyCare?.earlyCareParticipationThursday ?? 1, []),
-        earlyCareParticipationFriday: this.fb.control(earlyCare?.earlyCareParticipationFriday ?? 1, []),
-        earlyCareStartMonday: this.fb.control(earlyCare?.earlyCareStartMonday ?? '1. Stunde', []),
-        earlyCareStartTuesday: this.fb.control(earlyCare?.earlyCareStartTuesday ?? '1. Stunde', []),
-        earlyCareStartWednesday: this.fb.control(earlyCare?.earlyCareStartWednesday ?? '1. Stunde', []),
-        earlyCareStartThursday: this.fb.control(earlyCare?.earlyCareStartThursday ?? '1. Stunde', []),
-        earlyCareStartFriday: this.fb.control(earlyCare?.earlyCareStartFriday ?? '1. Stunde', []),
-        earlyCareNoteMonday: this.fb.control(earlyCare?.earlyCareNoteMonday ?? '', []),
-        earlyCareNoteTuesday: this.fb.control(earlyCare?.earlyCareNoteTuesday ?? '', []),
-        earlyCareNoteWednesday: this.fb.control(earlyCare?.earlyCareNoteWednesday ?? '', []),
-        earlyCareNoteThursday: this.fb.control(earlyCare?.earlyCareNoteThursday ?? '', []),
-        earlyCareNoteFriday: this.fb.control(earlyCare?.earlyCareNoteFriday ?? '', []),
+        earlyCareParticipationMonday: this.fb.control(ec('Montag')?.participation ?? 1, []),
+        earlyCareParticipationTuesday: this.fb.control(ec('Dienstag')?.participation ?? 1, []),
+        earlyCareParticipationWednesday: this.fb.control(ec('Mittwoch')?.participation ?? 1, []),
+        earlyCareParticipationThursday: this.fb.control(ec('Donnerstag')?.participation ?? 1, []),
+        earlyCareParticipationFriday: this.fb.control(ec('Freitag')?.participation ?? 1, []),
+        earlyCareStartMonday: this.fb.control(ec('Montag')?.start ?? '1. Stunde', []),
+        earlyCareStartTuesday: this.fb.control(ec('Dienstag')?.start ?? '1. Stunde', []),
+        earlyCareStartWednesday: this.fb.control(ec('Mittwoch')?.start ?? '1. Stunde', []),
+        earlyCareStartThursday: this.fb.control(ec('Donnerstag')?.start ?? '1. Stunde', []),
+        earlyCareStartFriday: this.fb.control(ec('Freitag')?.start ?? '1. Stunde', []),
+        earlyCareNoteMonday: this.fb.control(ec('Montag')?.note ?? '', []),
+        earlyCareNoteTuesday: this.fb.control(ec('Dienstag')?.note ?? '', []),
+        earlyCareNoteWednesday: this.fb.control(ec('Mittwoch')?.note ?? '', []),
+        earlyCareNoteThursday: this.fb.control(ec('Donnerstag')?.note ?? '', []),
+        earlyCareNoteFriday: this.fb.control(ec('Freitag')?.note ?? '', []),
       }),
       lunchGroup: this.fb.group({
-        lunchParticipationMonday: this.fb.control(lunch?.lunchParticipationMonday ?? 1, []),
-        lunchParticipationTuesday: this.fb.control(lunch?.lunchParticipationTuesday ?? 1, []),
-        lunchParticipationWednesday: this.fb.control(lunch?.lunchParticipationWednesday ?? 1, []),
-        lunchParticipationThursday: this.fb.control(lunch?.lunchParticipationThursday ?? 1, []),
-        lunchParticipationFriday: this.fb.control(lunch?.lunchParticipationFriday ?? 1, []),
-        lunchNoteMonday: this.fb.control(lunch?.lunchNoteMonday ?? '', []),
-        lunchNoteTuesday: this.fb.control(lunch?.lunchNoteTuesday ?? '', []),
-        lunchNoteWednesday: this.fb.control(lunch?.lunchNoteWednesday ?? '', []),
-        lunchNoteThursday: this.fb.control(lunch?.lunchNoteThursday ?? '', []),
-        lunchNoteFriday: this.fb.control(lunch?.lunchNoteFriday ?? '', []),
+        lunchParticipationMonday: this.fb.control(lu('Montag')?.participation ?? 1, []),
+        lunchParticipationTuesday: this.fb.control(lu('Dienstag')?.participation ?? 1, []),
+        lunchParticipationWednesday: this.fb.control(lu('Mittwoch')?.participation ?? 1, []),
+        lunchParticipationThursday: this.fb.control(lu('Donnerstag')?.participation ?? 1, []),
+        lunchParticipationFriday: this.fb.control(lu('Freitag')?.participation ?? 1, []),
+        lunchNoteMonday: this.fb.control(lu('Montag')?.note ?? '', []),
+        lunchNoteTuesday: this.fb.control(lu('Dienstag')?.note ?? '', []),
+        lunchNoteWednesday: this.fb.control(lu('Mittwoch')?.note ?? '', []),
+        lunchNoteThursday: this.fb.control(lu('Donnerstag')?.note ?? '', []),
+        lunchNoteFriday: this.fb.control(lu('Freitag')?.note ?? '', []),
       }),
       homeworkGroup: this.fb.group({
-        homeworkParticipationMonday: this.fb.control(homework?.homeworkParticipationMonday ?? 1, []),
-        homeworkParticipationTuesday: this.fb.control(homework?.homeworkParticipationTuesday ?? 1, []),
-        homeworkParticipationWednesday: this.fb.control(homework?.homeworkParticipationWednesday ?? 1, []),
-        homeworkParticipationThursday: this.fb.control(homework?.homeworkParticipationThursday ?? 1, []),
-        homeworkParticipationFriday: this.fb.control(homework?.homeworkParticipationFriday ?? 1, []),
-        homeworkNoteMonday: this.fb.control(homework?.homeworkNoteMonday ?? '', []),
-        homeworkNoteTuesday: this.fb.control(homework?.homeworkNoteTuesday ?? '', []),
-        homeworkNoteWednesday: this.fb.control(homework?.homeworkNoteWednesday ?? '', []),
-        homeworkNoteThursday: this.fb.control(homework?.homeworkNoteThursday ?? '', []),
-        homeworkNoteFriday: this.fb.control(homework?.homeworkNoteFriday ?? '', []),
+        homeworkParticipationMonday: this.fb.control(hw('Montag')?.participation ?? 1, []),
+        homeworkParticipationTuesday: this.fb.control(hw('Dienstag')?.participation ?? 1, []),
+        homeworkParticipationWednesday: this.fb.control(hw('Mittwoch')?.participation ?? 1, []),
+        homeworkParticipationThursday: this.fb.control(hw('Donnerstag')?.participation ?? 1, []),
+        homeworkParticipationFriday: this.fb.control(hw('Freitag')?.participation ?? 1, []),
+        homeworkNoteMonday: this.fb.control(hw('Montag')?.note ?? '', []),
+        homeworkNoteTuesday: this.fb.control(hw('Dienstag')?.note ?? '', []),
+        homeworkNoteWednesday: this.fb.control(hw('Mittwoch')?.note ?? '', []),
+        homeworkNoteThursday: this.fb.control(hw('Donnerstag')?.note ?? '', []),
+        homeworkNoteFriday: this.fb.control(hw('Freitag')?.note ?? '', []),
       }),
       coursesGroup: this.fb.group({
         courseSelect: this.fb.control(
@@ -147,30 +152,71 @@ export class ChildrenActivitiesDialogComponent implements OnInit {
         ),
       }),
       pickupGroup: this.fb.group({
-        pickupTimeMonday: this.fb.control(pickup?.pickupTimeMonday ?? '', []),
-        pickupTimeTuesday: this.fb.control(pickup?.pickupTimeTuesday ?? '', []),
-        pickupTimeWednesday: this.fb.control(pickup?.pickupTimeWednesday ?? '', []),
-        pickupTimeThursday: this.fb.control(pickup?.pickupTimeThursday ?? '', []),
-        pickupTimeFriday: this.fb.control(pickup?.pickupTimeFriday ?? '', []),
-        pickupTypeMonday: this.fb.control(pickup?.pickupTypeMonday ?? 'Wird abgeholt', []),
-        pickupTypeTuesday: this.fb.control(pickup?.pickupTypeTuesday ?? 'Wird abgeholt', []),
-        pickupTypeWednesday: this.fb.control(pickup?.pickupTypeWednesday ?? 'Wird abgeholt', []),
-        pickupTypeThursday: this.fb.control(pickup?.pickupTypeThursday ?? 'Wird abgeholt', []),
-        pickupTypeFriday: this.fb.control(pickup?.pickupTypeFriday ?? 'Wird abgeholt', []),
-        pickupNoteMonday: this.fb.control(pickup?.pickupNoteMonday ?? '', []),
-        pickupNoteTuesday: this.fb.control(pickup?.pickupNoteTuesday ?? '', []),
-        pickupNoteWednesday: this.fb.control(pickup?.pickupNoteWednesday ?? '', []),
-        pickupNoteThursday: this.fb.control(pickup?.pickupNoteThursday ?? '', []),
-        pickupNoteFriday: this.fb.control(pickup?.pickupNoteFriday ?? '', []),
+        pickupTimeMonday: this.fb.control(pu('Montag')?.pickupTime ?? '', []),
+        pickupTimeTuesday: this.fb.control(pu('Dienstag')?.pickupTime ?? '', []),
+        pickupTimeWednesday: this.fb.control(pu('Mittwoch')?.pickupTime ?? '', []),
+        pickupTimeThursday: this.fb.control(pu('Donnerstag')?.pickupTime ?? '', []),
+        pickupTimeFriday: this.fb.control(pu('Freitag')?.pickupTime ?? '', []),
+        pickupTypeMonday: this.fb.control(pu('Montag')?.pickupType ?? 'Wird abgeholt', []),
+        pickupTypeTuesday: this.fb.control(pu('Dienstag')?.pickupType ?? 'Wird abgeholt', []),
+        pickupTypeWednesday: this.fb.control(pu('Mittwoch')?.pickupType ?? 'Wird abgeholt', []),
+        pickupTypeThursday: this.fb.control(pu('Donnerstag')?.pickupType ?? 'Wird abgeholt', []),
+        pickupTypeFriday: this.fb.control(pu('Freitag')?.pickupType ?? 'Wird abgeholt', []),
+        pickupNoteMonday: this.fb.control(pu('Montag')?.note ?? '', []),
+        pickupNoteTuesday: this.fb.control(pu('Dienstag')?.note ?? '', []),
+        pickupNoteWednesday: this.fb.control(pu('Mittwoch')?.note ?? '', []),
+        pickupNoteThursday: this.fb.control(pu('Donnerstag')?.note ?? '', []),
+        pickupNoteFriday: this.fb.control(pu('Freitag')?.note ?? '', []),
       }),
     });
   }
 
+  private buildActivityItems(
+    childId: number,
+    current: any
+  ): { earlyCare: EarlyCare[]; lunch: Lunch[]; homework: Homework[]; pickup: Pickup[] } {
+    const eg = current.earlyCareGroup;
+    const lg = current.lunchGroup;
+    const hg = current.homeworkGroup;
+    const pg = current.pickupGroup;
+
+    return {
+      earlyCare: DAYS_MAP.map((d) => ({
+        childId,
+        day: d.label,
+        participation: eg[`earlyCareParticipation${d.key}`] as 0 | 1,
+        start: eg[`earlyCareStart${d.key}`] as '1. Stunde' | '2. Stunde',
+        note: eg[`earlyCareNote${d.key}`] || undefined,
+      })),
+      lunch: DAYS_MAP.map((d) => ({
+        childId,
+        day: d.label,
+        participation: lg[`lunchParticipation${d.key}`] as 0 | 1,
+        note: lg[`lunchNote${d.key}`] || undefined,
+      })),
+      homework: DAYS_MAP.map((d) => ({
+        childId,
+        day: d.label,
+        participation: hg[`homeworkParticipation${d.key}`] as 0 | 1,
+        note: hg[`homeworkNote${d.key}`] || undefined,
+      })),
+      pickup: DAYS_MAP.map((d) => ({
+        childId,
+        day: d.label,
+        pickupTime: pg[`pickupTime${d.key}`] || undefined,
+        pickupType: pg[`pickupType${d.key}`] as 'Wird abgeholt' | 'Alleine losschicken',
+        note: pg[`pickupNote${d.key}`] || undefined,
+      })),
+    };
+  }
+
   private createActivities(activities: any) {
-    this.dbService.createEarlyCare(activities.earlyCareGroup as EarlyCare);
-    this.dbService.createLunch(activities.lunchGroup as Lunch);
-    this.dbService.createHomework(activities.homeworkGroup as Homework);
-    this.dbService.createPickup(activities.pickupGroup as Pickup);
+    const childId = this.child.id!;
+    const { earlyCare, lunch, homework, pickup } = this.buildActivityItems(childId, activities);
+    this.dbService.createEarlyCare(earlyCare);
+    this.dbService.createLunch(lunch);
+    this.dbService.createHomework(homework);
+    this.dbService.createPickup(pickup);
     const selectedCourses: ChildCourse[] = activities.coursesGroup.courseSelect.map((id: number) => ({
       courseId: id,
       childId: activities.coursesGroup.childId,
@@ -186,10 +232,12 @@ export class ChildrenActivitiesDialogComponent implements OnInit {
   }
 
   private updateActivities(activities: any) {
-    this.dbService.updateEarlyCare(activities.earlyCareGroup as EarlyCare);
-    this.dbService.updateLunch(activities.lunchGroup as Lunch);
-    this.dbService.updateHomework(activities.homeworkGroup as Homework);
-    this.dbService.updatePickup(activities.pickupGroup as Pickup);
+    const childId = this.child.id!;
+    const { earlyCare, lunch, homework, pickup } = this.buildActivityItems(childId, activities);
+    this.dbService.updateEarlyCare(earlyCare);
+    this.dbService.updateLunch(lunch);
+    this.dbService.updateHomework(homework);
+    this.dbService.updatePickup(pickup);
     const selectedCourses: ChildCourse[] = activities.coursesGroup.courseSelect.map((id: number) => ({
       courseId: id,
       childId: activities.coursesGroup.childId,

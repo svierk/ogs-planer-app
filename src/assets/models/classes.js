@@ -1,78 +1,47 @@
 const path = require('path');
 
-let dbmgr = require(path.join(__dirname, 'dbmgr'));
-let db = dbmgr.db;
+const dbmgr = require(path.join(__dirname, 'dbmgr'));
+const db = dbmgr.db;
 
 exports.getClasses = () => {
-  const sql = 'SELECT * FROM classes';
-  const stmt = db.prepare(sql);
-  const res = stmt.all();
-  return res;
+  return db.prepare('SELECT * FROM classes').all();
 };
 
 exports.createClass = (classItem) => {
-  const sql = `INSERT INTO classes (
-    name, 
-    teacher, 
-    lunchMonday, 
-    lunchTuesday, 
-    lunchWednesday, 
-    lunchThursday, 
-    lunchFriday, 
-    homeworkMonday, 
-    homeworkTuesday, 
-    homeworkWednesday, 
-    homeworkThursday, 
-    homeworkFriday
-  ) VALUES (
-    '${classItem.name}', 
-    '${classItem.teacher}', 
-    '${classItem.lunchMonday}', 
-    '${classItem.lunchTuesday}',
-    '${classItem.lunchWednesday}',
-    '${classItem.lunchThursday}',
-    '${classItem.lunchFriday}',
-    '${classItem.homeworkMonday}',
-    '${classItem.homeworkTuesday}',
-    '${classItem.homeworkWednesday}',
-    '${classItem.homeworkThursday}',
-    '${classItem.homeworkFriday}'
-  )`;
-  const stmt = db.prepare(sql);
-  const res = stmt.run();
-  return res;
+  const insertClass = db.prepare('INSERT INTO classes (name, teacher) VALUES (?, ?)');
+  const insertSchedule = db.prepare(
+    'INSERT INTO classSchedule (classId, day, lunchTime, homeworkTime) VALUES (?, ?, ?, ?)'
+  );
+  db.transaction(() => {
+    const result = insertClass.run(classItem.name, classItem.teacher ?? null);
+    const classId = result.lastInsertRowid;
+    for (const s of classItem.schedule || []) {
+      insertSchedule.run(classId, s.day, s.lunchTime ?? null, s.homeworkTime ?? null);
+    }
+  })();
 };
 
 exports.updateClass = (classItem) => {
-  const sql = `UPDATE classes SET 
-    name='${classItem.name}', 
-    teacher='${classItem.teacher}',
-    lunchMonday='${classItem.lunchMonday}',
-    lunchTuesday='${classItem.lunchTuesday}',
-    lunchWednesday='${classItem.lunchWednesday}',
-    lunchThursday='${classItem.lunchThursday}',
-    lunchFriday='${classItem.lunchFriday}',
-    homeworkMonday='${classItem.homeworkMonday}',
-    homeworkTuesday='${classItem.homeworkTuesday}',
-    homeworkWednesday='${classItem.homeworkWednesday}',
-    homeworkThursday='${classItem.homeworkThursday}',
-    homeworkFriday='${classItem.homeworkFriday}'
-  WHERE classes.id = ${classItem.id}`;
-  const stmt = db.prepare(sql);
-  const res = stmt.run();
-  return res;
+  const updateClass = db.prepare('UPDATE classes SET name = ?, teacher = ? WHERE id = ?');
+  const upsertSchedule = db.prepare(`
+    INSERT INTO classSchedule (classId, day, lunchTime, homeworkTime)
+    VALUES (?, ?, ?, ?)
+    ON CONFLICT(classId, day) DO UPDATE SET
+      lunchTime = excluded.lunchTime,
+      homeworkTime = excluded.homeworkTime
+  `);
+  db.transaction(() => {
+    updateClass.run(classItem.name, classItem.teacher ?? null, classItem.id);
+    for (const s of classItem.schedule || []) {
+      upsertSchedule.run(classItem.id, s.day, s.lunchTime ?? null, s.homeworkTime ?? null);
+    }
+  })();
 };
 
 exports.deleteClass = (id) => {
-  const stmts = [
-    `DELETE FROM classes WHERE id = ${id}`,
-    `UPDATE children SET classId=${null} WHERE children.classId = ${id}`,
-  ].map((sql) => db.prepare(sql));
-  const transaction = db.transaction(() => {
-    for (const stmt of stmts) {
-      stmt.run();
-    }
-  });
-  transaction();
-  return;
+  db.transaction(() => {
+    db.prepare('DELETE FROM classSchedule WHERE classId = ?').run(id);
+    db.prepare('UPDATE children SET classId = NULL WHERE classId = ?').run(id);
+    db.prepare('DELETE FROM classes WHERE id = ?').run(id);
+  })();
 };

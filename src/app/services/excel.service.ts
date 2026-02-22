@@ -4,7 +4,7 @@ import * as XLSX from 'xlsx-js-style';
 import { ActivityTypes } from '../models/activity-types';
 import { Child } from '../models/child';
 import { ChildCourse } from '../models/child-course';
-import { Class } from '../models/class';
+import { ClassSchedule } from '../models/class-schedule';
 import { Course } from '../models/course';
 import { Days } from '../models/days';
 import { EarlyCare } from '../models/early-care';
@@ -80,7 +80,7 @@ export class ExcelService {
   }
 
   exportActivities(data: any) {
-    if (!data?.earlyCare) {
+    if (!data?.earlyCare?.length) {
       this.toastService.showErrorToast('Download fehlgeschlagen', 'Es wurden noch keine Aktivitäten gespeichert.');
       return;
     }
@@ -92,17 +92,24 @@ export class ExcelService {
 
     // prepare data
     const child: Child = data.child;
-    const childClass: Class = data.childClass;
+    const classSchedules: ClassSchedule[] = data.classSchedules ?? [];
     const courses: Course[] = data.courses;
-    const earlyCare: EarlyCare = data.earlyCare;
-    const lunch: Lunch = data.lunch;
-    const homework: Homework = data.homework;
+    const earlyCare: EarlyCare[] = data.earlyCare;
+    const lunch: Lunch[] = data.lunch;
+    const homework: Homework[] = data.homework;
     const childCourses: ChildCourse[] = data.childCourses;
-    const pickup: Pickup = data.pickup;
+    const pickup: Pickup[] = data.pickup;
     const selectedCourseIds: number[] = childCourses.map((c) => c.courseId);
     const selectedCourses = courses.filter((course) => {
       return selectedCourseIds.includes(course.id as number);
     });
+
+    // Helpers to look up data by German day name
+    const ec = (day: string) => earlyCare.find((i) => i.day === day);
+    const lu = (day: string) => lunch.find((i) => i.day === day);
+    const hw = (day: string) => homework.find((i) => i.day === day);
+    const pu = (day: string) => pickup.find((i) => i.day === day);
+    const cs = (day: string) => classSchedules.find((i) => i.day === day);
 
     // generate workbook
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
@@ -115,51 +122,51 @@ export class ExcelService {
       ['', Days.Monday, Days.Tuesday, Days.Wednesday, Days.Thursday, Days.Friday],
       [
         ActivityTypes.EarlyCare,
-        earlyCare.earlyCareParticipationMonday ? `Ja (${earlyCare.earlyCareStartMonday})` : 'Nein',
-        earlyCare.earlyCareParticipationTuesday ? `Ja (${earlyCare.earlyCareStartTuesday})` : 'Nein',
-        earlyCare.earlyCareParticipationWednesday ? `Ja (${earlyCare.earlyCareStartWednesday})` : 'Nein',
-        earlyCare.earlyCareParticipationThursday ? `Ja (${earlyCare.earlyCareStartThursday})` : 'Nein',
-        earlyCare.earlyCareParticipationFriday ? `Ja (${earlyCare.earlyCareStartFriday})` : 'Nein',
+        ec('Montag')?.participation ? `Ja (${ec('Montag')?.start})` : 'Nein',
+        ec('Dienstag')?.participation ? `Ja (${ec('Dienstag')?.start})` : 'Nein',
+        ec('Mittwoch')?.participation ? `Ja (${ec('Mittwoch')?.start})` : 'Nein',
+        ec('Donnerstag')?.participation ? `Ja (${ec('Donnerstag')?.start})` : 'Nein',
+        ec('Freitag')?.participation ? `Ja (${ec('Freitag')?.start})` : 'Nein',
       ],
       [
         '- Notiz',
-        earlyCare.earlyCareNoteMonday ?? ' ',
-        earlyCare.earlyCareNoteTuesday ?? ' ',
-        earlyCare.earlyCareNoteWednesday ?? ' ',
-        earlyCare.earlyCareNoteThursday ?? ' ',
-        earlyCare.earlyCareNoteFriday ?? ' ',
+        ec('Montag')?.note ?? ' ',
+        ec('Dienstag')?.note ?? ' ',
+        ec('Mittwoch')?.note ?? ' ',
+        ec('Donnerstag')?.note ?? ' ',
+        ec('Freitag')?.note ?? ' ',
       ],
       [
         ActivityTypes.Lunch,
-        lunch.lunchParticipationMonday ? `Ja (${childClass.lunchMonday} Uhr)` : 'Nein',
-        lunch.lunchParticipationTuesday ? `Ja (${childClass.lunchTuesday} Uhr)` : 'Nein',
-        lunch.lunchParticipationWednesday ? `Ja (${childClass.lunchWednesday} Uhr)` : 'Nein',
-        lunch.lunchParticipationThursday ? `Ja (${childClass.lunchThursday} Uhr)` : 'Nein',
-        lunch.lunchParticipationFriday ? `Ja (${childClass.lunchFriday} Uhr)` : 'Nein',
+        lu('Montag')?.participation ? `Ja (${cs('Montag')?.lunchTime} Uhr)` : 'Nein',
+        lu('Dienstag')?.participation ? `Ja (${cs('Dienstag')?.lunchTime} Uhr)` : 'Nein',
+        lu('Mittwoch')?.participation ? `Ja (${cs('Mittwoch')?.lunchTime} Uhr)` : 'Nein',
+        lu('Donnerstag')?.participation ? `Ja (${cs('Donnerstag')?.lunchTime} Uhr)` : 'Nein',
+        lu('Freitag')?.participation ? `Ja (${cs('Freitag')?.lunchTime} Uhr)` : 'Nein',
       ],
       [
         '- Notiz',
-        lunch.lunchNoteMonday ?? ' ',
-        lunch.lunchNoteTuesday ?? ' ',
-        lunch.lunchNoteWednesday ?? ' ',
-        lunch.lunchNoteThursday ?? ' ',
-        lunch.lunchNoteFriday ?? ' ',
+        lu('Montag')?.note ?? ' ',
+        lu('Dienstag')?.note ?? ' ',
+        lu('Mittwoch')?.note ?? ' ',
+        lu('Donnerstag')?.note ?? ' ',
+        lu('Freitag')?.note ?? ' ',
       ],
       [
         ActivityTypes.Homework,
-        homework.homeworkParticipationMonday ? `Ja (${childClass.homeworkMonday} Uhr)` : 'Nein',
-        homework.homeworkParticipationTuesday ? `Ja (${childClass.homeworkTuesday} Uhr)` : 'Nein',
-        homework.homeworkParticipationWednesday ? `Ja (${childClass.homeworkWednesday} Uhr)` : 'Nein',
-        homework.homeworkParticipationThursday ? `Ja (${childClass.homeworkThursday} Uhr)` : 'Nein',
-        homework.homeworkParticipationFriday ? `Ja (${childClass.homeworkFriday} Uhr)` : 'Nein',
+        hw('Montag')?.participation ? `Ja (${cs('Montag')?.homeworkTime} Uhr)` : 'Nein',
+        hw('Dienstag')?.participation ? `Ja (${cs('Dienstag')?.homeworkTime} Uhr)` : 'Nein',
+        hw('Mittwoch')?.participation ? `Ja (${cs('Mittwoch')?.homeworkTime} Uhr)` : 'Nein',
+        hw('Donnerstag')?.participation ? `Ja (${cs('Donnerstag')?.homeworkTime} Uhr)` : 'Nein',
+        hw('Freitag')?.participation ? `Ja (${cs('Freitag')?.homeworkTime} Uhr)` : 'Nein',
       ],
       [
         '- Notiz',
-        homework.homeworkNoteMonday ?? ' ',
-        homework.homeworkNoteTuesday ?? ' ',
-        homework.homeworkNoteWednesday ?? ' ',
-        homework.homeworkNoteThursday ?? ' ',
-        homework.homeworkNoteFriday ?? ' ',
+        hw('Montag')?.note ?? ' ',
+        hw('Dienstag')?.note ?? ' ',
+        hw('Mittwoch')?.note ?? ' ',
+        hw('Donnerstag')?.note ?? ' ',
+        hw('Freitag')?.note ?? ' ',
       ],
       [
         ActivityTypes.Courses,
@@ -171,19 +178,19 @@ export class ExcelService {
       ],
       [
         ActivityTypes.Pickup,
-        pickup.pickupTimeMonday ? `${pickup.pickupTypeMonday} (${pickup.pickupTimeMonday} Uhr)` : '-',
-        pickup.pickupTimeTuesday ? `${pickup.pickupTypeTuesday} (${pickup.pickupTimeTuesday} Uhr)` : '-',
-        pickup.pickupTimeWednesday ? `${pickup.pickupTypeWednesday} (${pickup.pickupTimeWednesday} Uhr)` : '-',
-        pickup.pickupTimeThursday ? `${pickup.pickupTypeThursday} (${pickup.pickupTimeThursday} Uhr)` : '-',
-        pickup.pickupTimeFriday ? `${pickup.pickupTypeFriday} (${pickup.pickupTimeFriday} Uhr)` : '-',
+        pu('Montag')?.pickupTime ? `${pu('Montag')?.pickupType} (${pu('Montag')?.pickupTime} Uhr)` : '-',
+        pu('Dienstag')?.pickupTime ? `${pu('Dienstag')?.pickupType} (${pu('Dienstag')?.pickupTime} Uhr)` : '-',
+        pu('Mittwoch')?.pickupTime ? `${pu('Mittwoch')?.pickupType} (${pu('Mittwoch')?.pickupTime} Uhr)` : '-',
+        pu('Donnerstag')?.pickupTime ? `${pu('Donnerstag')?.pickupType} (${pu('Donnerstag')?.pickupTime} Uhr)` : '-',
+        pu('Freitag')?.pickupTime ? `${pu('Freitag')?.pickupType} (${pu('Freitag')?.pickupTime} Uhr)` : '-',
       ],
       [
         '- Notiz',
-        pickup.pickupNoteMonday ?? ' ',
-        pickup.pickupNoteTuesday ?? ' ',
-        pickup.pickupNoteWednesday ?? ' ',
-        pickup.pickupNoteThursday ?? ' ',
-        pickup.pickupNoteFriday ?? ' ',
+        pu('Montag')?.note ?? ' ',
+        pu('Dienstag')?.note ?? ' ',
+        pu('Mittwoch')?.note ?? ' ',
+        pu('Donnerstag')?.note ?? ' ',
+        pu('Freitag')?.note ?? ' ',
       ],
     ];
 

@@ -1,70 +1,62 @@
 const path = require('path');
 
-let dbmgr = require(path.join(__dirname, 'dbmgr'));
-let db = dbmgr.db;
+const dbmgr = require(path.join(__dirname, 'dbmgr'));
+const db = dbmgr.db;
 
 exports.getChildren = () => {
-  const sql = 'SELECT * FROM children';
-  const stmt = db.prepare(sql);
-  const res = stmt.all();
-  return res;
+  return db.prepare('SELECT * FROM children').all();
 };
 
 exports.createChild = (child) => {
-  const sql = `INSERT INTO children (
-    firstName, 
-    lastName, 
-    phone,
-    mobile,
-    emergencyContact,
-    classId,
-    pickupAuthorization,
-    allergies
-  ) VALUES (
-    '${child.firstName}', 
-    '${child.lastName}', 
-    '${child.phone}',
-    '${child.mobile}',
-    '${child.emergencyContact}',
-    '${+child.classId}',
-    '${child.pickupAuthorization}',
-    '${child.allergies}'
-  )`;
-  const stmt = db.prepare(sql);
-  const res = stmt.run();
-  return res;
+  const stmt = db.prepare(`
+    INSERT INTO children (firstName, lastName, phone, mobile, emergencyContact, classId, pickupAuthorization, allergies)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+  return stmt.run(
+    child.firstName,
+    child.lastName,
+    child.phone ?? null,
+    child.mobile ?? null,
+    child.emergencyContact ?? null,
+    child.classId ? +child.classId : null,
+    child.pickupAuthorization ?? null,
+    child.allergies ?? null
+  );
 };
 
 exports.updateChild = (child) => {
-  const sql = `UPDATE children SET 
-    firstName='${child.firstName}', 
-    lastName='${child.lastName}', 
-    phone='${child.phone}',
-    mobile='${child.mobile}',
-    emergencyContact='${child.emergencyContact}',
-    classId='${child.classId}',
-    pickupAuthorization='${child.pickupAuthorization}', 
-    allergies='${child.allergies}'
-  WHERE children.id = ${child.id}`;
-  const stmt = db.prepare(sql);
-  const res = stmt.run();
-  return res;
+  const stmt = db.prepare(`
+    UPDATE children SET
+      firstName = ?,
+      lastName = ?,
+      phone = ?,
+      mobile = ?,
+      emergencyContact = ?,
+      classId = ?,
+      pickupAuthorization = ?,
+      allergies = ?
+    WHERE id = ?
+  `);
+  return stmt.run(
+    child.firstName,
+    child.lastName,
+    child.phone ?? null,
+    child.mobile ?? null,
+    child.emergencyContact ?? null,
+    child.classId ? +child.classId : null,
+    child.pickupAuthorization ?? null,
+    child.allergies ?? null,
+    child.id
+  );
 };
 
 exports.deleteChild = (id) => {
-  const stmts = [
-    `DELETE FROM children WHERE id = ${id}`,
-    `DELETE FROM earlyCare WHERE childId = ${id}`,
-    `DELETE FROM lunch WHERE childId = ${id}`,
-    `DELETE FROM homework WHERE childId = ${id}`,
-    `DELETE FROM childCourses WHERE childId = ${id}`,
-    `DELETE FROM pickup WHERE childId = ${id}`,
-  ].map((sql) => db.prepare(sql));
-  const transaction = db.transaction(() => {
-    for (const stmt of stmts) {
-      stmt.run();
-    }
-  });
-  transaction();
-  return;
+  db.transaction(() => {
+    db.prepare('DELETE FROM pickup WHERE childId = ?').run(id);
+    db.prepare('DELETE FROM childCourses WHERE childId = ?').run(id);
+    db.prepare('DELETE FROM homework WHERE childId = ?').run(id);
+    db.prepare('DELETE FROM lunch WHERE childId = ?').run(id);
+    db.prepare('DELETE FROM earlyCare WHERE childId = ?').run(id);
+    db.prepare('DELETE FROM children WHERE id = ?').run(id);
+  })();
 };

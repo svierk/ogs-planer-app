@@ -72,6 +72,13 @@ ipcMain.on('deleteClass', (event, id) => {
   classes.deleteClass(id);
 });
 
+// ##### CLASS SCHEDULE DB ACTIONS #####
+
+ipcMain.on('getClassSchedules', () => {
+  const classSchedule = require(path.join(__dirname, `${basePath}/class-schedule`));
+  win.webContents.send('getClassSchedules', classSchedule.getClassSchedules());
+});
+
 // ##### COURSES DB ACTIONS #####
 
 ipcMain.on('getCourses', () => {
@@ -94,21 +101,21 @@ ipcMain.on('deleteCourse', (event, id) => {
   courses.deleteCourse(id);
 });
 
-// ##### EARYL CARE DB ACTIONS #####
+// ##### EARLY CARE DB ACTIONS #####
 
 ipcMain.on('getEarlyCare', () => {
   const earlyCare = require(path.join(__dirname, `${basePath}/early-care`));
   win.webContents.send('getEarlyCare', earlyCare.getEarlyCare());
 });
 
-ipcMain.on('createEarlyCare', (event, item) => {
+ipcMain.on('createEarlyCare', (event, items) => {
   const earlyCare = require(path.join(__dirname, `${basePath}/early-care`));
-  earlyCare.createEarlyCare(item);
+  earlyCare.createEarlyCare(items);
 });
 
-ipcMain.on('updateEarlyCare', (event, item) => {
+ipcMain.on('updateEarlyCare', (event, items) => {
   const earlyCare = require(path.join(__dirname, `${basePath}/early-care`));
-  earlyCare.updateEarlyCare(item);
+  earlyCare.updateEarlyCare(items);
 });
 
 // ##### LUNCH DB ACTIONS #####
@@ -118,14 +125,14 @@ ipcMain.on('getLunch', () => {
   win.webContents.send('getLunch', lunch.getLunch());
 });
 
-ipcMain.on('createLunch', (event, item) => {
+ipcMain.on('createLunch', (event, items) => {
   const lunch = require(path.join(__dirname, `${basePath}/lunch`));
-  lunch.createLunch(item);
+  lunch.createLunch(items);
 });
 
-ipcMain.on('updateLunch', (event, item) => {
+ipcMain.on('updateLunch', (event, items) => {
   const lunch = require(path.join(__dirname, `${basePath}/lunch`));
-  lunch.updateLunch(item);
+  lunch.updateLunch(items);
 });
 
 // ##### HOMEWORK DB ACTIONS #####
@@ -135,14 +142,14 @@ ipcMain.on('getHomework', () => {
   win.webContents.send('getHomework', homework.getHomework());
 });
 
-ipcMain.on('createHomework', (event, item) => {
+ipcMain.on('createHomework', (event, items) => {
   const homework = require(path.join(__dirname, `${basePath}/homework`));
-  homework.createHomework(item);
+  homework.createHomework(items);
 });
 
-ipcMain.on('updateHomework', (event, item) => {
+ipcMain.on('updateHomework', (event, items) => {
   const homework = require(path.join(__dirname, `${basePath}/homework`));
-  homework.updateHomework(item);
+  homework.updateHomework(items);
 });
 
 // ##### CHILD COURSES DB ACTIONS #####
@@ -169,12 +176,12 @@ ipcMain.on('getPickup', () => {
   win.webContents.send('getPickup', pickup.getPickup());
 });
 
-ipcMain.on('createPickup', (event, item) => {
+ipcMain.on('createPickup', (event, items) => {
   const pickup = require(path.join(__dirname, `${basePath}/pickup`));
-  pickup.createPickup(item);
+  pickup.createPickup(items);
 });
 
-ipcMain.on('updatePickup', (event, item) => {
+ipcMain.on('updatePickup', (event, items) => {
   const pickup = require(path.join(__dirname, `${basePath}/pickup`));
-  pickup.updatePickup(item);
+  pickup.updatePickup(items);
 });
