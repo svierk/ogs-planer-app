@@ -8,9 +8,7 @@ exports.getPickup = () => {
 };
 
 exports.createPickup = (items) => {
-  const insert = db.prepare(
-    'INSERT INTO pickup (childId, day, pickupTime, pickupType, note) VALUES (?, ?, ?, ?, ?)'
-  );
+  const insert = db.prepare('INSERT INTO pickup (childId, day, pickupTime, pickupType, note) VALUES (?, ?, ?, ?, ?)');
   db.transaction(() => {
     for (const item of items) {
       insert.run(item.childId, item.day, item.pickupTime ?? null, item.pickupType, item.note ?? null);

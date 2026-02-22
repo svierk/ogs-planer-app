@@ -9,7 +9,10 @@ function tableExists(name) {
 }
 
 function hasColumn(table, column) {
-  return db.prepare(`PRAGMA table_info(${table})`).all().some((c) => c.name === column);
+  return db
+    .prepare(`PRAGMA table_info(${table})`)
+    .all()
+    .some((c) => c.name === column);
 }
 
 function initSchema() {
@@ -146,9 +149,7 @@ function migrate() {
         UNIQUE(childId, day)
       )
     `);
-    const insert = db.prepare(
-      'INSERT INTO lunch (childId, day, participation, note) VALUES (?, ?, ?, ?)'
-    );
+    const insert = db.prepare('INSERT INTO lunch (childId, day, participation, note) VALUES (?, ?, ?, ?)');
     db.transaction(() => {
       for (const row of oldRows) {
         for (let i = 0; i < DAYS.length; i++) {
@@ -177,9 +178,7 @@ function migrate() {
         UNIQUE(childId, day)
       )
     `);
-    const insert = db.prepare(
-      'INSERT INTO homework (childId, day, participation, note) VALUES (?, ?, ?, ?)'
-    );
+    const insert = db.prepare('INSERT INTO homework (childId, day, participation, note) VALUES (?, ?, ?, ?)');
     db.transaction(() => {
       for (const row of oldRows) {
         for (let i = 0; i < DAYS.length; i++) {
@@ -209,9 +208,7 @@ function migrate() {
         UNIQUE(childId, day)
       )
     `);
-    const insert = db.prepare(
-      'INSERT INTO pickup (childId, day, pickupTime, pickupType, note) VALUES (?, ?, ?, ?, ?)'
-    );
+    const insert = db.prepare('INSERT INTO pickup (childId, day, pickupTime, pickupType, note) VALUES (?, ?, ?, ?, ?)');
     db.transaction(() => {
       for (const row of oldRows) {
         for (let i = 0; i < DAYS.length; i++) {
@@ -260,9 +257,7 @@ function migrate() {
       }
     })();
 
-    db.exec(
-      'CREATE TABLE classes_new (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, teacher TEXT)'
-    );
+    db.exec('CREATE TABLE classes_new (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, teacher TEXT)');
     db.exec('INSERT INTO classes_new (id, name, teacher) SELECT id, name, teacher FROM classes');
     db.exec('DROP TABLE classes');
     db.exec('ALTER TABLE classes_new RENAME TO classes');

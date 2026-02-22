@@ -24,15 +24,9 @@ const courses: Course[] = [
     end: 'end',
   },
 ];
-const earlyCare: EarlyCare[] = [
-  { id: 123, childId: 123, day: 'Montag', participation: 1, start: '1. Stunde' },
-];
-const lunch: Lunch[] = [
-  { id: 123, childId: 123, day: 'Montag', participation: 1, note: 'note' },
-];
-const homework: Homework[] = [
-  { id: 123, childId: 123, day: 'Montag', participation: 1, note: 'note' },
-];
+const earlyCare: EarlyCare[] = [{ id: 123, childId: 123, day: 'Montag', participation: 1, start: '1. Stunde' }];
+const lunch: Lunch[] = [{ id: 123, childId: 123, day: 'Montag', participation: 1, note: 'note' }];
+const homework: Homework[] = [{ id: 123, childId: 123, day: 'Montag', participation: 1, note: 'note' }];
 const childCourses: ChildCourse[] = [{ id: 123, childId: 123, courseId: 123 }];
 const pickup: Pickup[] = [
   { id: 123, childId: 123, day: 'Montag', pickupTime: '12:00', pickupType: 'Wird abgeholt', note: 'note' },

@@ -8,9 +8,7 @@ exports.getHomework = () => {
 };
 
 exports.createHomework = (items) => {
-  const insert = db.prepare(
-    'INSERT INTO homework (childId, day, participation, note) VALUES (?, ?, ?, ?)'
-  );
+  const insert = db.prepare('INSERT INTO homework (childId, day, participation, note) VALUES (?, ?, ?, ?)');
   db.transaction(() => {
     for (const item of items) {
       insert.run(item.childId, item.day, item.participation, item.note ?? null);

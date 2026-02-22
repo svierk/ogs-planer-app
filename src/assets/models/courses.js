@@ -8,9 +8,7 @@ exports.getCourses = () => {
 };
 
 exports.createCourse = (course) => {
-  const stmt = db.prepare(
-    'INSERT INTO courses (name, teacher, day, note, start, end) VALUES (?, ?, ?, ?, ?, ?)'
-  );
+  const stmt = db.prepare('INSERT INTO courses (name, teacher, day, note, start, end) VALUES (?, ?, ?, ?, ?, ?)');
   return stmt.run(course.name, course.teacher, course.day, course.note ?? null, course.start, course.end);
 };
 
