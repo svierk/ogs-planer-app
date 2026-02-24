@@ -126,4 +126,27 @@ describe('ChildrenTableComponent', () => {
     // then
     expect(component.download).toHaveBeenCalledTimes(1);
   });
+
+  it('should allow download of child activities without class assignment', () => {
+    // given
+    const childWithoutClass: Child = { id: 456, firstName: 'no', lastName: 'class' };
+    component.children = [childWithoutClass];
+    component.classes = classes;
+    component.classSchedules = [];
+    component.courses = courses;
+    component.earlyCare = earlyCare;
+    component.lunch = lunch;
+    component.homework = homework;
+    component.childCourses = childCourses;
+    component.pickup = pickup;
+    component.dataSource = new MatTableDataSource([childWithoutClass]);
+    spyOn(component, 'download').and.callThrough();
+
+    // when
+    component.download(childWithoutClass);
+    fixture.detectChanges();
+
+    // then
+    expect(component.download).toHaveBeenCalledTimes(1);
+  });
 });

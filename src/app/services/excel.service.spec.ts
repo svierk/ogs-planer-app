@@ -24,7 +24,9 @@ const courses: Course[] = [
     end: 'end',
   },
 ];
-const earlyCare: EarlyCare[] = [{ id: 123, childId: 123, day: 'Montag', participation: 1, start: '1. Stunde' }];
+const earlyCare: EarlyCare[] = [
+  { id: 123, childId: 123, day: 'Montag', participation: 1, start: '1. Stunde', note: 'test note' },
+];
 const lunch: Lunch[] = [{ id: 123, childId: 123, day: 'Montag', participation: 1, note: 'note' }];
 const homework: Homework[] = [{ id: 123, childId: 123, day: 'Montag', participation: 1, note: 'note' }];
 const childCourses: ChildCourse[] = [{ id: 123, childId: 123, courseId: 123 }];
@@ -104,6 +106,41 @@ describe('ExcelService', () => {
     // then
     expect(service.exportActivities).toHaveBeenCalledTimes(1);
     expect(service.download).toHaveBeenCalledTimes(0);
+  });
+
+  it('should export excel with wide content', () => {
+    // given
+    spyOn(service, 'download');
+    spyOn(service, 'export').and.callThrough();
+
+    // when
+    service.export([{ Spalte: 'Ein sehr langer Wert der breiter ist' }], 'file name', 'heading');
+
+    // then
+    expect(service.export).toHaveBeenCalledTimes(1);
+    expect(service.download).toHaveBeenCalledTimes(1);
+  });
+
+  it('should export activities excel without class schedules', () => {
+    // given
+    spyOn(service, 'download');
+    spyOn(service, 'exportActivities').and.callThrough();
+
+    // when
+    service.exportActivities({
+      child: children[0],
+      childClass: classes.find((c) => c.id === Number.parseInt(children[0]?.classId as string)),
+      courses: courses,
+      earlyCare: earlyCare.filter((item) => item.childId === children[0].id),
+      lunch: lunch.filter((item) => item.childId === children[0].id),
+      homework: homework.filter((item) => item.childId === children[0].id),
+      childCourses: childCourses.filter((item) => item.childId === children[0].id),
+      pickup: pickup.filter((item) => item.childId === children[0].id),
+    });
+
+    // then
+    expect(service.exportActivities).toHaveBeenCalledTimes(1);
+    expect(service.download).toHaveBeenCalledTimes(1);
   });
 
   it('should show error toast for missing class assignment', () => {
