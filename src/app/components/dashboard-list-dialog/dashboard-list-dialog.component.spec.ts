@@ -33,12 +33,18 @@ const courses: Course[] = [
     end: 'end',
   },
 ];
-const classSchedules: ClassSchedule[] = [{ id: 1, classId: 123, day: 'Montag', lunchTime: '12:00', homeworkTime: '13:00' }];
-const earlyCare: EarlyCare[] = [{ id: 123, childId: 123, day: 'Montag', participation: 1, start: '1. Stunde', note: 'note' }];
+const classSchedules: ClassSchedule[] = [
+  { id: 1, classId: 123, day: 'Montag', lunchTime: '12:00', homeworkTime: '13:00' },
+];
+const earlyCare: EarlyCare[] = [
+  { id: 123, childId: 123, day: 'Montag', participation: 1, start: '1. Stunde', note: 'note' },
+];
 const lunch: Lunch[] = [{ id: 123, childId: 123, day: 'Montag', participation: 1, note: 'note' }];
 const homework: Homework[] = [{ id: 123, childId: 123, day: 'Montag', participation: 1, note: 'note' }];
 const childCourses: ChildCourse[] = [{ id: 123, childId: 123, courseId: 123 }];
-const pickup: Pickup[] = [{ id: 123, childId: 123, day: 'Montag', pickupTime: '12:00', pickupType: 'Wird abgeholt', note: 'note' }];
+const pickup: Pickup[] = [
+  { id: 123, childId: 123, day: 'Montag', pickupTime: '12:00', pickupType: 'Wird abgeholt', note: 'note' },
+];
 
 describe('DashboardListDialogComponent', () => {
   let component: DashboardListDialogComponent;
