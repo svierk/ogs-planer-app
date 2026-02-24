@@ -90,7 +90,7 @@ export class ChildrenTableComponent implements AfterViewInit, OnInit {
   }
 
   download(child: Child) {
-    const classId = child.classId ? parseInt(child.classId) : undefined;
+    const classId = child.classId ? Number.parseInt(child.classId) : undefined;
     this.excelService.exportActivities({
       child: child,
       childClass: classId ? this.classes.find((c) => c.id === classId) : undefined,

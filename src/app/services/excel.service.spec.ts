@@ -78,7 +78,7 @@ describe('ExcelService', () => {
     // when
     service.exportActivities({
       child: children[0],
-      childClass: classes.find((c) => c.id === parseInt(children[0]?.classId as string)),
+      childClass: classes.find((c) => c.id === Number.parseInt(children[0]?.classId as string)),
       classSchedules: classSchedules,
       courses: courses,
       earlyCare: earlyCare.filter((item) => item.childId === children[0].id),

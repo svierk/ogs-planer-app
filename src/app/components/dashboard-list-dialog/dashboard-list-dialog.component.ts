@@ -188,7 +188,7 @@ export class DashboardListDialogComponent implements OnInit {
         (item) => item.childId === child.id && item.day === selectedDay?.label
       );
 
-      if (earlyCareForDay && earlyCareForDay.participation === 1) {
+      if (earlyCareForDay?.participation === 1) {
         const keys = ['Klasse', 'Name', 'Vorname', 'Beginn', 'Hinweis', ...this.getSpecificDaysOfMonth(month, day)];
         const item: any = keys.reduce((accumulator, value) => {
           return { ...accumulator, [value]: '' };
@@ -223,7 +223,7 @@ export class DashboardListDialogComponent implements OnInit {
       const className = childClassId ? this.classes.find((item) => item.id === +childClassId)?.name : '';
       const lunchForDay = this.lunch.find((item) => item.childId === child.id && item.day === selectedDay?.label);
 
-      if (lunchForDay && lunchForDay.participation === 1) {
+      if (lunchForDay?.participation === 1) {
         const keys = ['Klasse', 'Name', 'Vorname', 'Hinweis', ...this.getSpecificDaysOfMonth(month, day)];
         const item: any = keys.reduce((accumulator, value) => {
           return { ...accumulator, [value]: '' };
@@ -257,7 +257,7 @@ export class DashboardListDialogComponent implements OnInit {
       const className = childClassId ? this.classes.find((item) => item.id === +childClassId)?.name : '';
       const homeworkForDay = this.homework.find((item) => item.childId === child.id && item.day === selectedDay?.label);
 
-      if (homeworkForDay && homeworkForDay.participation === 1) {
+      if (homeworkForDay?.participation === 1) {
         const keys = ['Klasse', 'Name', 'Vorname', 'Bemerkung', ...this.getSpecificDaysOfMonth(month, day)];
         const item: any = keys.reduce((accumulator, value) => {
           return { ...accumulator, [value]: '' };
@@ -320,7 +320,7 @@ export class DashboardListDialogComponent implements OnInit {
       const className = childClassId ? this.classes.find((item) => item.id === +childClassId)?.name : '';
       const pickupForDay = this.pickup.find((item) => item.childId === child.id && item.day === selectedDay?.label);
 
-      if (pickupForDay && pickupForDay.pickupTime) {
+      if (pickupForDay?.pickupTime) {
         const keys = [
           'Klasse',
           'Name',
