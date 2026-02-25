@@ -3,6 +3,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ChildCourse } from 'src/app/models/child-course';
 import { Class } from 'src/app/models/class';
+import { ClassSchedule } from 'src/app/models/class-schedule';
 import { Course } from 'src/app/models/course';
 import { EarlyCare } from 'src/app/models/early-care';
 import { Homework } from 'src/app/models/homework';
@@ -24,6 +25,7 @@ export class ChildrenTableComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   children: Child[] = [];
   classes: Class[] = [];
+  classSchedules: ClassSchedule[] = [];
   courses!: Course[];
   earlyCare!: EarlyCare[];
   lunch!: Lunch[];
@@ -50,6 +52,9 @@ export class ChildrenTableComponent implements AfterViewInit, OnInit {
     this.dbService.classes.subscribe((value) => {
       this.classes = value;
       this.cdr.detectChanges();
+    });
+    this.dbService.classSchedules.subscribe((value) => {
+      this.classSchedules = value;
     });
     this.dbService.courses.subscribe((value) => {
       this.courses = value;
@@ -85,15 +90,17 @@ export class ChildrenTableComponent implements AfterViewInit, OnInit {
   }
 
   download(child: Child) {
+    const classId = child.classId ? Number.parseInt(child.classId) : undefined;
     this.excelService.exportActivities({
       child: child,
-      childClass: this.classes.find((c) => c.id === parseInt(child?.classId as string)),
+      childClass: classId ? this.classes.find((c) => c.id === classId) : undefined,
+      classSchedules: classId ? this.classSchedules.filter((s) => s.classId === classId) : [],
       courses: this.courses,
-      earlyCare: this.earlyCare.find((item) => item.childId === child.id),
-      lunch: this.lunch.find((item) => item.childId === child.id),
-      homework: this.homework.find((item) => item.childId === child.id),
+      earlyCare: this.earlyCare.filter((item) => item.childId === child.id),
+      lunch: this.lunch.filter((item) => item.childId === child.id),
+      homework: this.homework.filter((item) => item.childId === child.id),
       childCourses: this.childCourses.filter((item) => item.childId === child.id),
-      pickup: this.pickup.find((item) => item.childId === child.id),
+      pickup: this.pickup.filter((item) => item.childId === child.id),
     });
   }
 }

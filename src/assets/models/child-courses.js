@@ -1,58 +1,34 @@
 const path = require('path');
 
-let dbmgr = require(path.join(__dirname, 'dbmgr'));
-let db = dbmgr.db;
+const dbmgr = require(path.join(__dirname, 'dbmgr'));
+const db = dbmgr.db;
 
 exports.getChildCourses = () => {
-  const sql = 'SELECT * FROM childCourses';
-  const stmt = db.prepare(sql);
-  const res = stmt.all();
-  return res;
+  return db.prepare('SELECT * FROM childCourses').all();
 };
 
 exports.getChildCoursesByChildId = (childId) => {
-  const sql = `SELECT * FROM childCourses WHERE childId = ${childId}`;
-  const stmt = db.prepare(sql);
-  const res = stmt.all();
-  return res;
+  return db.prepare('SELECT * FROM childCourses WHERE childId = ?').all(childId);
 };
 
 exports.createChildCourses = (courses) => {
-  if (courses?.length === 0) return;
-
-  const queries = [];
-  courses.forEach((course) => {
-    queries.push(`INSERT INTO childCourses (
-      childId,
-      courseId
-    ) VALUES (
-      '${course.childId}',
-      '${course.courseId}'
-    )`);
-  });
-
-  const stmts = queries.map((sql) => db.prepare(sql));
-  const transaction = db.transaction(() => {
-    for (const stmt of stmts) {
-      stmt.run();
+  if (!courses?.length) return;
+  const insert = db.prepare('INSERT INTO childCourses (childId, courseId) VALUES (?, ?)');
+  db.transaction(() => {
+    for (const course of courses) {
+      insert.run(course.childId, course.courseId);
     }
-  });
-  transaction();
-  return;
+  })();
 };
 
 exports.updateChildCourses = (courseInfo) => {
   const isNumber = typeof courseInfo === 'number';
   const id = isNumber ? courseInfo : courseInfo[0]?.childId;
-  const courses = this.getChildCoursesByChildId(id);
-  if (id || courses?.length > 0) this.deleteChildCourses(id);
-  if (!isNumber) this.createChildCourses(courseInfo);
-  return;
+  const existing = exports.getChildCoursesByChildId(id);
+  if (id || existing?.length > 0) exports.deleteChildCourses(id);
+  if (!isNumber) exports.createChildCourses(courseInfo);
 };
 
 exports.deleteChildCourses = (childId) => {
-  const sql = `DELETE FROM childCourses WHERE childId = ${childId}`;
-  const stmt = db.prepare(sql);
-  const res = stmt.run();
-  return res;
+  return db.prepare('DELETE FROM childCourses WHERE childId = ?').run(childId);
 };

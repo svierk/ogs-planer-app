@@ -1,61 +1,32 @@
 const path = require('path');
 
-let dbmgr = require(path.join(__dirname, 'dbmgr'));
-let db = dbmgr.db;
+const dbmgr = require(path.join(__dirname, 'dbmgr'));
+const db = dbmgr.db;
 
 exports.getHomework = () => {
-  const sql = 'SELECT * FROM homework';
-  const stmt = db.prepare(sql);
-  const res = stmt.all();
-  return res;
+  return db.prepare('SELECT * FROM homework').all();
 };
 
-exports.createHomework = (item) => {
-  const sql = `INSERT INTO homework (
-    childId, 
-    homeworkParticipationMonday, 
-    homeworkParticipationTuesday, 
-    homeworkParticipationWednesday, 
-    homeworkParticipationThursday, 
-    homeworkParticipationFriday, 
-    homeworkNoteMonday, 
-    homeworkNoteTuesday, 
-    homeworkNoteWednesday, 
-    homeworkNoteThursday, 
-    homeworkNoteFriday
-  ) VALUES (
-    '${item.childId}',
-    '${item.homeworkParticipationMonday}', 
-    '${item.homeworkParticipationTuesday}',
-    '${item.homeworkParticipationWednesday}',
-    '${item.homeworkParticipationThursday}',
-    '${item.homeworkParticipationFriday}',
-    '${item.homeworkNoteMonday}',
-    '${item.homeworkNoteTuesday}',
-    '${item.homeworkNoteWednesday}',
-    '${item.homeworkNoteThursday}',
-    '${item.homeworkNoteFriday}'
-  )`;
-  const stmt = db.prepare(sql);
-  const res = stmt.run();
-  return res;
+exports.createHomework = (items) => {
+  const insert = db.prepare('INSERT INTO homework (childId, day, participation, note) VALUES (?, ?, ?, ?)');
+  db.transaction(() => {
+    for (const item of items) {
+      insert.run(item.childId, item.day, item.participation, item.note ?? null);
+    }
+  })();
 };
 
-exports.updateHomework = (item) => {
-  const sql = `UPDATE homework SET 
-    childId='${item.childId}', 
-    homeworkParticipationMonday='${item.homeworkParticipationMonday}',
-    homeworkParticipationTuesday='${item.homeworkParticipationTuesday}',
-    homeworkParticipationWednesday='${item.homeworkParticipationWednesday}',
-    homeworkParticipationThursday='${item.homeworkParticipationThursday}',
-    homeworkParticipationFriday='${item.homeworkParticipationFriday}',
-    homeworkNoteMonday='${item.homeworkNoteMonday}',
-    homeworkNoteTuesday='${item.homeworkNoteTuesday}',
-    homeworkNoteWednesday='${item.homeworkNoteWednesday}',
-    homeworkNoteThursday='${item.homeworkNoteThursday}',
-    homeworkNoteFriday='${item.homeworkNoteFriday}'
-  WHERE homework.childId = ${item.childId}`;
-  const stmt = db.prepare(sql);
-  const res = stmt.run();
-  return res;
+exports.updateHomework = (items) => {
+  const upsert = db.prepare(`
+    INSERT INTO homework (childId, day, participation, note)
+    VALUES (?, ?, ?, ?)
+    ON CONFLICT(childId, day) DO UPDATE SET
+      participation = excluded.participation,
+      note = excluded.note
+  `);
+  db.transaction(() => {
+    for (const item of items) {
+      upsert.run(item.childId, item.day, item.participation, item.note ?? null);
+    }
+  })();
 };

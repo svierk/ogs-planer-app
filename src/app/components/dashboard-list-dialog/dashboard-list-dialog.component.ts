@@ -5,6 +5,7 @@ import { ActivityTypes } from 'src/app/models/activity-types';
 import { Child } from 'src/app/models/child';
 import { ChildCourse } from 'src/app/models/child-course';
 import { Class } from 'src/app/models/class';
+import { ClassSchedule } from 'src/app/models/class-schedule';
 import { Course } from 'src/app/models/course';
 import { Days } from 'src/app/models/days';
 import { EarlyCare } from 'src/app/models/early-care';
@@ -46,6 +47,7 @@ const DAYS = [
 export class DashboardListDialogComponent implements OnInit {
   children: Child[] = [];
   classes: Class[] = [];
+  classSchedules: ClassSchedule[] = [];
   courses: Course[] = [];
   earlyCare: EarlyCare[] = [];
   lunch: Lunch[] = [];
@@ -73,6 +75,9 @@ export class DashboardListDialogComponent implements OnInit {
     this.dbService.classes.subscribe((value) => {
       this.classes = value;
       this.classes.sort((a, b) => a.name.localeCompare(b.name));
+    });
+    this.dbService.classSchedules.subscribe((value) => {
+      this.classSchedules = value;
     });
     this.dbService.courses.subscribe((value) => {
       this.courses = value;
@@ -177,12 +182,13 @@ export class DashboardListDialogComponent implements OnInit {
 
     if (classId) this.children = this.children.filter((child) => child.classId == classId.toString());
     this.children.forEach((child) => {
-      const classId = child.classId;
-      const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
-      const earlyCare: any = this.earlyCare.find((item) => item.childId === child.id);
-      const earlyCareKey = `earlyCareParticipation${selectedDay?.translation as string}`;
+      const childClassId = child.classId;
+      const className = childClassId ? this.classes.find((item) => item.id === +childClassId)?.name : '';
+      const earlyCareForDay = this.earlyCare.find(
+        (item) => item.childId === child.id && item.day === selectedDay?.label
+      );
 
-      if (earlyCare && earlyCare[earlyCareKey] === 1) {
+      if (earlyCareForDay?.participation === 1) {
         const keys = ['Klasse', 'Name', 'Vorname', 'Beginn', 'Hinweis', ...this.getSpecificDaysOfMonth(month, day)];
         const item: any = keys.reduce((accumulator, value) => {
           return { ...accumulator, [value]: '' };
@@ -190,8 +196,8 @@ export class DashboardListDialogComponent implements OnInit {
         item.Klasse = className;
         item.Name = child.lastName;
         item.Vorname = child.firstName;
-        item.Beginn = earlyCare[`earlyCareStart${selectedDay?.translation as string}`];
-        item.Hinweis = earlyCare[`earlyCareNote${selectedDay?.translation as string}`];
+        item.Beginn = earlyCareForDay.start;
+        item.Hinweis = earlyCareForDay.note ?? '';
         list.push(item);
       }
     });
@@ -209,15 +215,15 @@ export class DashboardListDialogComponent implements OnInit {
     const selectedMonth = MONTHS.find((m) => m.value === month);
     const selectedDay = DAYS.find((d) => d.value === day);
     const selectedClass: any = this.classes.find((c) => c.id === classId);
+    const classScheduleForDay = this.classSchedules.find((s) => s.classId === classId && s.day === selectedDay?.label);
 
     this.children = this.children.filter((child) => child.classId == classId.toString());
     this.children.forEach((child) => {
-      const classId = child.classId;
-      const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
-      const lunch: any = this.lunch.find((item) => item.childId === child.id);
-      const lunchKey = `lunchParticipation${selectedDay?.translation as string}`;
+      const childClassId = child.classId;
+      const className = childClassId ? this.classes.find((item) => item.id === +childClassId)?.name : '';
+      const lunchForDay = this.lunch.find((item) => item.childId === child.id && item.day === selectedDay?.label);
 
-      if (lunch && lunch[lunchKey] === 1) {
+      if (lunchForDay?.participation === 1) {
         const keys = ['Klasse', 'Name', 'Vorname', 'Hinweis', ...this.getSpecificDaysOfMonth(month, day)];
         const item: any = keys.reduce((accumulator, value) => {
           return { ...accumulator, [value]: '' };
@@ -225,16 +231,15 @@ export class DashboardListDialogComponent implements OnInit {
         item.Klasse = className;
         item.Name = child.lastName;
         item.Vorname = child.firstName;
-        item.Hinweis = lunch[`lunchNote${selectedDay?.translation as string}`];
+        item.Hinweis = lunchForDay.note ?? '';
         list.push(item);
       }
     });
 
-    const time = `lunch${selectedDay?.translation as string}`;
     this.excelService.export(
       list,
       this.getFileName(ActivityTypes.Lunch, selectedMonth, selectedDay, selectedClass),
-      this.getFileHeading(ActivityTypes.Lunch, selectedDay, selectedClass, time)
+      this.getFileHeading(ActivityTypes.Lunch, selectedDay, selectedClass, classScheduleForDay?.lunchTime)
     );
     this.closeDialog();
   }
@@ -244,15 +249,15 @@ export class DashboardListDialogComponent implements OnInit {
     const selectedMonth = MONTHS.find((m) => m.value === month);
     const selectedDay = DAYS.find((d) => d.value === day);
     const selectedClass: any = this.classes.find((c) => c.id === classId);
+    const classScheduleForDay = this.classSchedules.find((s) => s.classId === classId && s.day === selectedDay?.label);
 
     this.children = this.children.filter((child) => child.classId == classId.toString());
     this.children.forEach((child) => {
-      const classId = child.classId;
-      const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
-      const homework: any = this.homework.find((item) => item.childId === child.id);
-      const homeworkKey = `homeworkParticipation${selectedDay?.translation as string}`;
+      const childClassId = child.classId;
+      const className = childClassId ? this.classes.find((item) => item.id === +childClassId)?.name : '';
+      const homeworkForDay = this.homework.find((item) => item.childId === child.id && item.day === selectedDay?.label);
 
-      if (homework && homework[homeworkKey] === 1) {
+      if (homeworkForDay?.participation === 1) {
         const keys = ['Klasse', 'Name', 'Vorname', 'Bemerkung', ...this.getSpecificDaysOfMonth(month, day)];
         const item: any = keys.reduce((accumulator, value) => {
           return { ...accumulator, [value]: '' };
@@ -260,16 +265,15 @@ export class DashboardListDialogComponent implements OnInit {
         item.Klasse = className;
         item.Name = child.lastName;
         item.Vorname = child.firstName;
-        item.Bemerkung = homework[`homeworkNote${selectedDay?.translation as string}`];
+        item.Bemerkung = homeworkForDay.note ?? '';
         list.push(item);
       }
     });
 
-    const time = `homework${selectedDay?.translation as string}`;
     this.excelService.export(
       list,
       this.getFileName(ActivityTypes.Homework, selectedMonth, selectedDay, selectedClass),
-      this.getFileHeading(ActivityTypes.Homework, selectedDay, selectedClass, time)
+      this.getFileHeading(ActivityTypes.Homework, selectedDay, selectedClass, classScheduleForDay?.homeworkTime)
     );
     this.closeDialog();
   }
@@ -312,12 +316,11 @@ export class DashboardListDialogComponent implements OnInit {
 
     if (classId) this.children = this.children.filter((child) => child.classId == classId.toString());
     this.children.forEach((child) => {
-      const classId = child.classId;
-      const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
-      const pickup: any = this.pickup.find((item) => item.childId === child.id);
-      const pickupKey = `pickupTime${selectedDay?.translation as string}`;
+      const childClassId = child.classId;
+      const className = childClassId ? this.classes.find((item) => item.id === +childClassId)?.name : '';
+      const pickupForDay = this.pickup.find((item) => item.childId === child.id && item.day === selectedDay?.label);
 
-      if (pickup && pickup[pickupKey] !== '') {
+      if (pickupForDay?.pickupTime) {
         const keys = [
           'Klasse',
           'Name',
@@ -333,9 +336,9 @@ export class DashboardListDialogComponent implements OnInit {
         item.Klasse = className;
         item.Name = child.lastName;
         item.Vorname = child.firstName;
-        item.Uhrzeit = pickup[`pickupTime${selectedDay?.translation as string}`];
-        item.Abholung = pickup[`pickupType${selectedDay?.translation as string}`];
-        item.Hinweis = pickup[`pickupNote${selectedDay?.translation as string}`];
+        item.Uhrzeit = pickupForDay.pickupTime;
+        item.Abholung = pickupForDay.pickupType;
+        item.Hinweis = pickupForDay.note ?? '';
         list.push(item);
       }
     });
@@ -354,8 +357,8 @@ export class DashboardListDialogComponent implements OnInit {
 
     if (classId) this.children = this.children.filter((child) => child.classId == classId.toString());
     this.children.forEach((child) => {
-      const classId = child.classId;
-      const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
+      const childClassId = child.classId;
+      const className = childClassId ? this.classes.find((item) => item.id === +childClassId)?.name : '';
       const keys = ['Klasse', 'Name', 'Vorname', 'Telefon', 'Mobil', 'Notfallkontakt'];
       const item: any = keys.reduce((accumulator, value) => {
         return { ...accumulator, [value]: '' };
@@ -383,8 +386,8 @@ export class DashboardListDialogComponent implements OnInit {
 
     if (classId) this.children = this.children.filter((child) => child.classId == classId.toString());
     this.children.forEach((child) => {
-      const classId = child.classId;
-      const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
+      const childClassId = child.classId;
+      const className = childClassId ? this.classes.find((item) => item.id === +childClassId)?.name : '';
       const keys = ['Klasse', 'Name', 'Vorname', 'Telefon', 'Mobil', 'Abholberechtigung'];
       const item: any = keys.reduce((accumulator, value) => {
         return { ...accumulator, [value]: '' };
@@ -412,8 +415,8 @@ export class DashboardListDialogComponent implements OnInit {
 
     if (classId) this.children = this.children.filter((child) => child.classId == classId.toString());
     this.children.forEach((child) => {
-      const classId = child.classId;
-      const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';
+      const childClassId = child.classId;
+      const className = childClassId ? this.classes.find((item) => item.id === +childClassId)?.name : '';
       const keys = ['Klasse', 'Name', 'Vorname', 'Telefon', 'Mobil', 'Allergien'];
       const item: any = keys.reduce((accumulator, value) => {
         return { ...accumulator, [value]: '' };
@@ -462,8 +465,8 @@ export class DashboardListDialogComponent implements OnInit {
     return `${a}_${new Date().getFullYear()}_${m?.label}_${d?.label}${c ? '_' + c?.name : ''}`;
   }
 
-  private getFileHeading(a: any, d: any, c: any, t?: any): string {
+  private getFileHeading(a: any, d: any, c: any, time?: string): string {
     if (a === 'Kursliste') return `${a} ${c?.name} | ${d?.label} ${c?.start} - ${c?.end} | ${c?.teacher}`;
-    return `${a} ${d?.label} ${c ? c?.name : ''} ${t ? c[t] : ''}`;
+    return `${a} ${d?.label} ${c ? c?.name : ''} ${time ?? ''}`;
   }
 }

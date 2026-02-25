@@ -1,61 +1,32 @@
 const path = require('path');
 
-let dbmgr = require(path.join(__dirname, 'dbmgr'));
-let db = dbmgr.db;
+const dbmgr = require(path.join(__dirname, 'dbmgr'));
+const db = dbmgr.db;
 
 exports.getLunch = () => {
-  const sql = 'SELECT * FROM lunch';
-  const stmt = db.prepare(sql);
-  const res = stmt.all();
-  return res;
+  return db.prepare('SELECT * FROM lunch').all();
 };
 
-exports.createLunch = (item) => {
-  const sql = `INSERT INTO lunch (
-    childId,
-    lunchParticipationMonday,
-    lunchParticipationTuesday,
-    lunchParticipationWednesday,
-    lunchParticipationThursday,
-    lunchParticipationFriday,
-    lunchNoteMonday,
-    lunchNoteTuesday,
-    lunchNoteWednesday,
-    lunchNoteThursday,
-    lunchNoteFriday
-  ) VALUES (
-    '${item.childId}', 
-    '${item.lunchParticipationMonday}', 
-    '${item.lunchParticipationTuesday}', 
-    '${item.lunchParticipationWednesday}',
-    '${item.lunchParticipationThursday}',
-    '${item.lunchParticipationFriday}',
-    '${item.lunchNoteMonday}',
-    '${item.lunchNoteTuesday}',
-    '${item.lunchNoteWednesday}',
-    '${item.lunchNoteThursday}',
-    '${item.lunchNoteFriday}'
-  )`;
-  const stmt = db.prepare(sql);
-  const res = stmt.run();
-  return res;
+exports.createLunch = (items) => {
+  const insert = db.prepare('INSERT INTO lunch (childId, day, participation, note) VALUES (?, ?, ?, ?)');
+  db.transaction(() => {
+    for (const item of items) {
+      insert.run(item.childId, item.day, item.participation, item.note ?? null);
+    }
+  })();
 };
 
-exports.updateLunch = (item) => {
-  const sql = `UPDATE lunch SET 
-    childId='${item.childId}',
-    lunchParticipationMonday='${item.lunchParticipationMonday}',
-    lunchParticipationTuesday='${item.lunchParticipationTuesday}',
-    lunchParticipationWednesday='${item.lunchParticipationWednesday}',
-    lunchParticipationThursday='${item.lunchParticipationThursday}',
-    lunchParticipationFriday='${item.lunchParticipationFriday}',
-    lunchNoteMonday='${item.lunchNoteMonday}',
-    lunchNoteTuesday='${item.lunchNoteTuesday}',
-    lunchNoteWednesday='${item.lunchNoteWednesday}',
-    lunchNoteThursday='${item.lunchNoteThursday}',
-    lunchNoteFriday='${item.lunchNoteFriday}'
-  WHERE lunch.childId = ${item.childId}`;
-  const stmt = db.prepare(sql);
-  const res = stmt.run();
-  return res;
+exports.updateLunch = (items) => {
+  const upsert = db.prepare(`
+    INSERT INTO lunch (childId, day, participation, note)
+    VALUES (?, ?, ?, ?)
+    ON CONFLICT(childId, day) DO UPDATE SET
+      participation = excluded.participation,
+      note = excluded.note
+  `);
+  db.transaction(() => {
+    for (const item of items) {
+      upsert.run(item.childId, item.day, item.participation, item.note ?? null);
+    }
+  })();
 };
