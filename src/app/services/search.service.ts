@@ -20,7 +20,7 @@ export class SearchService {
       return source;
     }
 
-    source.data = data.sort((a: any, b: any) => {
+    source.data = data.toSorted((a: any, b: any) => {
       const isAsc = sort.direction === 'asc';
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument

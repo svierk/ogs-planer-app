@@ -40,7 +40,7 @@ export class ExcelService {
     const colNames = [];
     const colWidths = [];
     for (let i = 0; i < colCount; i++) {
-      colNames.push(`${String.fromCharCode(i + 65)}2`);
+      colNames.push(`${String.fromCodePoint(i + 65)}2`);
       colWidths.push({ wch: 15 });
     }
 
@@ -53,7 +53,7 @@ export class ExcelService {
     const maxWidths = [];
     for (let i = 0; i < colCount; i++) {
       const maxWidth = element.reduce((w, r) => Math.max(w, r[Object.keys(r)[i]].length), 10);
-      maxWidths.push({ wch: colWidths[i].wch <= maxWidth ? maxWidth : colWidths[i].wch });
+      maxWidths.push({ wch: Math.max(colWidths[i].wch, maxWidth) });
     }
 
     // set final column widths
@@ -61,7 +61,7 @@ export class ExcelService {
 
     // merge cells in first row based on overall column count
     const merge = { s: { r: 0, c: 0 }, e: { r: 0, c: colCount - 1 } };
-    if (!ws['!merges']) ws['!merges'] = [];
+    ws['!merges'] ??= [];
     ws['!merges'].push(merge);
 
     // add worksheet to workbook
@@ -99,10 +99,8 @@ export class ExcelService {
     const homework: Homework[] = data.homework;
     const childCourses: ChildCourse[] = data.childCourses;
     const pickup: Pickup[] = data.pickup;
-    const selectedCourseIds: number[] = childCourses.map((c) => c.courseId);
-    const selectedCourses = courses.filter((course) => {
-      return selectedCourseIds.includes(course.id as number);
-    });
+    const selectedCourseIds = new Set<number>(childCourses.map((c) => c.courseId));
+    const selectedCourses = courses.filter((course) => selectedCourseIds.has(course.id as number));
 
     // Helpers to look up data by German day name
     const ec = (day: string) => earlyCare.find((i) => i.day === day);
@@ -111,98 +109,32 @@ export class ExcelService {
     const pu = (day: string) => pickup.find((i) => i.day === day);
     const cs = (day: string) => classSchedules.find((i) => i.day === day);
 
-    // generate workbook
+    // generate workbook and worksheet data
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-
-    // generate worksheet
     wb.SheetNames.push('Liste');
 
-    // define worksheet data
     const ws_data = [
-      ['', Days.Monday, Days.Tuesday, Days.Wednesday, Days.Thursday, Days.Friday],
-      [
-        ActivityTypes.EarlyCare,
-        ec('Montag')?.participation ? `Ja (${ec('Montag')?.start})` : 'Nein',
-        ec('Dienstag')?.participation ? `Ja (${ec('Dienstag')?.start})` : 'Nein',
-        ec('Mittwoch')?.participation ? `Ja (${ec('Mittwoch')?.start})` : 'Nein',
-        ec('Donnerstag')?.participation ? `Ja (${ec('Donnerstag')?.start})` : 'Nein',
-        ec('Freitag')?.participation ? `Ja (${ec('Freitag')?.start})` : 'Nein',
-      ],
-      [
-        '- Notiz',
-        ec('Montag')?.note ?? ' ',
-        ec('Dienstag')?.note ?? ' ',
-        ec('Mittwoch')?.note ?? ' ',
-        ec('Donnerstag')?.note ?? ' ',
-        ec('Freitag')?.note ?? ' ',
-      ],
-      [
-        ActivityTypes.Lunch,
-        lu('Montag')?.participation ? `Ja (${cs('Montag')?.lunchTime} Uhr)` : 'Nein',
-        lu('Dienstag')?.participation ? `Ja (${cs('Dienstag')?.lunchTime} Uhr)` : 'Nein',
-        lu('Mittwoch')?.participation ? `Ja (${cs('Mittwoch')?.lunchTime} Uhr)` : 'Nein',
-        lu('Donnerstag')?.participation ? `Ja (${cs('Donnerstag')?.lunchTime} Uhr)` : 'Nein',
-        lu('Freitag')?.participation ? `Ja (${cs('Freitag')?.lunchTime} Uhr)` : 'Nein',
-      ],
-      [
-        '- Notiz',
-        lu('Montag')?.note ?? ' ',
-        lu('Dienstag')?.note ?? ' ',
-        lu('Mittwoch')?.note ?? ' ',
-        lu('Donnerstag')?.note ?? ' ',
-        lu('Freitag')?.note ?? ' ',
-      ],
-      [
-        ActivityTypes.Homework,
-        hw('Montag')?.participation ? `Ja (${cs('Montag')?.homeworkTime} Uhr)` : 'Nein',
-        hw('Dienstag')?.participation ? `Ja (${cs('Dienstag')?.homeworkTime} Uhr)` : 'Nein',
-        hw('Mittwoch')?.participation ? `Ja (${cs('Mittwoch')?.homeworkTime} Uhr)` : 'Nein',
-        hw('Donnerstag')?.participation ? `Ja (${cs('Donnerstag')?.homeworkTime} Uhr)` : 'Nein',
-        hw('Freitag')?.participation ? `Ja (${cs('Freitag')?.homeworkTime} Uhr)` : 'Nein',
-      ],
-      [
-        '- Notiz',
-        hw('Montag')?.note ?? ' ',
-        hw('Dienstag')?.note ?? ' ',
-        hw('Mittwoch')?.note ?? ' ',
-        hw('Donnerstag')?.note ?? ' ',
-        hw('Freitag')?.note ?? ' ',
-      ],
-      [
-        ActivityTypes.Courses,
-        this.getCoursesByDay(selectedCourses, Days.Monday),
-        this.getCoursesByDay(selectedCourses, Days.Tuesday),
-        this.getCoursesByDay(selectedCourses, Days.Wednesday),
-        this.getCoursesByDay(selectedCourses, Days.Thursday),
-        this.getCoursesByDay(selectedCourses, Days.Friday),
-      ],
-      [
-        ActivityTypes.Pickup,
-        pu('Montag')?.pickupTime ? `${pu('Montag')?.pickupType} (${pu('Montag')?.pickupTime} Uhr)` : '-',
-        pu('Dienstag')?.pickupTime ? `${pu('Dienstag')?.pickupType} (${pu('Dienstag')?.pickupTime} Uhr)` : '-',
-        pu('Mittwoch')?.pickupTime ? `${pu('Mittwoch')?.pickupType} (${pu('Mittwoch')?.pickupTime} Uhr)` : '-',
-        pu('Donnerstag')?.pickupTime ? `${pu('Donnerstag')?.pickupType} (${pu('Donnerstag')?.pickupTime} Uhr)` : '-',
-        pu('Freitag')?.pickupTime ? `${pu('Freitag')?.pickupType} (${pu('Freitag')?.pickupTime} Uhr)` : '-',
-      ],
-      [
-        '- Notiz',
-        pu('Montag')?.note ?? ' ',
-        pu('Dienstag')?.note ?? ' ',
-        pu('Mittwoch')?.note ?? ' ',
-        pu('Donnerstag')?.note ?? ' ',
-        pu('Freitag')?.note ?? ' ',
-      ],
+      ['', ...Object.values(Days)],
+      this.buildParticipationRow(ActivityTypes.EarlyCare, ec, (day) => `Ja (${ec(day)?.start})`),
+      this.buildNoteRow(ec),
+      this.buildParticipationRow(ActivityTypes.Lunch, lu, (day) => `Ja (${cs(day)?.lunchTime} Uhr)`),
+      this.buildNoteRow(lu),
+      this.buildParticipationRow(ActivityTypes.Homework, hw, (day) => `Ja (${cs(day)?.homeworkTime} Uhr)`),
+      this.buildNoteRow(hw),
+      [ActivityTypes.Courses, ...Object.values(Days).map((day) => this.getCoursesByDay(selectedCourses, day))],
+      this.buildPickupRow(pu),
+      this.buildNoteRow(pu),
     ];
 
     // create worksheet from array
+    const colCount = 6;
     const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(ws_data, { origin: 1 } as XLSX.JSON2SheetOpts);
 
-    // create array of column names, e.g. ['A1','B1'], and default column widths
-    const colCount = 6;
+    // create array of column names, e.g. ['A2','B2'], and default column widths
     const colNames = [];
     const colWidths = [];
     for (let i = 0; i < colCount; i++) {
-      colNames.push(`${String.fromCharCode(i + 65)}2`);
+      colNames.push(`${String.fromCodePoint(i + 65)}2`);
       colWidths.push({ wch: 15 });
     }
 
@@ -215,16 +147,13 @@ export class ExcelService {
     const maxWidths = [];
     for (let i = 0; i < colCount; i++) {
       const maxWidth = ws_data.reduce((w: any, r: any) => Math.max(w, r[Object.keys(r)[i]].length), 10);
-      maxWidths.push({ wch: colWidths[i].wch <= maxWidth ? maxWidth : colWidths[i].wch });
+      maxWidths.push({ wch: Math.max(colWidths[i].wch, maxWidth) });
     }
 
-    // set final column widths
+    // set final column widths and merge heading row
     ws['!cols'] = maxWidths;
-
-    // merge cells in first row based on overall column count
-    const merge = { s: { r: 0, c: 0 }, e: { r: 0, c: colCount - 1 } };
-    if (!ws['!merges']) ws['!merges'] = [];
-    ws['!merges'].push(merge);
+    ws['!merges'] ??= [];
+    ws['!merges'].push({ s: { r: 0, c: 0 }, e: { r: 0, c: colCount - 1 } });
 
     // assign the sheet object to the workbook
     wb.Sheets['Liste'] = ws;
@@ -243,6 +172,28 @@ export class ExcelService {
 
   download(workbook: XLSX.WorkBook, fileName: string) {
     XLSX.writeFile(workbook, `${fileName}${EXCEL_EXTENSION}`);
+  }
+
+  private buildParticipationRow(
+    label: string,
+    lookup: (day: string) => { participation?: number } | undefined,
+    getInfo: (day: string) => string
+  ): any[] {
+    return [label, ...Object.values(Days).map((day) => (lookup(day)?.participation ? getInfo(day) : 'Nein'))];
+  }
+
+  private buildNoteRow(lookup: (day: string) => { note?: string } | undefined): any[] {
+    return ['- Notiz', ...Object.values(Days).map((day) => lookup(day)?.note ?? ' ')];
+  }
+
+  private buildPickupRow(pu: (day: string) => { pickupTime?: string; pickupType?: string } | undefined): any[] {
+    return [
+      ActivityTypes.Pickup,
+      ...Object.values(Days).map((day) => {
+        const entry = pu(day);
+        return entry?.pickupTime ? `${entry.pickupType} (${entry.pickupTime} Uhr)` : '-';
+      }),
+    ];
   }
 
   private getCoursesByDay(courses: Course[], day: Days) {

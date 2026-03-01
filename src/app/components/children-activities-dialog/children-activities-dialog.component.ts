@@ -92,7 +92,7 @@ export class ChildrenActivitiesDialogComponent implements OnInit {
   }
 
   private hasActivities(): boolean {
-    return !!this.earlyCare.find((item) => item.childId === this.child.id);
+    return this.earlyCare.some((item) => item.childId === this.child.id);
   }
 
   private init() {

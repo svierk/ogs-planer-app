@@ -28,7 +28,7 @@ export class DbService {
 
   constructor() {
     if (this.isElectron) {
-      this.ipcRenderer = window.require('electron').ipcRenderer;
+      this.ipcRenderer = (globalThis as any).require('electron').ipcRenderer;
       this.ipcRenderer.on('getChildren', (event: any, children: any[]) => {
         this.children.next(children);
       });
