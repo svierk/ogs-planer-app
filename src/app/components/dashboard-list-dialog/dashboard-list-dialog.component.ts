@@ -284,9 +284,9 @@ export class DashboardListDialogComponent implements OnInit {
     const selectedCourse = this.courses.find((c) => c.id === courseId);
     const selectedDay = DAYS.find((d) => (d.label as Days) === selectedCourse?.day);
     const courseChoices = this.childCourses.filter((course) => course.courseId === courseId);
-    const childIds = courseChoices.map(({ childId }) => childId);
+    const childIds = new Set(courseChoices.map(({ childId }) => childId));
 
-    this.children = this.children.filter((child) => childIds.includes(child.id as number));
+    this.children = this.children.filter((child) => childIds.has(child.id as number));
     this.children.forEach((child) => {
       const classId = child.classId;
       const className = classId ? this.classes.find((item) => item.id === +classId)?.name : '';

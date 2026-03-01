@@ -54,7 +54,7 @@ describe('ChildrenDeleteDialogComponent', () => {
     const event = new KeyboardEvent('keydown', { key: 'Enter', keyCode: 13 });
 
     // when
-    window.dispatchEvent(event);
+    globalThis.dispatchEvent(event);
 
     // then
     expect(component.deleteChild).toHaveBeenCalledTimes(1);
