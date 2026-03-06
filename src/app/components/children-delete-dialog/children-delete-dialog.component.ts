@@ -4,9 +4,9 @@ import { DbService } from 'src/app/services/db.service';
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
-    selector: 'ogs-children-delete-dialog',
-    templateUrl: './children-delete-dialog.component.html',
-    standalone: false
+  selector: 'ogs-children-delete-dialog',
+  templateUrl: './children-delete-dialog.component.html',
+  standalone: false,
 })
 export class ChildrenDeleteDialogComponent {
   userId!: number;

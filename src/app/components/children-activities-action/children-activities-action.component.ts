@@ -4,9 +4,9 @@ import { Child } from 'src/app/models/child';
 import { ChildrenActivitiesDialogComponent } from '../children-activities-dialog/children-activities-dialog.component';
 
 @Component({
-    selector: 'ogs-children-activities-action',
-    templateUrl: './children-activities-action.component.html',
-    standalone: false
+  selector: 'ogs-children-activities-action',
+  templateUrl: './children-activities-action.component.html',
+  standalone: false,
 })
 export class ChildrenActivitiesActionComponent {
   @Input()

@@ -4,9 +4,9 @@ import { DbService } from 'src/app/services/db.service';
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
-    selector: 'ogs-courses-delete-dialog',
-    templateUrl: './courses-delete-dialog.component.html',
-    standalone: false
+  selector: 'ogs-courses-delete-dialog',
+  templateUrl: './courses-delete-dialog.component.html',
+  standalone: false,
 })
 export class CoursesDeleteDialogComponent {
   courseId!: number;

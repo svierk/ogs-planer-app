@@ -5,10 +5,10 @@ import { InformationTypes } from 'src/app/models/information-types';
 import { DashboardListDialogComponent } from '../dashboard-list-dialog/dashboard-list-dialog.component';
 
 @Component({
-    selector: 'ogs-dashboard',
-    templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.scss'],
-    standalone: false
+  selector: 'ogs-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss'],
+  standalone: false,
 })
 export class DashboardComponent {
   ActivityTypes = ActivityTypes;

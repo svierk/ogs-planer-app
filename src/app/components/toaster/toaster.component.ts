@@ -3,11 +3,11 @@ import { ToastEvent } from 'src/app/models/toast-event';
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
-    selector: 'ogs-toaster',
-    templateUrl: './toaster.component.html',
-    styleUrls: ['./toaster.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'ogs-toaster',
+  templateUrl: './toaster.component.html',
+  styleUrls: ['./toaster.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ToasterComponent implements OnInit {
   currentToasts: ToastEvent[] = [];

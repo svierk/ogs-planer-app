@@ -4,9 +4,9 @@ import { Course } from 'src/app/models/course';
 import { CoursesDeleteDialogComponent } from '../courses-delete-dialog/courses-delete-dialog.component';
 
 @Component({
-    selector: 'ogs-courses-delete-action',
-    templateUrl: './courses-delete-action.component.html',
-    standalone: false
+  selector: 'ogs-courses-delete-action',
+  templateUrl: './courses-delete-action.component.html',
+  standalone: false,
 })
 export class CoursesDeleteActionComponent {
   @Input()

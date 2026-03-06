@@ -5,10 +5,10 @@ import { fromEvent, take } from 'rxjs';
 import { EventTypes } from 'src/app/models/event-types';
 
 @Component({
-    selector: 'ogs-toast',
-    templateUrl: './toast.component.html',
-    styleUrls: ['./toast.component.scss'],
-    standalone: false
+  selector: 'ogs-toast',
+  templateUrl: './toast.component.html',
+  styleUrls: ['./toast.component.scss'],
+  standalone: false,
 })
 export class ToastComponent implements OnInit {
   @Output() disposeEvent = new EventEmitter();

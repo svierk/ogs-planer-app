@@ -8,9 +8,9 @@ import { ToastService } from 'src/app/services/toast.service';
 import { ChildrenCreateUpdateDialogComponent } from '../children-create-update-dialog/children-create-update-dialog.component';
 
 @Component({
-    selector: 'ogs-courses-create-update-dialog',
-    templateUrl: './courses-create-update-dialog.component.html',
-    standalone: false
+  selector: 'ogs-courses-create-update-dialog',
+  templateUrl: './courses-create-update-dialog.component.html',
+  standalone: false,
 })
 export class CoursesCreateUpdateDialogComponent implements OnInit {
   course!: Course;

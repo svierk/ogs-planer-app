@@ -16,11 +16,11 @@ import { SearchService } from 'src/app/services/search.service';
 import { Child } from '../../models/child';
 
 @Component({
-    selector: 'ogs-children-table',
-    templateUrl: './children-table.component.html',
-    styleUrls: ['./children-table.component.scss'],
-    providers: [ClassNamePipe],
-    standalone: false
+  selector: 'ogs-children-table',
+  templateUrl: './children-table.component.html',
+  styleUrls: ['./children-table.component.scss'],
+  providers: [ClassNamePipe],
+  standalone: false,
 })
 export class ChildrenTableComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort!: MatSort;
