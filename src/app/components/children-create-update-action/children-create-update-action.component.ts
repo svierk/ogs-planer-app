@@ -4,9 +4,10 @@ import { Child } from 'src/app/models/child';
 import { ChildrenCreateUpdateDialogComponent } from '../children-create-update-dialog/children-create-update-dialog.component';
 
 @Component({
-  selector: 'ogs-children-create-update-action',
-  templateUrl: './children-create-update-action.component.html',
-  styleUrls: ['./children-create-update-action.component.scss'],
+    selector: 'ogs-children-create-update-action',
+    templateUrl: './children-create-update-action.component.html',
+    styleUrls: ['./children-create-update-action.component.scss'],
+    standalone: false
 })
 export class ChildrenCreateUpdateActionComponent {
   @Input()

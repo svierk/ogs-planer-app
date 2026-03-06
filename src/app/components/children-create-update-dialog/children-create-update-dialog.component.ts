@@ -7,9 +7,10 @@ import { DbService } from 'src/app/services/db.service';
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
-  selector: 'ogs-children-create-update-dialog',
-  templateUrl: './children-create-update-dialog.component.html',
-  providers: [FormBuilder],
+    selector: 'ogs-children-create-update-dialog',
+    templateUrl: './children-create-update-dialog.component.html',
+    providers: [FormBuilder],
+    standalone: false
 })
 export class ChildrenCreateUpdateDialogComponent implements OnInit {
   child!: Child;

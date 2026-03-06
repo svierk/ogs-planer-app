@@ -6,9 +6,10 @@ import { DbService } from 'src/app/services/db.service';
 import { SearchService } from 'src/app/services/search.service';
 
 @Component({
-  selector: 'ogs-classes-table',
-  templateUrl: './classes-table.component.html',
-  styleUrls: ['./classes-table.component.scss'],
+    selector: 'ogs-classes-table',
+    templateUrl: './classes-table.component.html',
+    styleUrls: ['./classes-table.component.scss'],
+    standalone: false
 })
 export class ClassesTableComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort!: MatSort;

@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Class } from '../models/class';
 
 @Pipe({
-  name: 'className',
+    name: 'className',
+    standalone: false
 })
 export class ClassNamePipe implements PipeTransform {
   transform(classId: string, classes: Class[]): string | undefined {

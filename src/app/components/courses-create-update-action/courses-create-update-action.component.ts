@@ -4,9 +4,10 @@ import { Course } from 'src/app/models/course';
 import { CoursesCreateUpdateDialogComponent } from '../courses-create-update-dialog/courses-create-update-dialog.component';
 
 @Component({
-  selector: 'ogs-courses-create-update-action',
-  templateUrl: './courses-create-update-action.component.html',
-  styleUrls: ['./courses-create-update-action.component.scss'],
+    selector: 'ogs-courses-create-update-action',
+    templateUrl: './courses-create-update-action.component.html',
+    styleUrls: ['./courses-create-update-action.component.scss'],
+    standalone: false
 })
 export class CoursesCreateUpdateActionComponent {
   @Input()
