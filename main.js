@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const url = require('url');
 const path = require('path');
-const basePath = 'dist/ogs-planer-app/assets/models';
+const basePath = 'dist/ogs-planer-app/browser/assets/models';
 
 let win;
 
@@ -16,7 +16,7 @@ function onReady() {
   });
   win.loadURL(
     url.format({
-      pathname: path.join(__dirname, 'dist/ogs-planer-app/index.html'),
+      pathname: path.join(__dirname, 'dist/ogs-planer-app/browser/index.html'),
       protocol: 'file:',
       slashes: true,
     })

@@ -1,6 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogConfig,
+  MatDialogRef,
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
+  MatDialogClose,
+} from '@angular/material/dialog';
 import { ActivityTypes } from 'src/app/models/activity-types';
 import { Child } from 'src/app/models/child';
 import { ChildCourse } from 'src/app/models/child-course';
@@ -16,6 +24,12 @@ import { Pickup } from 'src/app/models/pickup';
 import { DbService } from 'src/app/services/db.service';
 import { ExcelService } from 'src/app/services/excel.service';
 import { ChildrenCreateUpdateDialogComponent } from '../children-create-update-dialog/children-create-update-dialog.component';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { NgIf, NgFor } from '@angular/common';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
+import { MatButton } from '@angular/material/button';
 
 const MONTHS = [
   { label: 'Januar', value: 0 },
@@ -43,6 +57,23 @@ const DAYS = [
 @Component({
   selector: 'ogs-dashboard-list-dialog',
   templateUrl: './dashboard-list-dialog.component.html',
+  standalone: true,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogTitle,
+    CdkScrollable,
+    MatDialogContent,
+    NgIf,
+    MatFormField,
+    MatLabel,
+    MatSelect,
+    NgFor,
+    MatOption,
+    MatDialogActions,
+    MatButton,
+    MatDialogClose,
+  ],
 })
 export class DashboardListDialogComponent implements OnInit {
   children: Child[] = [];

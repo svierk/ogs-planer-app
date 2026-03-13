@@ -26,7 +26,6 @@ describe('ClassesTableComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ClassesCreateUpdateActionComponent, ClassesDeleteActionComponent, ClassesTableComponent],
       imports: [
         BrowserAnimationsModule,
         BrowserDynamicTestingModule,
@@ -36,6 +35,9 @@ describe('ClassesTableComponent', () => {
         MatInputModule,
         MatSortModule,
         MatTableModule,
+        ClassesCreateUpdateActionComponent,
+        ClassesDeleteActionComponent,
+        ClassesTableComponent,
       ],
     });
     fixture = TestBed.createComponent(ClassesTableComponent);

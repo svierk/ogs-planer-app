@@ -1,6 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogConfig,
+  MatDialogRef,
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
+  MatDialogClose,
+} from '@angular/material/dialog';
 import { ActivityTypes } from 'src/app/models/activity-types';
 import { Child } from 'src/app/models/child';
 import { ChildCourse } from 'src/app/models/child-course';
@@ -12,6 +20,14 @@ import { Lunch } from 'src/app/models/lunch';
 import { Pickup } from 'src/app/models/pickup';
 import { DbService } from 'src/app/services/db.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { NgClass, NgFor } from '@angular/common';
+import { MatCard, MatCardHeader, MatCardTitle } from '@angular/material/card';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
+import { MatInput } from '@angular/material/input';
+import { MatButton } from '@angular/material/button';
 
 const DAYS_MAP = [
   { key: 'Monday', label: 'Montag' },
@@ -25,6 +41,27 @@ const DAYS_MAP = [
   selector: 'ogs-children-activities-dialog',
   templateUrl: './children-activities-dialog.component.html',
   styleUrls: ['./children-activities-dialog.component.scss'],
+  standalone: true,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogTitle,
+    CdkScrollable,
+    MatDialogContent,
+    NgClass,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    NgFor,
+    MatFormField,
+    MatLabel,
+    MatSelect,
+    MatOption,
+    MatInput,
+    MatDialogActions,
+    MatButton,
+    MatDialogClose,
+  ],
 })
 export class ChildrenActivitiesDialogComponent implements OnInit {
   child!: Child;

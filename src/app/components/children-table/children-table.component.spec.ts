@@ -54,7 +54,6 @@ describe('ChildrenTableComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [ChildrenCreateUpdateActionComponent, ChildrenDeleteActionComponent, ChildrenTableComponent],
       imports: [
         BrowserAnimationsModule,
         BrowserDynamicTestingModule,
@@ -64,6 +63,9 @@ describe('ChildrenTableComponent', () => {
         MatInputModule,
         MatSortModule,
         MatTableModule,
+        ChildrenCreateUpdateActionComponent,
+        ChildrenDeleteActionComponent,
+        ChildrenTableComponent,
       ],
       providers: [{ provide: ExcelService, useValue: excelService }],
     });

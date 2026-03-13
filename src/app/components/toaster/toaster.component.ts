@@ -1,12 +1,15 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ToastEvent } from 'src/app/models/toast-event';
 import { ToastService } from 'src/app/services/toast.service';
+import { ToastComponent } from '../toast/toast.component';
 
 @Component({
   selector: 'ogs-toaster',
   templateUrl: './toaster.component.html',
   styleUrls: ['./toaster.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [ToastComponent],
 })
 export class ToasterComponent implements OnInit {
   currentToasts: ToastEvent[] = [];

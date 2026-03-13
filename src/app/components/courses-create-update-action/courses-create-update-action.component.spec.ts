@@ -14,8 +14,7 @@ describe('CoursesCreateUpdateActionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CoursesCreateUpdateActionComponent],
-      imports: [MatDialogModule, MatIconModule],
+      imports: [MatDialogModule, MatIconModule, CoursesCreateUpdateActionComponent],
     });
     fixture = TestBed.createComponent(CoursesCreateUpdateActionComponent);
     component = fixture.componentInstance;

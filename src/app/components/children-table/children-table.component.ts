@@ -1,6 +1,19 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatSort, Sort, MatSortHeader } from '@angular/material/sort';
+import {
+  MatTableDataSource,
+  MatTable,
+  MatColumnDef,
+  MatHeaderCellDef,
+  MatHeaderCell,
+  MatCellDef,
+  MatCell,
+  MatHeaderRowDef,
+  MatHeaderRow,
+  MatRowDef,
+  MatRow,
+  MatNoDataRow,
+} from '@angular/material/table';
 import { ChildCourse } from 'src/app/models/child-course';
 import { Class } from 'src/app/models/class';
 import { ClassSchedule } from 'src/app/models/class-schedule';
@@ -14,12 +27,46 @@ import { DbService } from 'src/app/services/db.service';
 import { ExcelService } from 'src/app/services/excel.service';
 import { SearchService } from 'src/app/services/search.service';
 import { Child } from '../../models/child';
+import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatIcon } from '@angular/material/icon';
+import { ChildrenCreateUpdateActionComponent } from '../children-create-update-action/children-create-update-action.component';
+import { ChildrenActivitiesActionComponent } from '../children-activities-action/children-activities-action.component';
+import { MatIconButton } from '@angular/material/button';
+import { ChildrenDeleteActionComponent } from '../children-delete-action/children-delete-action.component';
+import { ClassNamePipe as ClassNamePipe_1 } from '../../pipes/class-name.pipe';
 
 @Component({
   selector: 'ogs-children-table',
   templateUrl: './children-table.component.html',
   styleUrls: ['./children-table.component.scss'],
   providers: [ClassNamePipe],
+  standalone: true,
+  imports: [
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatIcon,
+    MatSuffix,
+    ChildrenCreateUpdateActionComponent,
+    MatTable,
+    MatSort,
+    MatColumnDef,
+    MatHeaderCellDef,
+    MatHeaderCell,
+    MatSortHeader,
+    MatCellDef,
+    MatCell,
+    ChildrenActivitiesActionComponent,
+    MatIconButton,
+    ChildrenDeleteActionComponent,
+    MatHeaderRowDef,
+    MatHeaderRow,
+    MatRowDef,
+    MatRow,
+    MatNoDataRow,
+    ClassNamePipe_1,
+  ],
 })
 export class ChildrenTableComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort!: MatSort;

@@ -56,7 +56,6 @@ describe('DashboardListDialogComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [DashboardListDialogComponent],
       imports: [
         BrowserAnimationsModule,
         BrowserDynamicTestingModule,
@@ -64,6 +63,7 @@ describe('DashboardListDialogComponent', () => {
         MatInputModule,
         MatSelectModule,
         ReactiveFormsModule,
+        DashboardListDialogComponent,
       ],
       providers: [
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return

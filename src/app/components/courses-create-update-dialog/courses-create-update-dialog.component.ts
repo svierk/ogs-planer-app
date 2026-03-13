@@ -1,15 +1,49 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogConfig,
+  MatDialogRef,
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
+  MatDialogClose,
+} from '@angular/material/dialog';
 import { Course } from 'src/app/models/course';
 import { Days } from 'src/app/models/days';
 import { DbService } from 'src/app/services/db.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { ChildrenCreateUpdateDialogComponent } from '../children-create-update-dialog/children-create-update-dialog.component';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { NgIf, NgFor } from '@angular/common';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'ogs-courses-create-update-dialog',
   templateUrl: './courses-create-update-dialog.component.html',
+  standalone: true,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogTitle,
+    CdkScrollable,
+    MatDialogContent,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    NgIf,
+    MatError,
+    MatSelect,
+    NgFor,
+    MatOption,
+    MatDialogActions,
+    MatButton,
+    MatDialogClose,
+  ],
 })
 export class CoursesCreateUpdateDialogComponent implements OnInit {
   course!: Course;

@@ -15,7 +15,6 @@ describe('CoursesCreateUpdateDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CoursesCreateUpdateDialogComponent],
       imports: [
         BrowserAnimationsModule,
         BrowserDynamicTestingModule,
@@ -23,6 +22,7 @@ describe('CoursesCreateUpdateDialogComponent', () => {
         MatInputModule,
         MatSelectModule,
         ReactiveFormsModule,
+        CoursesCreateUpdateDialogComponent,
       ],
       providers: [
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return

@@ -14,8 +14,7 @@ describe('ChildrenDeleteActionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ChildrenDeleteActionComponent],
-      imports: [MatDialogModule, MatIconModule],
+      imports: [MatDialogModule, MatIconModule, ChildrenDeleteActionComponent],
     });
     fixture = TestBed.createComponent(ChildrenDeleteActionComponent);
     component = fixture.componentInstance;

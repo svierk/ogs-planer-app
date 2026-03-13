@@ -2,11 +2,16 @@ import { Component, Input, NgZone } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Child } from 'src/app/models/child';
 import { ChildrenCreateUpdateDialogComponent } from '../children-create-update-dialog/children-create-update-dialog.component';
+import { NgIf } from '@angular/common';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'ogs-children-create-update-action',
   templateUrl: './children-create-update-action.component.html',
   styleUrls: ['./children-create-update-action.component.scss'],
+  standalone: true,
+  imports: [NgIf, MatIconButton, MatIcon, MatButton],
 })
 export class ChildrenCreateUpdateActionComponent {
   @Input()
