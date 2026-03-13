@@ -54,8 +54,7 @@ describe('ChildrenTableComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [ChildrenCreateUpdateActionComponent, ChildrenDeleteActionComponent, ChildrenTableComponent],
-      imports: [
+    imports: [
         BrowserAnimationsModule,
         BrowserDynamicTestingModule,
         MatDialogModule,
@@ -64,9 +63,10 @@ describe('ChildrenTableComponent', () => {
         MatInputModule,
         MatSortModule,
         MatTableModule,
-      ],
-      providers: [{ provide: ExcelService, useValue: excelService }],
-    });
+        ChildrenCreateUpdateActionComponent, ChildrenDeleteActionComponent, ChildrenTableComponent,
+    ],
+    providers: [{ provide: ExcelService, useValue: excelService }],
+});
     fixture = TestBed.createComponent(ChildrenTableComponent);
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;

@@ -35,8 +35,7 @@ describe('ChildrenActivitiesDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ChildrenActivitiesDialogComponent],
-      imports: [
+    imports: [
         BrowserAnimationsModule,
         BrowserDynamicTestingModule,
         MatCardModule,
@@ -44,17 +43,18 @@ describe('ChildrenActivitiesDialogComponent', () => {
         MatInputModule,
         MatSelectModule,
         ReactiveFormsModule,
-      ],
-      providers: [
+        ChildrenActivitiesDialogComponent,
+    ],
+    providers: [
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         { provide: MatDialogRef, useFactory: () => jasmine.createSpyObj('MatDialogRef', ['close', 'afterClosed']) },
         {
-          provide: MAT_DIALOG_DATA,
-          useValue: null,
+            provide: MAT_DIALOG_DATA,
+            useValue: null,
         },
         DbService,
-      ],
-    });
+    ],
+});
     fixture = TestBed.createComponent(ChildrenActivitiesDialogComponent);
     component = fixture.componentInstance;
   });

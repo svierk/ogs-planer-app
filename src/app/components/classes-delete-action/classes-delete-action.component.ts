@@ -2,11 +2,14 @@ import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Class } from 'src/app/models/class';
 import { ClassesDeleteDialogComponent } from '../classes-delete-dialog/classes-delete-dialog.component';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
-  selector: 'ogs-classes-delete-action',
-  templateUrl: './classes-delete-action.component.html',
-  standalone: false,
+    selector: 'ogs-classes-delete-action',
+    templateUrl: './classes-delete-action.component.html',
+    standalone: true,
+    imports: [MatIconButton, MatIcon],
 })
 export class ClassesDeleteActionComponent {
   @Input()

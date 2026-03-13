@@ -3,12 +3,20 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import { Toast } from 'bootstrap';
 import { fromEvent, take } from 'rxjs';
 import { EventTypes } from 'src/app/models/event-types';
+import { NgClass } from '@angular/common';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
-  selector: 'ogs-toast',
-  templateUrl: './toast.component.html',
-  styleUrls: ['./toast.component.scss'],
-  standalone: false,
+    selector: 'ogs-toast',
+    templateUrl: './toast.component.html',
+    styleUrls: ['./toast.component.scss'],
+    standalone: true,
+    imports: [
+        NgClass,
+        MatIconButton,
+        MatIcon,
+    ],
 })
 export class ToastComponent implements OnInit {
   @Output() disposeEvent = new EventEmitter();

@@ -16,21 +16,19 @@ describe('CoursesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CoursesComponent,
-        CoursesCreateUpdateActionComponent,
-        CoursesDeleteActionComponent,
-        CoursesTableComponent,
-      ],
-      imports: [
+    imports: [
         BrowserAnimationsModule,
         BrowserDynamicTestingModule,
         MatDialogModule,
         MatFormFieldModule,
         MatInputModule,
         MatTableModule,
-      ],
-    });
+        CoursesComponent,
+        CoursesCreateUpdateActionComponent,
+        CoursesDeleteActionComponent,
+        CoursesTableComponent,
+    ],
+});
     fixture = TestBed.createComponent(CoursesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
