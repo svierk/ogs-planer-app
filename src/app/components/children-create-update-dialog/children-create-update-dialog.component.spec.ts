@@ -14,7 +14,7 @@ describe('ChildrenCreateUpdateDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         BrowserAnimationsModule,
         BrowserDynamicTestingModule,
         MatDialogModule,
@@ -22,17 +22,17 @@ describe('ChildrenCreateUpdateDialogComponent', () => {
         MatSelectModule,
         ReactiveFormsModule,
         ChildrenCreateUpdateDialogComponent,
-    ],
-    providers: [
+      ],
+      providers: [
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         { provide: MatDialogRef, useFactory: () => jasmine.createSpyObj('MatDialogRef', ['close', 'afterClosed']) },
         {
-            provide: MAT_DIALOG_DATA,
-            useValue: null,
+          provide: MAT_DIALOG_DATA,
+          useValue: null,
         },
         DbService,
-    ],
-});
+      ],
+    });
     fixture = TestBed.createComponent(ChildrenCreateUpdateDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

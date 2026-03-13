@@ -1,6 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogConfig,
+  MatDialogRef,
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
+  MatDialogClose,
+} from '@angular/material/dialog';
 import { Child } from 'src/app/models/child';
 import { Class } from 'src/app/models/class';
 import { DbService } from 'src/app/services/db.service';
@@ -14,28 +22,28 @@ import { MatOption } from '@angular/material/core';
 import { MatButton } from '@angular/material/button';
 
 @Component({
-    selector: 'ogs-children-create-update-dialog',
-    templateUrl: './children-create-update-dialog.component.html',
-    providers: [FormBuilder],
-    standalone: true,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        MatDialogTitle,
-        CdkScrollable,
-        MatDialogContent,
-        MatFormField,
-        MatLabel,
-        MatInput,
-        NgIf,
-        MatError,
-        MatSelect,
-        NgFor,
-        MatOption,
-        MatDialogActions,
-        MatButton,
-        MatDialogClose,
-    ],
+  selector: 'ogs-children-create-update-dialog',
+  templateUrl: './children-create-update-dialog.component.html',
+  providers: [FormBuilder],
+  standalone: true,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogTitle,
+    CdkScrollable,
+    MatDialogContent,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    NgIf,
+    MatError,
+    MatSelect,
+    NgFor,
+    MatOption,
+    MatDialogActions,
+    MatButton,
+    MatDialogClose,
+  ],
 })
 export class ChildrenCreateUpdateDialogComponent implements OnInit {
   child!: Child;

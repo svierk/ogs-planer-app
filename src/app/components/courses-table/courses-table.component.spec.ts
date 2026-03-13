@@ -33,7 +33,7 @@ describe('CoursesTableComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         BrowserAnimationsModule,
         BrowserDynamicTestingModule,
         MatDialogModule,
@@ -42,9 +42,11 @@ describe('CoursesTableComponent', () => {
         MatInputModule,
         MatSortModule,
         MatTableModule,
-        CoursesCreateUpdateActionComponent, CoursesDeleteActionComponent, CoursesTableComponent,
-    ],
-});
+        CoursesCreateUpdateActionComponent,
+        CoursesDeleteActionComponent,
+        CoursesTableComponent,
+      ],
+    });
     fixture = TestBed.createComponent(CoursesTableComponent);
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;

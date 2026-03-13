@@ -56,7 +56,7 @@ describe('DashboardListDialogComponent', () => {
     };
 
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         BrowserAnimationsModule,
         BrowserDynamicTestingModule,
         MatDialogModule,
@@ -64,18 +64,18 @@ describe('DashboardListDialogComponent', () => {
         MatSelectModule,
         ReactiveFormsModule,
         DashboardListDialogComponent,
-    ],
-    providers: [
+      ],
+      providers: [
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         { provide: MatDialogRef, useFactory: () => jasmine.createSpyObj('MatDialogRef', ['close', 'afterClosed']) },
         {
-            provide: MAT_DIALOG_DATA,
-            useValue: null,
+          provide: MAT_DIALOG_DATA,
+          useValue: null,
         },
         { provide: ExcelService, useValue: excelService },
         DbService,
-    ],
-});
+      ],
+    });
     fixture = TestBed.createComponent(DashboardListDialogComponent);
     component = fixture.componentInstance;
   });

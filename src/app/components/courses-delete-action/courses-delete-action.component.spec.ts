@@ -15,8 +15,8 @@ describe('CoursesDeleteActionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [MatDialogModule, MatIconModule, CoursesDeleteActionComponent],
-});
+      imports: [MatDialogModule, MatIconModule, CoursesDeleteActionComponent],
+    });
     fixture = TestBed.createComponent(CoursesDeleteActionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

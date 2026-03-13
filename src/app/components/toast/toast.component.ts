@@ -8,15 +8,11 @@ import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
-    selector: 'ogs-toast',
-    templateUrl: './toast.component.html',
-    styleUrls: ['./toast.component.scss'],
-    standalone: true,
-    imports: [
-        NgClass,
-        MatIconButton,
-        MatIcon,
-    ],
+  selector: 'ogs-toast',
+  templateUrl: './toast.component.html',
+  styleUrls: ['./toast.component.scss'],
+  standalone: true,
+  imports: [NgClass, MatIconButton, MatIcon],
 })
 export class ToastComponent implements OnInit {
   @Output() disposeEvent = new EventEmitter();

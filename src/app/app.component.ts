@@ -6,18 +6,11 @@ import { MatAnchor } from '@angular/material/button';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
-    selector: 'ogs-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    standalone: true,
-    imports: [
-        ToasterComponent,
-        MatToolbar,
-        MatAnchor,
-        RouterLink,
-        RouterLinkActive,
-        RouterOutlet,
-    ],
+  selector: 'ogs-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  standalone: true,
+  imports: [ToasterComponent, MatToolbar, MatAnchor, RouterLink, RouterLinkActive, RouterOutlet],
 })
 export class AppComponent implements OnInit {
   title = 'ogs-planer-app';

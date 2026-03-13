@@ -14,17 +14,17 @@ describe('ClassesDeleteDialogComponent', () => {
     };
 
     TestBed.configureTestingModule({
-    imports: [MatDialogModule, ClassesDeleteDialogComponent],
-    providers: [
+      imports: [MatDialogModule, ClassesDeleteDialogComponent],
+      providers: [
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         { provide: MatDialogRef, useFactory: () => jasmine.createSpyObj('MatDialogRef', ['close', 'afterClosed']) },
         {
-            provide: MAT_DIALOG_DATA,
-            useValue: null,
+          provide: MAT_DIALOG_DATA,
+          useValue: null,
         },
         { provide: DbService, useValue: dbService },
-    ],
-});
+      ],
+    });
     fixture = TestBed.createComponent(ClassesDeleteDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

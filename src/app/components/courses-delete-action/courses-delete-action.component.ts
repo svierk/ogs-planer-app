@@ -6,10 +6,10 @@ import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
-    selector: 'ogs-courses-delete-action',
-    templateUrl: './courses-delete-action.component.html',
-    standalone: true,
-    imports: [MatIconButton, MatIcon],
+  selector: 'ogs-courses-delete-action',
+  templateUrl: './courses-delete-action.component.html',
+  standalone: true,
+  imports: [MatIconButton, MatIcon],
 })
 export class CoursesDeleteActionComponent {
   @Input()

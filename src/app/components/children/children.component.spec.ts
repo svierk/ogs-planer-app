@@ -17,7 +17,7 @@ describe('ChildrenComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         BrowserAnimationsModule,
         BrowserDynamicTestingModule,
         MatDialogModule,
@@ -29,8 +29,8 @@ describe('ChildrenComponent', () => {
         ChildrenCreateUpdateActionComponent,
         ChildrenDeleteActionComponent,
         ChildrenTableComponent,
-    ],
-});
+      ],
+    });
     fixture = TestBed.createComponent(ChildrenComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

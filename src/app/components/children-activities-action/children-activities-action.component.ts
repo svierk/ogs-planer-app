@@ -6,10 +6,10 @@ import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
-    selector: 'ogs-children-activities-action',
-    templateUrl: './children-activities-action.component.html',
-    standalone: true,
-    imports: [MatIconButton, MatIcon],
+  selector: 'ogs-children-activities-action',
+  templateUrl: './children-activities-action.component.html',
+  standalone: true,
+  imports: [MatIconButton, MatIcon],
 })
 export class ChildrenActivitiesActionComponent {
   @Input()

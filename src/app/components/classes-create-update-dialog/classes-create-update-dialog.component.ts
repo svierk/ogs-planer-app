@@ -1,6 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogConfig,
+  MatDialogRef,
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
+  MatDialogClose,
+} from '@angular/material/dialog';
 import { MatSelectChange, MatSelect } from '@angular/material/select';
 import { Class } from 'src/app/models/class';
 import { ClassSchedule } from 'src/app/models/class-schedule';
@@ -27,31 +35,31 @@ const DAYS_MAP = [
 ];
 
 @Component({
-    selector: 'ogs-classes-create-update-dialog',
-    templateUrl: './classes-create-update-dialog.component.html',
-    styleUrls: ['./classes-create-update-dialog.component.scss'],
-    standalone: true,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        MatDialogTitle,
-        CdkScrollable,
-        MatDialogContent,
-        MatFormField,
-        MatLabel,
-        MatInput,
-        NgIf,
-        MatError,
-        MatCard,
-        MatIcon,
-        NgFor,
-        MatSelect,
-        MatOption,
-        MatDialogActions,
-        MatButton,
-        MatDialogClose,
-        KeyValuePipe,
-    ],
+  selector: 'ogs-classes-create-update-dialog',
+  templateUrl: './classes-create-update-dialog.component.html',
+  styleUrls: ['./classes-create-update-dialog.component.scss'],
+  standalone: true,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogTitle,
+    CdkScrollable,
+    MatDialogContent,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    NgIf,
+    MatError,
+    MatCard,
+    MatIcon,
+    NgFor,
+    MatSelect,
+    MatOption,
+    MatDialogActions,
+    MatButton,
+    MatDialogClose,
+    KeyValuePipe,
+  ],
 })
 export class ClassesCreateUpdateDialogComponent implements OnInit {
   classItem!: Class;

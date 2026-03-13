@@ -7,16 +7,11 @@ import { MatIconButton, MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
-    selector: 'ogs-children-create-update-action',
-    templateUrl: './children-create-update-action.component.html',
-    styleUrls: ['./children-create-update-action.component.scss'],
-    standalone: true,
-    imports: [
-        NgIf,
-        MatIconButton,
-        MatIcon,
-        MatButton,
-    ],
+  selector: 'ogs-children-create-update-action',
+  templateUrl: './children-create-update-action.component.html',
+  styleUrls: ['./children-create-update-action.component.scss'],
+  standalone: true,
+  imports: [NgIf, MatIconButton, MatIcon, MatButton],
 })
 export class ChildrenCreateUpdateActionComponent {
   @Input()

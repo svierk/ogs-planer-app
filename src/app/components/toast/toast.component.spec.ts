@@ -11,8 +11,8 @@ describe('ToastComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [MatIconModule, ToastComponent],
-}).compileComponents();
+      imports: [MatIconModule, ToastComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

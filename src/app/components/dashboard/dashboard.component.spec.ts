@@ -16,8 +16,8 @@ describe('DashboardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [MatDialogModule, MatIconModule, MatListModule, DashboardComponent],
-});
+      imports: [MatDialogModule, MatIconModule, MatListModule, DashboardComponent],
+    });
     fixture = TestBed.createComponent(DashboardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

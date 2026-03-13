@@ -14,8 +14,8 @@ describe('ChildrenActivitiesActionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [MatDialogModule, MatIconModule, ChildrenActivitiesActionComponent],
-});
+      imports: [MatDialogModule, MatIconModule, ChildrenActivitiesActionComponent],
+    });
     fixture = TestBed.createComponent(ChildrenActivitiesActionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

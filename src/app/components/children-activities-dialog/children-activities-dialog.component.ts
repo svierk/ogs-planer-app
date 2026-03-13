@@ -1,6 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogConfig,
+  MatDialogRef,
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
+  MatDialogClose,
+} from '@angular/material/dialog';
 import { ActivityTypes } from 'src/app/models/activity-types';
 import { Child } from 'src/app/models/child';
 import { ChildCourse } from 'src/app/models/child-course';
@@ -30,30 +38,30 @@ const DAYS_MAP = [
 ];
 
 @Component({
-    selector: 'ogs-children-activities-dialog',
-    templateUrl: './children-activities-dialog.component.html',
-    styleUrls: ['./children-activities-dialog.component.scss'],
-    standalone: true,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        MatDialogTitle,
-        CdkScrollable,
-        MatDialogContent,
-        NgClass,
-        MatCard,
-        MatCardHeader,
-        MatCardTitle,
-        NgFor,
-        MatFormField,
-        MatLabel,
-        MatSelect,
-        MatOption,
-        MatInput,
-        MatDialogActions,
-        MatButton,
-        MatDialogClose,
-    ],
+  selector: 'ogs-children-activities-dialog',
+  templateUrl: './children-activities-dialog.component.html',
+  styleUrls: ['./children-activities-dialog.component.scss'],
+  standalone: true,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogTitle,
+    CdkScrollable,
+    MatDialogContent,
+    NgClass,
+    MatCard,
+    MatCardHeader,
+    MatCardTitle,
+    NgFor,
+    MatFormField,
+    MatLabel,
+    MatSelect,
+    MatOption,
+    MatInput,
+    MatDialogActions,
+    MatButton,
+    MatDialogClose,
+  ],
 })
 export class ChildrenActivitiesDialogComponent implements OnInit {
   child!: Child;

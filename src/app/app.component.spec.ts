@@ -25,9 +25,9 @@ describe('AppComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-    imports: [RouterTestingModule, MatIconModule, MatToolbarModule, MatButtonModule, ToasterComponent, AppComponent],
-    providers: [{ provide: DbService, useValue: dbService }],
-}).compileComponents();
+      imports: [RouterTestingModule, MatIconModule, MatToolbarModule, MatButtonModule, ToasterComponent, AppComponent],
+      providers: [{ provide: DbService, useValue: dbService }],
+    }).compileComponents();
   });
 
   beforeEach(() => {

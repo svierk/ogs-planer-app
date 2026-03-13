@@ -16,7 +16,7 @@ describe('CoursesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         BrowserAnimationsModule,
         BrowserDynamicTestingModule,
         MatDialogModule,
@@ -27,8 +27,8 @@ describe('CoursesComponent', () => {
         CoursesCreateUpdateActionComponent,
         CoursesDeleteActionComponent,
         CoursesTableComponent,
-    ],
-});
+      ],
+    });
     fixture = TestBed.createComponent(CoursesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
