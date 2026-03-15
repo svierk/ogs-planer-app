@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
@@ -20,7 +20,7 @@ import { ToastService } from 'src/app/services/toast.service';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
+import { KeyValuePipe } from '@angular/common';
 import { MatCard } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { MatOption } from '@angular/material/core';
@@ -48,11 +48,9 @@ const DAYS_MAP = [
     MatFormField,
     MatLabel,
     MatInput,
-    NgIf,
     MatError,
     MatCard,
     MatIcon,
-    NgFor,
     MatSelect,
     MatOption,
     MatDialogActions,
@@ -62,6 +60,11 @@ const DAYS_MAP = [
   ],
 })
 export class ClassesCreateUpdateDialogComponent implements OnInit {
+  dbService = inject(DbService);
+  dialogRef = inject<MatDialogRef<ClassesCreateUpdateDialogComponent>>(MatDialogRef);
+  readonly fb = inject(FormBuilder);
+  readonly toastService = inject(ToastService);
+
   classItem!: Class;
   classSchedules: ClassSchedule[] = [];
   classForm!: FormGroup;
@@ -69,13 +72,9 @@ export class ClassesCreateUpdateDialogComponent implements OnInit {
   LunchTimes = LunchTimes;
   HomeworkTimes = HomeworkTimes;
 
-  constructor(
-    public dbService: DbService,
-    public dialogRef: MatDialogRef<ClassesCreateUpdateDialogComponent>,
-    readonly fb: FormBuilder,
-    readonly toastService: ToastService,
-    @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
-  ) {
+  constructor() {
+    const data = inject<MatDialogConfig>(MAT_DIALOG_DATA);
+
     this.classItem = data as Class;
     this.dbService.classSchedules.subscribe((value) => {
       this.classSchedules = value;

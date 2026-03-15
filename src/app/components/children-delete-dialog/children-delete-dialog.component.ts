@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogConfig,
@@ -20,14 +20,15 @@ import { MatButton } from '@angular/material/button';
   imports: [MatDialogTitle, CdkScrollable, MatDialogContent, MatDialogActions, MatButton, MatDialogClose],
 })
 export class ChildrenDeleteDialogComponent {
+  readonly dbService = inject(DbService);
+  readonly toastService = inject(ToastService);
+  dialogRef = inject<MatDialogRef<ChildrenDeleteDialogComponent>>(MatDialogRef);
+
   userId!: number;
 
-  constructor(
-    readonly dbService: DbService,
-    readonly toastService: ToastService,
-    public dialogRef: MatDialogRef<ChildrenDeleteDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
-  ) {
+  constructor() {
+    const data = inject<MatDialogConfig>(MAT_DIALOG_DATA);
+
     this.userId = +data;
   }
 

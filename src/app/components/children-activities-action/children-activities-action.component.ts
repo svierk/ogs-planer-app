@@ -1,4 +1,4 @@
-import { Component, Input, NgZone } from '@angular/core';
+import { Component, Input, NgZone, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Child } from 'src/app/models/child';
 import { ChildrenActivitiesDialogComponent } from '../children-activities-dialog/children-activities-dialog.component';
@@ -15,10 +15,8 @@ export class ChildrenActivitiesActionComponent {
   @Input()
   child!: Child;
 
-  constructor(
-    public dialog: MatDialog,
-    readonly zone: NgZone
-  ) {}
+  dialog = inject(MatDialog);
+  readonly zone = inject(NgZone);
 
   openDialog() {
     const config = new MatDialogConfig();

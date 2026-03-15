@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
@@ -25,7 +25,6 @@ import { DbService } from 'src/app/services/db.service';
 import { ExcelService } from 'src/app/services/excel.service';
 import { ChildrenCreateUpdateDialogComponent } from '../children-create-update-dialog/children-create-update-dialog.component';
 import { CdkScrollable } from '@angular/cdk/scrolling';
-import { NgIf, NgFor } from '@angular/common';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
@@ -64,11 +63,9 @@ const DAYS = [
     MatDialogTitle,
     CdkScrollable,
     MatDialogContent,
-    NgIf,
     MatFormField,
     MatLabel,
     MatSelect,
-    NgFor,
     MatOption,
     MatDialogActions,
     MatButton,
@@ -76,6 +73,11 @@ const DAYS = [
   ],
 })
 export class DashboardListDialogComponent implements OnInit {
+  dbService = inject(DbService);
+  readonly excelService = inject(ExcelService);
+  dialogRef = inject<MatDialogRef<ChildrenCreateUpdateDialogComponent>>(MatDialogRef);
+  readonly fb = inject(FormBuilder);
+
   children: Child[] = [];
   classes: Class[] = [];
   classSchedules: ClassSchedule[] = [];
@@ -92,13 +94,9 @@ export class DashboardListDialogComponent implements OnInit {
   ActivityTypes = ActivityTypes;
   InformationTypes = InformationTypes;
 
-  constructor(
-    public dbService: DbService,
-    readonly excelService: ExcelService,
-    public dialogRef: MatDialogRef<ChildrenCreateUpdateDialogComponent>,
-    readonly fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
-  ) {
+  constructor() {
+    const data = inject<MatDialogConfig>(MAT_DIALOG_DATA);
+
     this.type = data as unknown as ActivityTypes | InformationTypes;
     this.dbService.children.subscribe((value) => {
       this.children = value;

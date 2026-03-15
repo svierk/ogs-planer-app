@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
@@ -21,7 +21,7 @@ import { Pickup } from 'src/app/models/pickup';
 import { DbService } from 'src/app/services/db.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { CdkScrollable } from '@angular/cdk/scrolling';
-import { NgClass, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { MatCard, MatCardHeader, MatCardTitle } from '@angular/material/card';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatSelect } from '@angular/material/select';
@@ -52,7 +52,6 @@ const DAYS_MAP = [
     MatCard,
     MatCardHeader,
     MatCardTitle,
-    NgFor,
     MatFormField,
     MatLabel,
     MatSelect,
@@ -64,6 +63,11 @@ const DAYS_MAP = [
   ],
 })
 export class ChildrenActivitiesDialogComponent implements OnInit {
+  dbService = inject(DbService);
+  dialogRef = inject<MatDialogRef<ChildrenActivitiesDialogComponent>>(MatDialogRef);
+  readonly fb = inject(FormBuilder);
+  readonly toastService = inject(ToastService);
+
   child!: Child;
   courses!: Course[];
   earlyCare!: EarlyCare[];
@@ -77,13 +81,9 @@ export class ChildrenActivitiesDialogComponent implements OnInit {
   ActivityTypes = ActivityTypes;
   color = '';
 
-  constructor(
-    public dbService: DbService,
-    public dialogRef: MatDialogRef<ChildrenActivitiesDialogComponent>,
-    readonly fb: FormBuilder,
-    readonly toastService: ToastService,
-    @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
-  ) {
+  constructor() {
+    const data = inject<MatDialogConfig>(MAT_DIALOG_DATA);
+
     this.child = data as Child;
     this.dbService.courses.subscribe((value) => {
       this.courses = value;

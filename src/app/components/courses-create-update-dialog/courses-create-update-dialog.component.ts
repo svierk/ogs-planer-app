@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
@@ -17,7 +17,6 @@ import { ChildrenCreateUpdateDialogComponent } from '../children-create-update-d
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { NgIf, NgFor } from '@angular/common';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { MatButton } from '@angular/material/button';
@@ -35,10 +34,8 @@ import { MatButton } from '@angular/material/button';
     MatFormField,
     MatLabel,
     MatInput,
-    NgIf,
     MatError,
     MatSelect,
-    NgFor,
     MatOption,
     MatDialogActions,
     MatButton,
@@ -46,17 +43,18 @@ import { MatButton } from '@angular/material/button';
   ],
 })
 export class CoursesCreateUpdateDialogComponent implements OnInit {
+  dbService = inject(DbService);
+  dialogRef = inject<MatDialogRef<ChildrenCreateUpdateDialogComponent>>(MatDialogRef);
+  readonly fb = inject(FormBuilder);
+  readonly toastService = inject(ToastService);
+
   course!: Course;
   courseForm!: FormGroup;
   days = Object.values(Days);
 
-  constructor(
-    public dbService: DbService,
-    public dialogRef: MatDialogRef<ChildrenCreateUpdateDialogComponent>,
-    readonly fb: FormBuilder,
-    readonly toastService: ToastService,
-    @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
-  ) {
+  constructor() {
+    const data = inject<MatDialogConfig>(MAT_DIALOG_DATA);
+
     this.course = data as Course;
   }
 

@@ -19,44 +19,52 @@
             <table class="table" aria-label="early care participation">
               <thead>
                 <tr>
-                  <th *ngFor="let day of days2" scope="col">{{ day }}</th>
+                  @for (day of days2; track day) {
+                    <th scope="col">{{ day }}</th>
+                  }
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td *ngFor="let day of days">
-                    <mat-form-field>
-                      <mat-label>Teilnahme</mat-label>
-                      <mat-select formControlName="{{ 'earlyCareParticipation' + day }}">
-                        <mat-option [value]="1">Ja</mat-option>
-                        <mat-option [value]="0">Nein</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </td>
+                  @for (day of days; track day) {
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Teilnahme</mat-label>
+                        <mat-select formControlName="{{ 'earlyCareParticipation' + day }}">
+                          <mat-option [value]="1">Ja</mat-option>
+                          <mat-option [value]="0">Nein</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </td>
+                  }
                 </tr>
                 <tr>
-                  <td *ngFor="let day of days">
-                    <mat-form-field>
-                      <mat-label>Start</mat-label>
-                      <mat-select formControlName="{{ 'earlyCareStart' + day }}">
-                        <mat-option value="1. Stunde">1. Stunde</mat-option>
-                        <mat-option value="2. Stunde">2. Stunde</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </td>
+                  @for (day of days; track day) {
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Start</mat-label>
+                        <mat-select formControlName="{{ 'earlyCareStart' + day }}">
+                          <mat-option value="1. Stunde">1. Stunde</mat-option>
+                          <mat-option value="2. Stunde">2. Stunde</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </td>
+                  }
                 </tr>
                 <tr>
-                  <td *ngFor="let day of days">
-                    <mat-form-field appearance="fill">
-                      <mat-label>Notiz</mat-label>
-                      <input
-                        matInput
-                        type="text"
-                        formControlName="{{ 'earlyCareNote' + day }}"
-                        placeholder="Zusätzliche Info"
-                      />
-                    </mat-form-field>
-                  </td>
+                  @for (day of days; track day) {
+                    <td>
+                      <mat-form-field appearance="fill">
+                        <mat-label>Notiz</mat-label>
+                        <input
+                          matInput
+                          type="text"
+                          formControlName="{{ 'earlyCareNote' + day }}"
+                          placeholder="Zusätzliche Info"
+                        />
+                      </mat-form-field>
+                    </td>
+                  }
                 </tr>
               </tbody>
             </table>
@@ -72,33 +80,39 @@
             <table class="table" aria-label="lunch participation">
               <thead>
                 <tr>
-                  <th *ngFor="let day of days2" scope="col">{{ day }}</th>
+                  @for (day of days2; track day) {
+                    <th scope="col">{{ day }}</th>
+                  }
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td *ngFor="let day of days">
-                    <mat-form-field>
-                      <mat-label>Teilnahme</mat-label>
-                      <mat-select formControlName="{{ 'lunchParticipation' + day }}">
-                        <mat-option [value]="1">Ja</mat-option>
-                        <mat-option [value]="0">Nein</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </td>
+                  @for (day of days; track day) {
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Teilnahme</mat-label>
+                        <mat-select formControlName="{{ 'lunchParticipation' + day }}">
+                          <mat-option [value]="1">Ja</mat-option>
+                          <mat-option [value]="0">Nein</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </td>
+                  }
                 </tr>
                 <tr>
-                  <td *ngFor="let day of days">
-                    <mat-form-field appearance="fill">
-                      <mat-label>Notiz</mat-label>
-                      <input
-                        matInput
-                        type="text"
-                        formControlName="{{ 'lunchNote' + day }}"
-                        placeholder="z.B. Allergien"
-                      />
-                    </mat-form-field>
-                  </td>
+                  @for (day of days; track day) {
+                    <td>
+                      <mat-form-field appearance="fill">
+                        <mat-label>Notiz</mat-label>
+                        <input
+                          matInput
+                          type="text"
+                          formControlName="{{ 'lunchNote' + day }}"
+                          placeholder="z.B. Allergien"
+                        />
+                      </mat-form-field>
+                    </td>
+                  }
                 </tr>
               </tbody>
             </table>
@@ -115,33 +129,39 @@
             <table class="table" aria-label="homework participation">
               <thead>
                 <tr>
-                  <th *ngFor="let day of days2" scope="col">{{ day }}</th>
+                  @for (day of days2; track day) {
+                    <th scope="col">{{ day }}</th>
+                  }
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td *ngFor="let day of days">
-                    <mat-form-field>
-                      <mat-label>Teilnahme</mat-label>
-                      <mat-select formControlName="{{ 'homeworkParticipation' + day }}">
-                        <mat-option [value]="1">Ja</mat-option>
-                        <mat-option [value]="0">Nein</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </td>
+                  @for (day of days; track day) {
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Teilnahme</mat-label>
+                        <mat-select formControlName="{{ 'homeworkParticipation' + day }}">
+                          <mat-option [value]="1">Ja</mat-option>
+                          <mat-option [value]="0">Nein</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </td>
+                  }
                 </tr>
                 <tr>
-                  <td *ngFor="let day of days">
-                    <mat-form-field appearance="fill">
-                      <mat-label>Notiz</mat-label>
-                      <input
-                        matInput
-                        type="text"
-                        formControlName="{{ 'homeworkNote' + day }}"
-                        placeholder="Zusätzliche Info"
-                      />
-                    </mat-form-field>
-                  </td>
+                  @for (day of days; track day) {
+                    <td>
+                      <mat-form-field appearance="fill">
+                        <mat-label>Notiz</mat-label>
+                        <input
+                          matInput
+                          type="text"
+                          formControlName="{{ 'homeworkNote' + day }}"
+                          placeholder="Zusätzliche Info"
+                        />
+                      </mat-form-field>
+                    </td>
+                  }
                 </tr>
               </tbody>
             </table>
@@ -157,7 +177,9 @@
             <mat-form-field appearance="fill">
               <mat-label>Kurse</mat-label>
               <mat-select formControlName="courseSelect" multiple>
-                <mat-option *ngFor="let course of courses" [value]="course.id">{{ course.name }}</mat-option>
+                @for (course of courses; track course.id) {
+                  <mat-option [value]="course.id">{{ course.name }}</mat-option>
+                }
               </mat-select>
             </mat-form-field>
           </div>
@@ -173,36 +195,44 @@
             <table class="table" aria-label="pickup">
               <thead>
                 <tr>
-                  <th *ngFor="let day of days2" scope="col">{{ day }}</th>
+                  @for (day of days2; track day) {
+                    <th scope="col">{{ day }}</th>
+                  }
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td *ngFor="let day of days">
-                    <mat-form-field appearance="fill">
-                      <mat-label>Uhrzeit</mat-label>
-                      <input matInput type="time" formControlName="{{ 'pickupTime' + day }}" />
-                    </mat-form-field>
-                  </td>
+                  @for (day of days; track day) {
+                    <td>
+                      <mat-form-field appearance="fill">
+                        <mat-label>Uhrzeit</mat-label>
+                        <input matInput type="time" formControlName="{{ 'pickupTime' + day }}" />
+                      </mat-form-field>
+                    </td>
+                  }
                 </tr>
                 <tr>
-                  <td *ngFor="let day of days">
-                    <mat-form-field>
-                      <mat-label>Art</mat-label>
-                      <mat-select formControlName="{{ 'pickupType' + day }}">
-                        <mat-option value="Wird abgeholt">Wird abgeholt</mat-option>
-                        <mat-option value="Alleine losschicken">Alleine losschicken</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </td>
+                  @for (day of days; track day) {
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Art</mat-label>
+                        <mat-select formControlName="{{ 'pickupType' + day }}">
+                          <mat-option value="Wird abgeholt">Wird abgeholt</mat-option>
+                          <mat-option value="Alleine losschicken">Alleine losschicken</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </td>
+                  }
                 </tr>
                 <tr>
-                  <td *ngFor="let day of days">
-                    <mat-form-field appearance="fill">
-                      <mat-label>Notiz</mat-label>
-                      <input matInput type="text" formControlName="{{ 'pickupNote' + day }}" placeholder="z.B. Bus" />
-                    </mat-form-field>
-                  </td>
+                  @for (day of days; track day) {
+                    <td>
+                      <mat-form-field appearance="fill">
+                        <mat-label>Notiz</mat-label>
+                        <input matInput type="text" formControlName="{{ 'pickupNote' + day }}" placeholder="z.B. Bus" />
+                      </mat-form-field>
+                    </td>
+                  }
                 </tr>
               </tbody>
             </table>

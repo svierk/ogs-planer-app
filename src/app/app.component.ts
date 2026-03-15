@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DbService } from './services/db.service';
 import { ToasterComponent } from './components/toaster/toaster.component';
 import { MatToolbar } from '@angular/material/toolbar';
@@ -13,9 +13,9 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   imports: [ToasterComponent, MatToolbar, MatAnchor, RouterLink, RouterLinkActive, RouterOutlet],
 })
 export class AppComponent implements OnInit {
-  title = 'ogs-planer-app';
+  readonly dbService = inject(DbService);
 
-  constructor(readonly dbService: DbService) {}
+  title = 'ogs-planer-app';
 
   ngOnInit() {
     this.dbService.getChildren();

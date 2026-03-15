@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Child } from 'src/app/models/child';
 import { ChildrenDeleteDialogComponent } from '../children-delete-dialog/children-delete-dialog.component';
@@ -15,7 +15,7 @@ export class ChildrenDeleteActionComponent {
   @Input()
   child!: Child;
 
-  constructor(public dialog: MatDialog) {}
+  dialog = inject(MatDialog);
 
   openDialog() {
     const config = new MatDialogConfig();
