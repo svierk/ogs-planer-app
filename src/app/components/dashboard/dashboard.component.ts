@@ -1,4 +1,4 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivityTypes } from 'src/app/models/activity-types';
 import { InformationTypes } from 'src/app/models/information-types';
@@ -31,13 +31,11 @@ import { MatDivider } from '@angular/material/divider';
   ],
 })
 export class DashboardComponent {
+  dialog = inject(MatDialog);
+  readonly zone = inject(NgZone);
+
   ActivityTypes = ActivityTypes;
   InformationTypes = InformationTypes;
-
-  constructor(
-    public dialog: MatDialog,
-    readonly zone: NgZone
-  ) {}
 
   openDialog(type?: ActivityTypes | InformationTypes) {
     const config = new MatDialogConfig();

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import * as XLSX from 'xlsx-js-style';
 import { ActivityTypes } from '../models/activity-types';
 import { Child } from '../models/child';
@@ -19,7 +19,7 @@ const EXCEL_EXTENSION = '.xlsx'; // excel file extension
   providedIn: 'root',
 })
 export class ExcelService {
-  constructor(readonly toastService: ToastService) {}
+  readonly toastService = inject(ToastService);
 
   export(element: any[], fileName: string, heading: string) {
     if (!element || element.length === 0) {

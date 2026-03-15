@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, inject } from '@angular/core';
 import { MatSort, Sort, MatSortHeader } from '@angular/material/sort';
 import {
   MatTableDataSource,
@@ -70,6 +70,11 @@ import { ClassNamePipe as ClassNamePipe_1 } from '../../pipes/class-name.pipe';
 })
 export class ChildrenTableComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort!: MatSort;
+
+  readonly dbService = inject(DbService);
+  readonly excelService = inject(ExcelService);
+  readonly searchService = inject(SearchService);
+  readonly cdr = inject(ChangeDetectorRef);
   children: Child[] = [];
   classes: Class[] = [];
   classSchedules: ClassSchedule[] = [];
@@ -81,13 +86,6 @@ export class ChildrenTableComponent implements AfterViewInit, OnInit {
   pickup!: Pickup[];
   displayedColumns: string[] = ['firstName', 'lastName', 'phone', 'mobile', 'emergencyContact', 'classId', 'actions'];
   dataSource!: MatTableDataSource<Child>;
-
-  constructor(
-    readonly dbService: DbService,
-    readonly excelService: ExcelService,
-    readonly searchService: SearchService,
-    readonly cdr: ChangeDetectorRef
-  ) {}
 
   ngOnInit() {
     this.dbService.children.subscribe((value) => {

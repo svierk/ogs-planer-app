@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, inject } from '@angular/core';
 import { MatSort, Sort, MatSortHeader } from '@angular/material/sort';
 import {
   MatTableDataSource,
@@ -53,15 +53,13 @@ import { ClassesDeleteActionComponent } from '../classes-delete-action/classes-d
 })
 export class ClassesTableComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort!: MatSort;
+
+  readonly dbService = inject(DbService);
+  readonly searchService = inject(SearchService);
+  readonly cdr = inject(ChangeDetectorRef);
   classes: Class[] = [];
   displayedColumns: string[] = ['name', 'teacher', 'actions'];
   dataSource!: MatTableDataSource<Class>;
-
-  constructor(
-    readonly dbService: DbService,
-    readonly searchService: SearchService,
-    readonly cdr: ChangeDetectorRef
-  ) {}
 
   ngOnInit() {
     this.dbService.classes.subscribe((value) => {

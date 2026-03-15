@@ -1,4 +1,4 @@
-import { Component, Input, NgZone } from '@angular/core';
+import { Component, Input, NgZone, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Class } from 'src/app/models/class';
 import { ClassesCreateUpdateDialogComponent } from '../classes-create-update-dialog/classes-create-update-dialog.component';
@@ -20,10 +20,8 @@ export class ClassesCreateUpdateActionComponent {
   @Input()
   isUpdate = false;
 
-  constructor(
-    readonly dialog: MatDialog,
-    readonly zone: NgZone
-  ) {}
+  readonly dialog = inject(MatDialog);
+  readonly zone = inject(NgZone);
 
   openDialog() {
     const config = new MatDialogConfig();

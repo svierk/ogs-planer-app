@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MAT_DIALOG_DATA,
@@ -62,6 +62,11 @@ const DAYS_MAP = [
   ],
 })
 export class ClassesCreateUpdateDialogComponent implements OnInit {
+  dbService = inject(DbService);
+  dialogRef = inject<MatDialogRef<ClassesCreateUpdateDialogComponent>>(MatDialogRef);
+  readonly fb = inject(FormBuilder);
+  readonly toastService = inject(ToastService);
+
   classItem!: Class;
   classSchedules: ClassSchedule[] = [];
   classForm!: FormGroup;
@@ -69,13 +74,9 @@ export class ClassesCreateUpdateDialogComponent implements OnInit {
   LunchTimes = LunchTimes;
   HomeworkTimes = HomeworkTimes;
 
-  constructor(
-    public dbService: DbService,
-    public dialogRef: MatDialogRef<ClassesCreateUpdateDialogComponent>,
-    readonly fb: FormBuilder,
-    readonly toastService: ToastService,
-    @Inject(MAT_DIALOG_DATA) data: MatDialogConfig
-  ) {
+  constructor() {
+    const data = inject<MatDialogConfig>(MAT_DIALOG_DATA);
+
     this.classItem = data as Class;
     this.dbService.classSchedules.subscribe((value) => {
       this.classSchedules = value;

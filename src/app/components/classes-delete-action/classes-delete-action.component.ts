@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Class } from 'src/app/models/class';
 import { ClassesDeleteDialogComponent } from '../classes-delete-dialog/classes-delete-dialog.component';
@@ -15,7 +15,7 @@ export class ClassesDeleteActionComponent {
   @Input()
   classItem!: Class;
 
-  constructor(public dialog: MatDialog) {}
+  dialog = inject(MatDialog);
 
   openDialog() {
     const config = new MatDialogConfig();

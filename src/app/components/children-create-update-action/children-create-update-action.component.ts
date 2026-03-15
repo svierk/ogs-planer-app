@@ -1,4 +1,4 @@
-import { Component, Input, NgZone } from '@angular/core';
+import { Component, Input, NgZone, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Child } from 'src/app/models/child';
 import { ChildrenCreateUpdateDialogComponent } from '../children-create-update-dialog/children-create-update-dialog.component';
@@ -20,10 +20,8 @@ export class ChildrenCreateUpdateActionComponent {
   @Input()
   isUpdate = false;
 
-  constructor(
-    readonly dialog: MatDialog,
-    readonly zone: NgZone
-  ) {}
+  readonly dialog = inject(MatDialog);
+  readonly zone = inject(NgZone);
 
   openDialog() {
     const config = new MatDialogConfig();
