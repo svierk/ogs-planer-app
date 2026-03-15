@@ -25,7 +25,6 @@ import { DbService } from 'src/app/services/db.service';
 import { ExcelService } from 'src/app/services/excel.service';
 import { ChildrenCreateUpdateDialogComponent } from '../children-create-update-dialog/children-create-update-dialog.component';
 import { CdkScrollable } from '@angular/cdk/scrolling';
-import { NgIf, NgFor } from '@angular/common';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
@@ -64,11 +63,9 @@ const DAYS = [
     MatDialogTitle,
     CdkScrollable,
     MatDialogContent,
-    NgIf,
     MatFormField,
     MatLabel,
     MatSelect,
-    NgFor,
     MatOption,
     MatDialogActions,
     MatButton,

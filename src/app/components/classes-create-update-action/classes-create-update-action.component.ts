@@ -2,7 +2,6 @@ import { Component, Input, NgZone, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Class } from 'src/app/models/class';
 import { ClassesCreateUpdateDialogComponent } from '../classes-create-update-dialog/classes-create-update-dialog.component';
-import { NgIf } from '@angular/common';
 import { MatIconButton, MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
@@ -11,7 +10,7 @@ import { MatIcon } from '@angular/material/icon';
   templateUrl: './classes-create-update-action.component.html',
   styleUrls: ['./classes-create-update-action.component.scss'],
   standalone: true,
-  imports: [NgIf, MatIconButton, MatIcon, MatButton],
+  imports: [MatIconButton, MatIcon, MatButton],
 })
 export class ClassesCreateUpdateActionComponent {
   @Input()

@@ -21,7 +21,7 @@ import { Pickup } from 'src/app/models/pickup';
 import { DbService } from 'src/app/services/db.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { CdkScrollable } from '@angular/cdk/scrolling';
-import { NgClass, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { MatCard, MatCardHeader, MatCardTitle } from '@angular/material/card';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatSelect } from '@angular/material/select';
@@ -52,7 +52,6 @@ const DAYS_MAP = [
     MatCard,
     MatCardHeader,
     MatCardTitle,
-    NgFor,
     MatFormField,
     MatLabel,
     MatSelect,

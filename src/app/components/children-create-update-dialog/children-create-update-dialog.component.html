@@ -7,14 +7,18 @@
           <mat-form-field appearance="fill">
             <mat-label>Vorname</mat-label>
             <input matInput type="text" formControlName="firstName" placeholder="Max" />
-            <mat-error *ngIf="firstName?.errors?.['required']">Vorname ist erforderlich.</mat-error>
+            @if (firstName?.errors?.['required']) {
+              <mat-error>Vorname ist erforderlich.</mat-error>
+            }
           </mat-form-field>
         </div>
         <div class="col-sm">
           <mat-form-field appearance="fill">
             <mat-label>Nachname</mat-label>
             <input matInput type="text" formControlName="lastName" placeholder="Mustermann" />
-            <mat-error *ngIf="lastName?.errors?.['required']">Nachname ist erforderlich.</mat-error>
+            @if (lastName?.errors?.['required']) {
+              <mat-error>Nachname ist erforderlich.</mat-error>
+            }
           </mat-form-field>
         </div>
       </div>
@@ -23,16 +27,24 @@
           <mat-form-field appearance="fill">
             <mat-label>Telefon</mat-label>
             <input matInput type="text" formControlName="phone" placeholder="" />
-            <mat-error *ngIf="phone?.errors?.['minlength']">Mind. 7 Ziffern erforderlich.</mat-error>
-            <mat-error *ngIf="phone?.errors?.['maxlength']">Max. 15 Ziffern möglich.</mat-error>
+            @if (phone?.errors?.['minlength']) {
+              <mat-error>Mind. 7 Ziffern erforderlich.</mat-error>
+            }
+            @if (phone?.errors?.['maxlength']) {
+              <mat-error>Max. 15 Ziffern möglich.</mat-error>
+            }
           </mat-form-field>
         </div>
         <div class="col-sm">
           <mat-form-field appearance="fill">
             <mat-label>Mobil</mat-label>
             <input matInput type="text" formControlName="mobile" placeholder="" />
-            <mat-error *ngIf="mobile?.errors?.['minlength']">Mind. 7 Ziffern erforderlich.</mat-error>
-            <mat-error *ngIf="mobile?.errors?.['maxlength']">Max. 15 Ziffern möglich.</mat-error>
+            @if (mobile?.errors?.['minlength']) {
+              <mat-error>Mind. 7 Ziffern erforderlich.</mat-error>
+            }
+            @if (mobile?.errors?.['maxlength']) {
+              <mat-error>Max. 15 Ziffern möglich.</mat-error>
+            }
           </mat-form-field>
         </div>
       </div>
@@ -47,7 +59,9 @@
           <mat-form-field appearance="fill">
             <mat-label>Klasse</mat-label>
             <mat-select formControlName="classSelect">
-              <mat-option *ngFor="let class of classes" [value]="class.id">{{ class.name }}</mat-option>
+              @for (classItem of classes; track classItem.id) {
+                <mat-option [value]="classItem.id">{{ classItem.name }}</mat-option>
+              }
             </mat-select>
           </mat-form-field>
         </div>

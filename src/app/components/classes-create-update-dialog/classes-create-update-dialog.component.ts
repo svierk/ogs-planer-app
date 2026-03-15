@@ -20,7 +20,7 @@ import { ToastService } from 'src/app/services/toast.service';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { NgIf, NgFor, KeyValuePipe } from '@angular/common';
+import { KeyValuePipe } from '@angular/common';
 import { MatCard } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { MatOption } from '@angular/material/core';
@@ -48,11 +48,9 @@ const DAYS_MAP = [
     MatFormField,
     MatLabel,
     MatInput,
-    NgIf,
     MatError,
     MatCard,
     MatIcon,
-    NgFor,
     MatSelect,
     MatOption,
     MatDialogActions,
