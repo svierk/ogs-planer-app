@@ -1,4 +1,4 @@
-import { Component, Input, NgZone, inject } from '@angular/core';
+import { Component, NgZone, inject, input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Child } from 'src/app/models/child';
 import { ChildrenActivitiesDialogComponent } from '../children-activities-dialog/children-activities-dialog.component';
@@ -12,8 +12,7 @@ import { MatIcon } from '@angular/material/icon';
   imports: [MatIconButton, MatIcon],
 })
 export class ChildrenActivitiesActionComponent {
-  @Input()
-  child!: Child;
+  readonly child = input.required<Child>();
 
   dialog = inject(MatDialog);
   readonly zone = inject(NgZone);
@@ -21,7 +20,7 @@ export class ChildrenActivitiesActionComponent {
   openDialog() {
     const config = new MatDialogConfig();
     config.autoFocus = false;
-    config.data = this.child;
+    config.data = this.child();
 
     this.zone.run(() => {
       this.dialog.open(ChildrenActivitiesDialogComponent, config);

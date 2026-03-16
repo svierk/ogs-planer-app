@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild, input } from '@angular/core';
 import { Toast } from 'bootstrap';
 import { fromEvent, take } from 'rxjs';
 import { EventTypes } from 'src/app/models/event-types';
@@ -20,14 +20,9 @@ export class ToastComponent implements OnInit {
   @ViewChild('toastElement', { static: true })
   toastEl!: ElementRef;
 
-  @Input()
-  type!: EventTypes;
-
-  @Input()
-  title!: string;
-
-  @Input()
-  message!: string;
+  readonly type = input.required<EventTypes>();
+  readonly title = input.required<string>();
+  readonly message = input.required<string>();
 
   toast!: Toast;
 
@@ -38,7 +33,7 @@ export class ToastComponent implements OnInit {
   show() {
     this.toast = new Toast(
       this.toastEl.nativeElement,
-      this.type === EventTypes.Error
+      this.type() === EventTypes.Error
         ? {
             autohide: false,
           }

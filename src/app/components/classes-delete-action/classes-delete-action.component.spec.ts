@@ -28,10 +28,10 @@ describe('ClassesDeleteActionComponent', () => {
 
   it('should open dialog', () => {
     // given
-    component.classItem = {
+    fixture.componentRef.setInput('classItem', {
       id: 123,
       name: '',
-    };
+    });
 
     // when
     component.openDialog();

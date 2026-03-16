@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Class } from 'src/app/models/class';
 import { ClassesDeleteDialogComponent } from '../classes-delete-dialog/classes-delete-dialog.component';
@@ -12,15 +12,14 @@ import { MatIcon } from '@angular/material/icon';
   imports: [MatIconButton, MatIcon],
 })
 export class ClassesDeleteActionComponent {
-  @Input()
-  classItem!: Class;
+  readonly classItem = input.required<Class>();
 
   dialog = inject(MatDialog);
 
   openDialog() {
     const config = new MatDialogConfig();
     config.autoFocus = false;
-    config.data = this.classItem.id;
+    config.data = this.classItem().id;
     this.dialog.open(ClassesDeleteDialogComponent, config);
   }
 }

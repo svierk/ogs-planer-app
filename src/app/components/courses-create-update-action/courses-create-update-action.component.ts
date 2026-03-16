@@ -1,4 +1,4 @@
-import { Component, Input, NgZone, inject } from '@angular/core';
+import { Component, NgZone, inject, input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Course } from 'src/app/models/course';
 import { CoursesCreateUpdateDialogComponent } from '../courses-create-update-dialog/courses-create-update-dialog.component';
@@ -13,11 +13,9 @@ import { MatIcon } from '@angular/material/icon';
   imports: [MatIconButton, MatIcon, MatButton],
 })
 export class CoursesCreateUpdateActionComponent {
-  @Input()
-  course!: Course;
+  readonly course = input<Course | undefined>(undefined);
 
-  @Input()
-  isUpdate = false;
+  readonly isUpdate = input(false);
 
   readonly dialog = inject(MatDialog);
   readonly zone = inject(NgZone);
@@ -25,7 +23,7 @@ export class CoursesCreateUpdateActionComponent {
   openDialog() {
     const config = new MatDialogConfig();
     config.autoFocus = false;
-    config.data = this.course;
+    config.data = this.course();
 
     this.zone.run(() => {
       this.dialog.open(CoursesCreateUpdateDialogComponent, config);

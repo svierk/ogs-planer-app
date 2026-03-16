@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Child } from 'src/app/models/child';
 import { ChildrenDeleteDialogComponent } from '../children-delete-dialog/children-delete-dialog.component';
@@ -12,15 +12,14 @@ import { MatIcon } from '@angular/material/icon';
   imports: [MatIconButton, MatIcon],
 })
 export class ChildrenDeleteActionComponent {
-  @Input()
-  child!: Child;
+  readonly child = input.required<Child>();
 
   dialog = inject(MatDialog);
 
   openDialog() {
     const config = new MatDialogConfig();
     config.autoFocus = false;
-    config.data = this.child.id;
+    config.data = this.child().id;
     this.dialog.open(ChildrenDeleteDialogComponent, config);
   }
 }
