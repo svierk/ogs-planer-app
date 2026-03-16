@@ -48,7 +48,7 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideZoneChangeDetection(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
     importProvidersFrom(
       AppRoutingModule,
       BrowserModule,
