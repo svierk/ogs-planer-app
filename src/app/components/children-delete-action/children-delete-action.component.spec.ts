@@ -28,11 +28,11 @@ describe('ChildrenDeleteActionComponent', () => {
 
   it('should open dialog', () => {
     // given
-    component.child = {
+    fixture.componentRef.setInput('child', {
       id: 123,
       firstName: '',
       lastName: '',
-    };
+    });
 
     // when
     component.openDialog();

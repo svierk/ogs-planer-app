@@ -54,6 +54,7 @@ describe('ClassesCreateUpdateDialogComponent', () => {
     // given
     spyOn(component.dbService, 'createClass');
     spyOn(component.dbService, 'getClasses');
+    spyOn(component.dbService, 'getClassSchedules');
     spyOn(component, 'submit').and.callThrough();
     component.name?.setValue('1a');
     component.teacher?.setValue('teacher');
@@ -72,6 +73,7 @@ describe('ClassesCreateUpdateDialogComponent', () => {
     // given
     spyOn(component.dbService, 'updateClass');
     spyOn(component.dbService, 'getClasses');
+    spyOn(component.dbService, 'getClassSchedules');
     spyOn(component, 'submit').and.callThrough();
     component.name?.setValue('1a');
     component.classItem = {

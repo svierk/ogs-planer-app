@@ -27,6 +27,9 @@ describe('ChildrenActivitiesActionComponent', () => {
   });
 
   it('should open dialog', () => {
+    // given
+    fixture.componentRef.setInput('child', { id: 1, firstName: '', lastName: '' });
+
     // when
     component.openDialog();
     fixture.detectChanges();

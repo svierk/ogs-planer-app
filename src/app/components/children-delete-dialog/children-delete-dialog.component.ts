@@ -33,7 +33,7 @@ export class ChildrenDeleteDialogComponent {
   }
 
   @HostListener('window:keydown.Enter', ['$event'])
-  handleKeyDown(event: KeyboardEvent) {
+  handleKeyDown(event: Event) {
     event.preventDefault();
     this.deleteChild();
     this.closeDialog();

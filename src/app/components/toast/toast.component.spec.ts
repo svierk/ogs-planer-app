@@ -23,9 +23,9 @@ describe('ToastComponent', () => {
 
   it('should create an error toast that does not disappear', () => {
     // given
-    component.type = EventTypes.Error;
-    component.title = 'error';
-    component.message = 'error';
+    fixture.componentRef.setInput('type', EventTypes.Error);
+    fixture.componentRef.setInput('title', 'error');
+    fixture.componentRef.setInput('message', 'error');
 
     // when
     fixture.detectChanges();
@@ -38,9 +38,9 @@ describe('ToastComponent', () => {
 
   it('should emit dispose event on close button click', () => {
     // given
-    component.type = EventTypes.Info;
-    component.title = 'infp';
-    component.message = 'info';
+    fixture.componentRef.setInput('type', EventTypes.Info);
+    fixture.componentRef.setInput('title', 'infp');
+    fixture.componentRef.setInput('message', 'info');
     spyOn(component.disposeEvent, 'emit');
     const button = debugElement.nativeElement.querySelector('button');
 

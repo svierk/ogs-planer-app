@@ -29,14 +29,14 @@ describe('CoursesDeleteActionComponent', () => {
 
   it('should open dialog', () => {
     // given
-    component.course = {
+    fixture.componentRef.setInput('course', {
       id: 123,
       name: '',
       teacher: '',
       day: Days.Monday,
       start: '',
       end: '',
-    };
+    });
 
     // when
     component.openDialog();
