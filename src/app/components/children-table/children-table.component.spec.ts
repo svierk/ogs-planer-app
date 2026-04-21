@@ -19,6 +19,7 @@ import { Homework } from 'src/app/models/homework';
 import { Lunch } from 'src/app/models/lunch';
 import { Pickup } from 'src/app/models/pickup';
 import { ExcelService } from 'src/app/services/excel.service';
+import { PdfService } from 'src/app/services/pdf.service';
 import { ChildrenCreateUpdateActionComponent } from '../children-create-update-action/children-create-update-action.component';
 import { ChildrenDeleteActionComponent } from '../children-delete-action/children-delete-action.component';
 import { ChildrenTableComponent } from './children-table.component';
@@ -52,6 +53,9 @@ describe('ChildrenTableComponent', () => {
     const excelService: Partial<ExcelService> = {
       exportActivities: jasmine.createSpy('exportActivities'),
     };
+    const pdfService: Partial<PdfService> = {
+      exportActivities: jasmine.createSpy('exportActivities'),
+    };
 
     TestBed.configureTestingModule({
       imports: [
@@ -67,7 +71,10 @@ describe('ChildrenTableComponent', () => {
         ChildrenDeleteActionComponent,
         ChildrenTableComponent,
       ],
-      providers: [{ provide: ExcelService, useValue: excelService }],
+      providers: [
+        { provide: ExcelService, useValue: excelService },
+        { provide: PdfService, useValue: pdfService },
+      ],
     });
     fixture = TestBed.createComponent(ChildrenTableComponent);
     component = fixture.componentInstance;
@@ -127,6 +134,28 @@ describe('ChildrenTableComponent', () => {
 
     // then
     expect(component.download).toHaveBeenCalledTimes(1);
+  });
+
+  it('should allow download of child activities as pdf', () => {
+    // given
+    component.children = children;
+    component.classes = classes;
+    component.courses = courses;
+    component.earlyCare = earlyCare;
+    component.lunch = lunch;
+    component.homework = homework;
+    component.childCourses = childCourses;
+    component.pickup = pickup;
+    component.dataSource = new MatTableDataSource(children);
+    spyOn(component, 'download').and.callThrough();
+
+    // when
+    component.download(children[0], 'pdf');
+    fixture.detectChanges();
+
+    // then
+    expect(component.download).toHaveBeenCalledTimes(1);
+    expect(component.pdfService.exportActivities).toHaveBeenCalledTimes(1);
   });
 
   it('should allow download of child activities without class assignment', () => {
