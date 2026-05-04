@@ -4,7 +4,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatSortModule, Sort } from '@angular/material/sort';
+import { MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { By } from '@angular/platform-browser';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
@@ -75,7 +75,7 @@ describe('ClassesTableComponent', () => {
     component.dataSource = new MatTableDataSource(classes);
 
     // when
-    component.sortData({ active: 'name', direction: 'asc' } as Sort);
+    component.sortData({ active: 'name', direction: 'asc' });
     fixture.detectChanges();
 
     // then
