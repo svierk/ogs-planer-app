@@ -4,7 +4,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatSortModule, Sort } from '@angular/material/sort';
+import { MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { By } from '@angular/platform-browser';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
@@ -100,7 +100,7 @@ describe('ChildrenTableComponent', () => {
     component.dataSource = new MatTableDataSource(children);
 
     // when
-    component.sortData({ active: 'firstName', direction: 'asc' } as Sort);
+    component.sortData({ active: 'firstName', direction: 'asc' });
     fixture.detectChanges();
 
     // then

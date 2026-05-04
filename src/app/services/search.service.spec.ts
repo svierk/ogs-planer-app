@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SearchService } from './search.service';
 
@@ -33,7 +32,7 @@ describe('SearchService', () => {
     spyOn(service, 'sort').and.callThrough();
 
     // when
-    service.sort({ active: 'default', direction: '' } as Sort, new MatTableDataSource(items));
+    service.sort({ active: 'default', direction: '' }, new MatTableDataSource(items));
 
     // then
     expect(service.sort).toHaveBeenCalledTimes(1);
