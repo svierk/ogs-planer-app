@@ -60,7 +60,7 @@ export class DbService {
   }
 
   get isElectron(): boolean {
-    return !!window?.process?.type;
+    return !!(globalThis as any)?.process?.type;
   }
 
   getChildren() {
