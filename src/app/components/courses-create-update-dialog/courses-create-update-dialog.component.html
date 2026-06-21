@@ -6,7 +6,7 @@
         <div class="col-sm">
           <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
-            <input matInput type="text" formControlName="name" placeholder="Fußball" />
+            <input id="course-name" aria-label="Name" matInput type="text" formControlName="name" placeholder="Fußball" />
             @if (name?.errors?.['required']) {
               <mat-error>Name ist erforderlich.</mat-error>
             }
@@ -15,7 +15,7 @@
         <div class="col-sm">
           <mat-form-field appearance="fill">
             <mat-label>Kursleitung</mat-label>
-            <input matInput type="text" formControlName="teacher" placeholder="Herr Meyer" />
+            <input id="course-teacher" aria-label="Kursleitung" matInput type="text" formControlName="teacher" placeholder="Herr Meyer" />
             @if (teacher?.errors?.['required']) {
               <mat-error>Kursleitung ist erforderlich.</mat-error>
             }
@@ -26,7 +26,7 @@
         <div class="col-sm">
           <mat-form-field appearance="fill">
             <mat-label>Beginn</mat-label>
-            <input matInput type="time" formControlName="start" placeholder="14:00" />
+            <input id="course-start" aria-label="Beginn" matInput type="time" formControlName="start" placeholder="14:00" />
             @if (start?.errors?.['required']) {
               <mat-error>Uhrzeit ist erforderlich.</mat-error>
             }
@@ -35,7 +35,7 @@
         <div class="col-sm">
           <mat-form-field appearance="fill">
             <mat-label>Ende</mat-label>
-            <input matInput type="time" formControlName="end" placeholder="15:30" />
+            <input id="course-end" aria-label="Ende" matInput type="time" formControlName="end" placeholder="15:30" />
             @if (end?.errors?.['required']) {
               <mat-error>Uhrzeit ist erforderlich.</mat-error>
             }
@@ -56,7 +56,7 @@
         <div class="col-sm">
           <mat-form-field appearance="fill">
             <mat-label>Notiz</mat-label>
-            <input matInput type="text" formControlName="note" placeholder="Zusätzliche Notizen" />
+            <input id="course-note" aria-label="Notiz" matInput type="text" formControlName="note" placeholder="Zusätzliche Notizen" />
           </mat-form-field>
         </div>
       </div>

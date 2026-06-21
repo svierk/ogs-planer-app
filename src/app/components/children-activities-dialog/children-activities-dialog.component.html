@@ -57,6 +57,8 @@
                       <mat-form-field appearance="fill">
                         <mat-label>Notiz</mat-label>
                         <input
+                          id="earlyCareNote{{ day }}"
+                          attr.aria-label="Notiz Frühbetreuung {{ day }}"
                           matInput
                           type="text"
                           formControlName="{{ 'earlyCareNote' + day }}"
@@ -105,6 +107,8 @@
                       <mat-form-field appearance="fill">
                         <mat-label>Notiz</mat-label>
                         <input
+                          id="lunchNote{{ day }}"
+                          attr.aria-label="Notiz Mittagessen {{ day }}"
                           matInput
                           type="text"
                           formControlName="{{ 'lunchNote' + day }}"
@@ -154,6 +158,8 @@
                       <mat-form-field appearance="fill">
                         <mat-label>Notiz</mat-label>
                         <input
+                          id="homeworkNote{{ day }}"
+                          attr.aria-label="Notiz Hausaufgaben {{ day }}"
                           matInput
                           type="text"
                           formControlName="{{ 'homeworkNote' + day }}"
@@ -206,7 +212,7 @@
                     <td>
                       <mat-form-field appearance="fill">
                         <mat-label>Uhrzeit</mat-label>
-                        <input matInput type="time" formControlName="{{ 'pickupTime' + day }}" />
+                        <input id="pickupTime{{ day }}" attr.aria-label="Abholung Uhrzeit {{ day }}" matInput type="time" formControlName="{{ 'pickupTime' + day }}" />
                       </mat-form-field>
                     </td>
                   }
@@ -229,7 +235,7 @@
                     <td>
                       <mat-form-field appearance="fill">
                         <mat-label>Notiz</mat-label>
-                        <input matInput type="text" formControlName="{{ 'pickupNote' + day }}" placeholder="z.B. Bus" />
+                        <input id="pickupNote{{ day }}" attr.aria-label="Abholung Notiz {{ day }}" matInput type="text" formControlName="{{ 'pickupNote' + day }}" placeholder="z.B. Bus" />
                       </mat-form-field>
                     </td>
                   }

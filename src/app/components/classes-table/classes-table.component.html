@@ -2,7 +2,7 @@
   <div class="col-7 d-flex align-items-start justify-content-start">
     <mat-form-field>
       <mat-label>Suche</mat-label>
-      <input matInput (keyup)="search($event)" placeholder="Suche nach Klasse..." #input />
+      <input id="classes-search" aria-label="Suche nach Klasse" matInput (keyup)="search($event)" placeholder="Suche nach Klasse..." #input />
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
   </div>

@@ -6,7 +6,7 @@
         <div class="col-sm">
           <mat-form-field appearance="fill">
             <mat-label>Vorname</mat-label>
-            <input matInput type="text" formControlName="firstName" placeholder="Max" />
+            <input id="child-firstName" aria-label="Vorname" matInput type="text" formControlName="firstName" placeholder="Max" />
             @if (firstName?.errors?.['required']) {
               <mat-error>Vorname ist erforderlich.</mat-error>
             }
@@ -15,7 +15,7 @@
         <div class="col-sm">
           <mat-form-field appearance="fill">
             <mat-label>Nachname</mat-label>
-            <input matInput type="text" formControlName="lastName" placeholder="Mustermann" />
+            <input id="child-lastName" aria-label="Nachname" matInput type="text" formControlName="lastName" placeholder="Mustermann" />
             @if (lastName?.errors?.['required']) {
               <mat-error>Nachname ist erforderlich.</mat-error>
             }
@@ -26,7 +26,7 @@
         <div class="col-sm">
           <mat-form-field appearance="fill">
             <mat-label>Telefon</mat-label>
-            <input matInput type="text" formControlName="phone" placeholder="" />
+            <input id="child-phone" aria-label="Telefon" matInput type="text" formControlName="phone" placeholder="" />
             @if (phone?.errors?.['minlength']) {
               <mat-error>Mind. 7 Ziffern erforderlich.</mat-error>
             }
@@ -38,7 +38,7 @@
         <div class="col-sm">
           <mat-form-field appearance="fill">
             <mat-label>Mobil</mat-label>
-            <input matInput type="text" formControlName="mobile" placeholder="" />
+            <input id="child-mobile" aria-label="Mobil" matInput type="text" formControlName="mobile" placeholder="" />
             @if (mobile?.errors?.['minlength']) {
               <mat-error>Mind. 7 Ziffern erforderlich.</mat-error>
             }
@@ -52,7 +52,7 @@
         <div class="col-sm">
           <mat-form-field appearance="fill">
             <mat-label>Notfallkontakt</mat-label>
-            <input matInput type="text" formControlName="emergencyContact" placeholder="Name und/oder Rufnummer" />
+            <input id="child-emergencyContact" aria-label="Notfallkontakt" matInput type="text" formControlName="emergencyContact" placeholder="Name und/oder Rufnummer" />
           </mat-form-field>
         </div>
         <div class="col-sm">
@@ -70,13 +70,13 @@
         <div class="col-sm">
           <mat-form-field appearance="fill">
             <mat-label>Abholberechtigung</mat-label>
-            <input matInput type="text" formControlName="pickupAuthorization" placeholder="" />
+            <input id="child-pickupAuthorization" aria-label="Abholberechtigung" matInput type="text" formControlName="pickupAuthorization" placeholder="" />
           </mat-form-field>
         </div>
         <div class="col-sm">
           <mat-form-field appearance="fill">
             <mat-label>Allergien</mat-label>
-            <input matInput type="text" formControlName="allergies" placeholder="" />
+            <input id="child-allergies" aria-label="Allergien" matInput type="text" formControlName="allergies" placeholder="" />
           </mat-form-field>
         </div>
       </div>

@@ -6,7 +6,7 @@
         <div class="col-sm">
           <mat-form-field appearance="fill" class="float-sm-end">
             <mat-label>Name</mat-label>
-            <input matInput type="text" formControlName="name" placeholder="4b" />
+            <input id="class-name" aria-label="Name" matInput type="text" formControlName="name" placeholder="4b" />
             @if (name?.errors?.['required']) {
               <mat-error>Name ist erforderlich.</mat-error>
             }
@@ -15,7 +15,7 @@
         <div class="col-sm">
           <mat-form-field appearance="fill" class="float-sm-start">
             <mat-label>Lehrkraft</mat-label>
-            <input matInput type="text" formControlName="teacher" placeholder="Frau Schwarz" />
+            <input id="class-teacher" aria-label="Lehrkraft" matInput type="text" formControlName="teacher" placeholder="Frau Schwarz" />
           </mat-form-field>
         </div>
       </div>
