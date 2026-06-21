@@ -25,6 +25,7 @@ import { Pickup } from 'src/app/models/pickup';
 import { ClassNamePipe } from 'src/app/pipes/class-name.pipe';
 import { DbService } from 'src/app/services/db.service';
 import { ExcelService } from 'src/app/services/excel.service';
+import { PdfService } from 'src/app/services/pdf.service';
 import { SearchService } from 'src/app/services/search.service';
 import { Child } from '../../models/child';
 import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
@@ -73,6 +74,7 @@ export class ChildrenTableComponent implements AfterViewInit, OnInit {
 
   readonly dbService = inject(DbService);
   readonly excelService = inject(ExcelService);
+  readonly pdfService = inject(PdfService);
   readonly searchService = inject(SearchService);
   readonly cdr = inject(ChangeDetectorRef);
   children: Child[] = [];
@@ -134,9 +136,9 @@ export class ChildrenTableComponent implements AfterViewInit, OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  download(child: Child) {
+  download(child: Child, format: 'excel' | 'pdf' = 'excel') {
     const classId = child.classId ? Number.parseInt(child.classId) : undefined;
-    this.excelService.exportActivities({
+    const payload = {
       child: child,
       childClass: classId ? this.classes.find((c) => c.id === classId) : undefined,
       classSchedules: classId ? this.classSchedules.filter((s) => s.classId === classId) : [],
@@ -146,6 +148,12 @@ export class ChildrenTableComponent implements AfterViewInit, OnInit {
       homework: this.homework.filter((item) => item.childId === child.id),
       childCourses: this.childCourses.filter((item) => item.childId === child.id),
       pickup: this.pickup.filter((item) => item.childId === child.id),
-    });
+    };
+
+    if (format === 'pdf') {
+      this.pdfService.exportActivities(payload);
+    } else {
+      this.excelService.exportActivities(payload);
+    }
   }
 }
