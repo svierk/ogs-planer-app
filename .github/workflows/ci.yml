@@ -1,5 +1,12 @@
 name: Build
 
+# Validates every change to this repository: formatting, linting, unit tests
+# with coverage reporting and, finally, the Angular and Electron builds.
+#
+# Every `uses:` reference is pinned to an exact release tag so that an update is
+# always an explicit, reviewable change - Dependabot keeps those pins current
+# (see .github/dependabot.yml).
+
 on:
   push:
     branches: [main]
@@ -7,38 +14,58 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Least-privilege token: this workflow only reads the repository.
 permissions:
   contents: read
 
 jobs:
   build:
+    # Keep this job name in sync with the required status check of the `main`
+    # ruleset - the check context is the job name, not the workflow name.
     name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@main
+        uses: actions/checkout@v7.0.1
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # disabling shallow clones improves the relevancy of the Sonar analysis
+          persist-credentials: false # the GITHUB_TOKEN is not needed after the checkout - don't leave it in .git/config
+
+      # Resolves the Node.js version from engines.node in package.json, so the
+      # pipeline and the local development setup can never drift apart.
       - name: Select Node Version
-        uses: svierk/get-node-version@main
+        uses: svierk/get-node-version@v1.5.1
+
+      # `npm ci` installs exactly what package-lock.json pins and fails on a
+      # drifted lock file; `--ignore-scripts` keeps install scripts of the
+      # dependency tree from executing on the runner.
       - name: Install Dependencies
-        run: npm install --ignore-scripts
+        run: npm ci --ignore-scripts
+
       - name: Check Prettier
         run: npm run prettier
+
       - name: Check ESLint
         run: npm run lint
+
       - name: Unit Tests
         run: npm run test:ci
+
+      # SONAR_TOKEN is the only credential this scan needs: pull request
+      # decoration is handled by the SonarQube Cloud GitHub App, not by a token
+      # passed in here.
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@master
+        uses: SonarSource/sonarqube-scan-action@v8.2.1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
       - name: Codecov Coverage Upload
-        uses: codecov/codecov-action@main
+        uses: codecov/codecov-action@v7.0.0
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
       - name: Angular Build
         run: npm run build
+
       - name: Electron Build
         run: npm run make

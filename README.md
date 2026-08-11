@@ -1,6 +1,6 @@
 # 📆 OGS Planer
 
-![GitHub CI](https://github.com/svierk/ogs-planer-app/actions/workflows/ci.yml/badge.svg)
+[![Build](https://github.com/svierk/ogs-planer-app/actions/workflows/ci.yml/badge.svg?branch=main&event=push)](https://github.com/svierk/ogs-planer-app/actions/workflows/ci.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=svierk_ogs-planer-app&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=svierk_ogs-planer-app)
 [![codecov](https://codecov.io/gh/svierk/ogs-planer-app/branch/main/graph/badge.svg?token=W0VGTTH1VJ)](https://codecov.io/gh/svierk/ogs-planer-app)
 
