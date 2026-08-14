@@ -11,6 +11,7 @@ import { EarlyCare } from '../models/early-care';
 import { Homework } from '../models/homework';
 import { Lunch } from '../models/lunch';
 import { Pickup } from '../models/pickup';
+import { sanitizeFileName } from '../utils/file-name';
 import { ToastService } from './toast.service';
 
 const EXCEL_EXTENSION = '.xlsx'; // excel file extension
@@ -170,8 +171,16 @@ export class ExcelService {
     this.download(wb, `Aktivitäten_${child.firstName}_${child.lastName}`);
   }
 
+  /**
+   * The Angular bundle has no `fs`, so XLSX.writeFile hands the workbook to the
+   * browser download path (`<a download>`). Electron turns that into its own
+   * native save dialog, which is where the user picks the target directory -
+   * so this must stay a bare file name. An absolute path would end up *inside*
+   * the name, because Chromium replaces the separators in a download
+   * attribute.
+   */
   download(workbook: XLSX.WorkBook, fileName: string) {
-    XLSX.writeFile(workbook, `${fileName}${EXCEL_EXTENSION}`);
+    XLSX.writeFile(workbook, `${sanitizeFileName(fileName)}${EXCEL_EXTENSION}`);
   }
 
   private buildParticipationRow(

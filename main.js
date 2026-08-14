@@ -1,7 +1,16 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const url = require('url');
 const path = require('path');
+const fs = require('fs');
 const basePath = 'dist/ogs-planer-app/browser/assets/models';
+
+// Windows only: the Squirrel installer starts the app with --squirrel-install,
+// --squirrel-updated, --squirrel-obsolete or --squirrel-uninstall to let it
+// create and remove its shortcuts. Those runs must not open a window - without
+// this guard a real app window flashes up during install and uninstall.
+if (require('electron-squirrel-startup')) {
+  app.quit();
+}
 
 let win;
 
@@ -26,7 +35,103 @@ function onReady() {
   // win.webContents.openDevTools();
 }
 
-app.on('ready', onReady);
+// Nothing stops a Windows user from double-clicking the shortcut twice, and a
+// second instance would open its own SQLite handle on the same database file.
+// Keep one instance and surface the existing window instead.
+if (app.requestSingleInstanceLock()) {
+  app.on('second-instance', () => {
+    if (!win) return;
+    if (win.isMinimized()) win.restore();
+    win.focus();
+  });
+  app.on('ready', onReady);
+} else {
+  app.quit();
+}
+
+// ##### DATABASE BACKUP #####
+
+// The live database no longer sits inside the app directory (see dbmgr.js), so
+// it can't be handed out with a plain <a href="assets/db/..."> link any more -
+// that link would have exported the empty seed. Copy the real file instead.
+//
+// A plain file copy is safe here: the database runs in SQLite's default
+// rollback-journal mode, so the .db file is complete between transactions.
+ipcMain.on('exportDatabase', (event) => {
+  const dbmgr = require(path.join(__dirname, `${basePath}/dbmgr`));
+  const target = dialog.showSaveDialogSync(win, {
+    title: 'Datenbank exportieren',
+    defaultPath: path.join(
+      app.getPath('documents'),
+      `ogs-planer-datenbank-${new Date().toISOString().slice(0, 10)}.db`
+    ),
+    filters: [{ name: 'SQLite Datenbank', extensions: ['db'] }],
+    properties: ['createDirectory', 'showOverwriteConfirmation'],
+  });
+
+  if (!target) {
+    event.returnValue = '';
+    return;
+  }
+
+  fs.copyFileSync(dbmgr.dbPath, target);
+  event.returnValue = target;
+});
+
+// Counterpart to the export: lets a user move their data onto a new machine, and
+// - importantly - recover it after updating from a version that still kept the
+// database inside the app directory, where every update discarded it.
+ipcMain.on('importDatabase', (event) => {
+  const selection = dialog.showOpenDialogSync(win, {
+    title: 'Datenbank importieren',
+    filters: [{ name: 'SQLite Datenbank', extensions: ['db'] }],
+    properties: ['openFile'],
+  });
+  const source = selection?.[0];
+
+  if (!source) {
+    event.returnValue = '';
+    return;
+  }
+
+  // Guard against picking an arbitrary file: every SQLite database starts with
+  // this magic string.
+  const header = Buffer.alloc(16);
+  const handle = fs.openSync(source, 'r');
+  fs.readSync(handle, header, 0, 16, 0);
+  fs.closeSync(handle);
+
+  if (header.toString('utf8', 0, 15) !== 'SQLite format 3') {
+    event.returnValue = 'invalid';
+    return;
+  }
+
+  const confirmed = dialog.showMessageBoxSync(win, {
+    type: 'warning',
+    buttons: ['Abbrechen', 'Importieren'],
+    defaultId: 0,
+    cancelId: 0,
+    title: 'Datenbank importieren',
+    message: 'Die aktuelle Datenbank wird vollständig überschrieben.',
+    detail: 'Alle aktuell erfassten Daten gehen dabei verloren. Die App startet anschließend neu.',
+  });
+
+  if (confirmed !== 1) {
+    event.returnValue = '';
+    return;
+  }
+
+  const dbmgr = require(path.join(__dirname, `${basePath}/dbmgr`));
+
+  // Release the handle before the file underneath it is replaced, then restart
+  // so every model picks up the imported database.
+  dbmgr.db.close();
+  fs.copyFileSync(source, dbmgr.dbPath);
+  event.returnValue = source;
+
+  app.relaunch();
+  app.exit(0);
+});
 
 // ##### CHILDREN DB ACTIONS #####
 

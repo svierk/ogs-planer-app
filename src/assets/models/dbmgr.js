@@ -1,5 +1,28 @@
+const fs = require('fs');
 const path = require('path');
-const db = require('better-sqlite3')(path.join(__dirname, '../db/mysqlite.db'));
+const { app } = require('electron');
+
+// The mysqlite.db that ships inside the app is only a seed. Writing to it in
+// place would keep the user's data inside the installation directory, and on
+// Windows the Squirrel installer puts every version into its own app-<version>
+// folder - so the next update would leave the whole database behind in the old
+// one. Keep the working copy in the per-user data directory instead: it is
+// writable even when the app is installed under C:\Program Files, and it
+// survives updates.
+//
+// Electron resolves userData to
+//   %APPDATA%\ogs-planer-app             (Windows)
+//   ~/Library/Application Support/...    (macOS)
+//   ~/.config/ogs-planer-app             (Linux)
+const SEED_PATH = path.join(__dirname, '../db/mysqlite.db');
+const DB_PATH = path.join(app.getPath('userData'), 'mysqlite.db');
+
+if (!fs.existsSync(DB_PATH)) {
+  fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
+  fs.copyFileSync(SEED_PATH, DB_PATH);
+}
+
+const db = require('better-sqlite3')(DB_PATH);
 
 const DAYS = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag'];
 const DAY_KEYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -268,3 +291,4 @@ migrate();
 initSchema();
 
 exports.db = db;
+exports.dbPath = DB_PATH;

@@ -1,6 +1,7 @@
 {
   "name": "ogs-planer-app",
-  "version": "1.5.1",
+  "productName": "OGS Planer",
+  "version": "2.0.0",
   "description": "Planungstool für den Ganztagsbereich einer Grundschule",
   "author": {
     "name": "Sebastiano Schwarz",
@@ -17,7 +18,7 @@
     "start": "ng serve",
     "build": "ng build",
     "electron": "ng build && electron .",
-    "rebuild": "./node_modules/.bin/electron-rebuild",
+    "rebuild": "electron-rebuild",
     "make": "ng build && electron-forge make",
     "package": "ng build && electron-forge package",
     "watch": "ng build --watch --configuration development",

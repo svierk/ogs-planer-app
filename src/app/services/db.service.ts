@@ -174,4 +174,22 @@ export class DbService {
   updatePickup(items: Pickup[]) {
     this.ipcRenderer.send('updatePickup', items);
   }
+
+  /**
+   * Writes a copy of the live database wherever the user picks.
+   * @returns the chosen path, or '' if the save dialog was cancelled
+   */
+  exportDatabase(): string {
+    return this.isElectron ? (this.ipcRenderer.sendSync('exportDatabase') as string) : '';
+  }
+
+  /**
+   * Replaces the live database with a previously exported one. On success the
+   * app restarts, so nothing after this call runs.
+   * @returns the chosen path, '' if cancelled, or 'invalid' if the file is not
+   * a SQLite database
+   */
+  importDatabase(): string {
+    return this.isElectron ? (this.ipcRenderer.sendSync('importDatabase') as string) : '';
+  }
 }

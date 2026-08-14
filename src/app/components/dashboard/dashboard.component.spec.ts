@@ -36,4 +36,54 @@ describe('DashboardComponent', () => {
     // then
     expect(dialogSpy).toHaveBeenCalledTimes(1);
   });
+
+  describe('database backup', () => {
+    it('should confirm a successful export', () => {
+      // given
+      spyOn(component.dbService, 'exportDatabase').and.returnValue('/tmp/backup.db');
+      const toastSpy = spyOn(component.toastService, 'showSuccessToast');
+
+      // when
+      component.exportDatabase();
+
+      // then
+      expect(toastSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should stay silent when the export was cancelled', () => {
+      // given
+      spyOn(component.dbService, 'exportDatabase').and.returnValue('');
+      const toastSpy = spyOn(component.toastService, 'showSuccessToast');
+
+      // when
+      component.exportDatabase();
+
+      // then
+      expect(toastSpy).not.toHaveBeenCalled();
+    });
+
+    it('should report an invalid import file', () => {
+      // given
+      spyOn(component.dbService, 'importDatabase').and.returnValue('invalid');
+      const toastSpy = spyOn(component.toastService, 'showErrorToast');
+
+      // when
+      component.importDatabase();
+
+      // then
+      expect(toastSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should stay silent when the import was cancelled', () => {
+      // given
+      spyOn(component.dbService, 'importDatabase').and.returnValue('');
+      const toastSpy = spyOn(component.toastService, 'showErrorToast');
+
+      // when
+      component.importDatabase();
+
+      // then
+      expect(toastSpy).not.toHaveBeenCalled();
+    });
+  });
 });
