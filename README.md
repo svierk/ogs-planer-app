@@ -75,6 +75,8 @@ Electron Forge erzeugt dabei immer nur die Pakete, die zum aktuellen Betriebssys
 
 Unter Windows wird der Anwendungsinhalt zusätzlich in ein `app.asar` Archiv gepackt. Das reduziert die Anzahl der installierten Dateien erheblich, was dort Installation und den ersten Virenscan spürbar beschleunigt. Die native SQLite-Bibliothek bleibt dabei bewusst außerhalb des Archivs (`app.asar.unpacked`), da Windows keine DLL aus einem Archiv laden kann.
 
+Der `overrides` Eintrag in der `package.json` hebt `@electron/rebuild` auf Version 4 an. Electron Forge 7 bringt sonst eine ältere Version mit, deren gebündeltes `node-gyp` Visual Studio 2026 nicht kennt – und genau das ist auf dem `windows-latest` Runner installiert. Ohne den Override schlägt das Kompilieren von `better-sqlite3` unter Windows mit `Could not find any Visual Studio installation to use` fehl.
+
 ### Code Formatierung
 
 `npm run prettier` kann ausgeführt werden, um nach um mithilfe von Prettier nach Formatierungsproblemen zu suchen und `npm run prettier:fix`, um zu versuchen diese Fehler automatisch zu beheben.

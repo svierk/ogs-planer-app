@@ -39,6 +39,9 @@
     ]
   },
   "private": true,
+  "overrides": {
+    "@electron/rebuild": "$@electron/rebuild"
+  },
   "dependencies": {
     "@angular/animations": "^22.1.1",
     "@angular/cdk": "^22.1.2",
