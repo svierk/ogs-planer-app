@@ -1,4 +1,4 @@
-import { Component, NgZone, inject } from '@angular/core';
+import { Component, NgZone, inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivityTypes } from 'src/app/models/activity-types';
 import { InformationTypes } from 'src/app/models/information-types';
@@ -19,6 +19,7 @@ import { MatDivider } from '@angular/material/divider';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatActionList,
     MatListSubheaderCssMatStyler,

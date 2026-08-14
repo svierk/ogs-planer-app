@@ -1,4 +1,12 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  ViewChild,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatSort, Sort, MatSortHeader } from '@angular/material/sort';
 import {
   MatTableDataSource,
@@ -28,6 +36,7 @@ import { CoursesDeleteActionComponent } from '../courses-delete-action/courses-d
   templateUrl: './courses-table.component.html',
   styleUrls: ['./courses-table.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatFormField,
     MatLabel,

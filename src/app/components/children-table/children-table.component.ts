@@ -1,4 +1,12 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  ViewChild,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatSort, Sort, MatSortHeader } from '@angular/material/sort';
 import {
   MatTableDataSource,
@@ -42,6 +50,7 @@ import { ClassNamePipe as ClassNamePipe_1 } from '../../pipes/class-name.pipe';
   styleUrls: ['./children-table.component.scss'],
   providers: [ClassNamePipe],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     MatFormField,
     MatLabel,

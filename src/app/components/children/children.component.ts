@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ChildrenTableComponent } from '../children-table/children-table.component';
 
 @Component({
@@ -6,6 +6,7 @@ import { ChildrenTableComponent } from '../children-table/children-table.compone
   templateUrl: './children.component.html',
   styleUrls: ['./children.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ChildrenTableComponent],
 })
 export class ChildrenComponent {}

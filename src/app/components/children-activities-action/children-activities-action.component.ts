@@ -1,4 +1,4 @@
-import { Component, NgZone, inject, input } from '@angular/core';
+import { Component, NgZone, inject, input, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Child } from 'src/app/models/child';
 import { ChildrenActivitiesDialogComponent } from '../children-activities-dialog/children-activities-dialog.component';
@@ -9,6 +9,7 @@ import { MatIcon } from '@angular/material/icon';
   selector: 'ogs-children-activities-action',
   templateUrl: './children-activities-action.component.html',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatIconButton, MatIcon],
 })
 export class ChildrenActivitiesActionComponent {

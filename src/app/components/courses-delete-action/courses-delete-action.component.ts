@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Course } from 'src/app/models/course';
 import { CoursesDeleteDialogComponent } from '../courses-delete-dialog/courses-delete-dialog.component';
@@ -9,6 +9,7 @@ import { MatIcon } from '@angular/material/icon';
   selector: 'ogs-courses-delete-action',
   templateUrl: './courses-delete-action.component.html',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatIconButton, MatIcon],
 })
 export class CoursesDeleteActionComponent {

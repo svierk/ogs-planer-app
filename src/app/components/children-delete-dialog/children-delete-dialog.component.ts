@@ -1,4 +1,4 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener, inject, ChangeDetectionStrategy } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogConfig,
@@ -17,6 +17,7 @@ import { MatButton } from '@angular/material/button';
   selector: 'ogs-children-delete-dialog',
   templateUrl: './children-delete-dialog.component.html',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatDialogTitle, CdkScrollable, MatDialogContent, MatDialogActions, MatButton, MatDialogClose],
 })
 export class ChildrenDeleteDialogComponent {

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { DbService } from './services/db.service';
 import { ToasterComponent } from './components/toaster/toaster.component';
 import { MatToolbar } from '@angular/material/toolbar';
@@ -10,6 +10,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ToasterComponent, MatToolbar, MatAnchor, RouterLink, RouterLinkActive, RouterOutlet],
 })
 export class AppComponent implements OnInit {

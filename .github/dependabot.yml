@@ -39,16 +39,6 @@ updates:
         applies-to: version-updates
         patterns:
           - '*'
-    ignore:
-      # Major bumps of these need a manual look: Electron majors change the
-      # runtime the app is shipped with, ESLint 9 requires the flat config
-      # migration and TypeScript minors are gated by the Angular compiler.
-      - dependency-name: 'electron'
-        update-types: ['version-update:semver-major']
-      - dependency-name: 'eslint'
-        update-types: ['version-update:semver-major']
-      - dependency-name: 'typescript'
-        update-types: ['version-update:semver-major', 'version-update:semver-minor']
 
   # GitHub Actions used by the workflows in .github/workflows. Checked weekly so
   # that a fix in one of the building blocks or in a third-party action reaches

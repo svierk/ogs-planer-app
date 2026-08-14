@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CoursesTableComponent } from '../courses-table/courses-table.component';
 
 @Component({
@@ -6,6 +6,7 @@ import { CoursesTableComponent } from '../courses-table/courses-table.component'
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CoursesTableComponent],
 })
 export class CoursesComponent {}

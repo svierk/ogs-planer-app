@@ -1,4 +1,4 @@
-import { Component, NgZone, inject, input } from '@angular/core';
+import { Component, NgZone, inject, input, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Class } from 'src/app/models/class';
 import { ClassesCreateUpdateDialogComponent } from '../classes-create-update-dialog/classes-create-update-dialog.component';
@@ -10,6 +10,7 @@ import { MatIcon } from '@angular/material/icon';
   templateUrl: './classes-create-update-action.component.html',
   styleUrls: ['./classes-create-update-action.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatIconButton, MatIcon, MatButton],
 })
 export class ClassesCreateUpdateActionComponent {

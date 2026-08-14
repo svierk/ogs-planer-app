@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Child } from 'src/app/models/child';
 import { ChildrenDeleteDialogComponent } from '../children-delete-dialog/children-delete-dialog.component';
@@ -9,6 +9,7 @@ import { MatIcon } from '@angular/material/icon';
   selector: 'ogs-children-delete-action',
   templateUrl: './children-delete-action.component.html',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatIconButton, MatIcon],
 })
 export class ChildrenDeleteActionComponent {

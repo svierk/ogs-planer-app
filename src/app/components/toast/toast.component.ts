@@ -1,5 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild, input } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+  input,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Toast } from 'bootstrap';
 import { fromEvent, take } from 'rxjs';
 import { EventTypes } from 'src/app/models/event-types';
@@ -12,6 +21,7 @@ import { MatIcon } from '@angular/material/icon';
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgClass, MatIconButton, MatIcon],
 })
 export class ToastComponent implements OnInit {
