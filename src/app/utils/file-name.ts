@@ -15,23 +15,31 @@ const RESERVED_NAMES = /^(CON|PRN|AUX|NUL|COM\d|LPT\d)$/i;
 // name well under that keeps room for a deep target directory.
 const MAX_LENGTH = 120;
 
-// Windows silently drops trailing dots and spaces, which turns "1a." into "1a"
-// and can leave an empty name behind.
-const TRAILING_DOTS_AND_SPACES = /[. ]+$/;
+/**
+ * Windows silently drops trailing dots and spaces, which turns "1a." into "1a"
+ * and can leave an empty name behind - so they are removed up front.
+ *
+ * Deliberately not a regular expression: an end-anchored `/[. ]+$/` retries
+ * from every position on a long run of dots, which is quadratic on input that
+ * comes from a text field.
+ */
+function trimTrailingDotsAndSpaces(value: string): string {
+  let end = value.length;
+  while (end > 0 && (value[end - 1] === '.' || value[end - 1] === ' ')) end--;
+  return value.slice(0, end);
+}
 
 /**
  * Makes a file name (without extension) safe to write on Windows, macOS and
  * Linux alike. Returns `fallback` if nothing usable is left.
  */
 export function sanitizeFileName(name: string, fallback = 'Liste'): string {
-  const cleaned = (name ?? '')
-    .replace(FORBIDDEN_CHARACTERS, '_')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .replace(TRAILING_DOTS_AND_SPACES, '')
-    .slice(0, MAX_LENGTH)
-    // Truncating can expose a fresh trailing dot or space.
-    .replace(TRAILING_DOTS_AND_SPACES, '');
+  const collapsed = trimTrailingDotsAndSpaces(
+    (name ?? '').replace(FORBIDDEN_CHARACTERS, '_').replace(/\s+/g, ' ').trim()
+  );
+
+  // Truncating can expose a fresh trailing dot or space.
+  const cleaned = trimTrailingDotsAndSpaces(collapsed.slice(0, MAX_LENGTH));
 
   return !cleaned || RESERVED_NAMES.test(cleaned) ? fallback : cleaned;
 }
