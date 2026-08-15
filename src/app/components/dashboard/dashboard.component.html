@@ -107,15 +107,21 @@
       </mat-action-list>
       <mat-action-list class="space">
         <div mat-subheader>Administration</div>
-        <a href="assets/db/mysqlite.db">
-          <mat-list-item>
-            <mat-icon matListItemIcon>table_chart</mat-icon>
-            <h3 matListItemTitle>Datenbank exportieren</h3>
-            <p matListItemLine>
-              <span>Export der gesamten Datenbank.</span>
-            </p>
-          </mat-list-item>
-        </a>
+        <mat-list-item (click)="exportDatabase()" (keydown.enter)="exportDatabase()" tabindex="0">
+          <mat-icon matListItemIcon>table_chart</mat-icon>
+          <h3 matListItemTitle>Datenbank exportieren</h3>
+          <p matListItemLine>
+            <span>Export der gesamten Datenbank.</span>
+          </p>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item (click)="importDatabase()" (keydown.enter)="importDatabase()" tabindex="0">
+          <mat-icon matListItemIcon>restore_page</mat-icon>
+          <h3 matListItemTitle>Datenbank importieren</h3>
+          <p matListItemLine>
+            <span>Zuvor exportierte Datenbank wiederherstellen.</span>
+          </p>
+        </mat-list-item>
         <mat-divider></mat-divider>
       </mat-action-list>
     </div>

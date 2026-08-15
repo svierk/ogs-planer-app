@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import * as XLSX from 'xlsx-js-style';
 import { Child } from '../models/child';
 import { ChildCourse } from '../models/child-course';
 import { Class } from '../models/class';
@@ -164,5 +165,42 @@ describe('ExcelService', () => {
     // then
     expect(service.exportActivities).toHaveBeenCalledTimes(1);
     expect(service.download).toHaveBeenCalledTimes(0);
+  });
+
+  describe('download', () => {
+    // XLSX is imported as a module namespace, which is frozen - spyOn cannot
+    // replace writeFile. Without `fs` it takes the browser download path and
+    // clicks an <a download>, so intercept that click: its `download`
+    // attribute is exactly the name the user ends up seeing.
+    let downloadName: string | undefined;
+
+    const workbookWithSheet = () => {
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, XLSX.utils.aoa_to_sheet([['test']]), 'Liste');
+      return workbook;
+    };
+
+    beforeEach(() => {
+      downloadName = undefined;
+      spyOn(HTMLAnchorElement.prototype, 'click').and.callFake(function (this: HTMLAnchorElement) {
+        downloadName = this.download;
+      });
+    });
+
+    it('should sanitize a file name that windows would reject', () => {
+      // when - "1/2 a" is a class name a user can actually type
+      service.download(workbookWithSheet(), 'Mittagessen_2026_Juli_Montag_1/2 a');
+
+      // then
+      expect(downloadName).toBe('Mittagessen_2026_Juli_Montag_1_2 a.xlsx');
+    });
+
+    it('should keep the name relative so electron prompts for the target', () => {
+      // when
+      service.download(workbookWithSheet(), 'Kurse');
+
+      // then
+      expect(downloadName).toBe('Kurse.xlsx');
+    });
   });
 });

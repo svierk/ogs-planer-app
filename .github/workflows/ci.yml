@@ -67,5 +67,47 @@ jobs:
       - name: Angular Build
         run: npm run build
 
+  # Electron Forge only runs the makers that match the *host* platform, so a
+  # single Linux runner can never tell us whether the Windows or macOS build
+  # still works. Package on each target OS instead - this is also the only place
+  # the better-sqlite3 native rebuild gets exercised per platform.
+  #
+  # These job names are not required status checks by default. Add them to the
+  # `main` ruleset alongside `Build`, otherwise an auto-merged Dependabot PR can
+  # break packaging without anything going red.
+  package:
+    name: Package (${{ matrix.os }})
+    needs: build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Select Node Version
+        uses: svierk/get-node-version@v1.5.1
+
+      # Install scripts stay off for the dependency tree, but the native
+      # better-sqlite3 binding still has to be built against Electron's own
+      # headers - electron-forge's rebuild step does that during `make`.
+      - name: Install Dependencies
+        run: npm ci --ignore-scripts
+
+      # electron-winstaller ships one 7-Zip binary per architecture and copies
+      # the matching one to vendor/7z.exe in its install script - which
+      # `--ignore-scripts` skips. Squirrel shells out to exactly that path when
+      # it builds the release package and otherwise dies with "The system cannot
+      # find the file specified". Run only this one script, so install scripts
+      # stay off for the rest of the dependency tree.
+      - name: Prepare Squirrel Toolchain
+        if: runner.os == 'Windows'
+        working-directory: node_modules/electron-winstaller
+        run: node ./script/select-7z-arch.js
+
       - name: Electron Build
         run: npm run make

@@ -227,4 +227,37 @@ describe('DbService', () => {
       expect(mockIpcRenderer.send).toHaveBeenCalledWith('updatePickup', items);
     });
   });
+
+  describe('database backup', () => {
+    let mockIpcRenderer: jasmine.SpyObj<any>;
+
+    beforeEach(() => {
+      mockIpcRenderer = jasmine.createSpyObj('ipcRenderer', ['sendSync']);
+      service.ipcRenderer = mockIpcRenderer;
+    });
+
+    it('should return the export target chosen in the main process', () => {
+      spyOnProperty(service, 'isElectron').and.returnValue(true);
+      mockIpcRenderer.sendSync.and.returnValue('/tmp/backup.db');
+
+      expect(service.exportDatabase()).toBe('/tmp/backup.db');
+      expect(mockIpcRenderer.sendSync).toHaveBeenCalledWith('exportDatabase');
+    });
+
+    it('should return the import source chosen in the main process', () => {
+      spyOnProperty(service, 'isElectron').and.returnValue(true);
+      mockIpcRenderer.sendSync.and.returnValue('/tmp/backup.db');
+
+      expect(service.importDatabase()).toBe('/tmp/backup.db');
+      expect(mockIpcRenderer.sendSync).toHaveBeenCalledWith('importDatabase');
+    });
+
+    it('should not reach for the main process outside electron', () => {
+      spyOnProperty(service, 'isElectron').and.returnValue(false);
+
+      expect(service.exportDatabase()).toBe('');
+      expect(service.importDatabase()).toBe('');
+      expect(mockIpcRenderer.sendSync).not.toHaveBeenCalled();
+    });
+  });
 });
