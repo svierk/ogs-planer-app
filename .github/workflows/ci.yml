@@ -98,5 +98,16 @@ jobs:
       - name: Install Dependencies
         run: npm ci --ignore-scripts
 
+      # electron-winstaller ships one 7-Zip binary per architecture and copies
+      # the matching one to vendor/7z.exe in its install script - which
+      # `--ignore-scripts` skips. Squirrel shells out to exactly that path when
+      # it builds the release package and otherwise dies with "The system cannot
+      # find the file specified". Run only this one script, so install scripts
+      # stay off for the rest of the dependency tree.
+      - name: Prepare Squirrel Toolchain
+        if: runner.os == 'Windows'
+        working-directory: node_modules/electron-winstaller
+        run: node ./script/select-7z-arch.js
+
       - name: Electron Build
         run: npm run make
