@@ -34,7 +34,7 @@ jobs:
       # Resolves the Node.js version from engines.node in package.json, so the
       # pipeline and the local development setup can never drift apart.
       - name: Select Node Version
-        uses: svierk/get-node-version@v1.5.1
+        uses: svierk/get-node-version@v1.5.2
 
       # `npm ci` installs exactly what package-lock.json pins and fails on a
       # drifted lock file; `--ignore-scripts` keeps install scripts of the
@@ -90,7 +90,7 @@ jobs:
           persist-credentials: false
 
       - name: Select Node Version
-        uses: svierk/get-node-version@v1.5.1
+        uses: svierk/get-node-version@v1.5.2
 
       # Install scripts stay off for the dependency tree, but the native
       # better-sqlite3 binding still has to be built against Electron's own
