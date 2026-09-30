@@ -19,6 +19,7 @@ import { Lunch } from 'src/app/models/lunch';
 import { Pickup } from 'src/app/models/pickup';
 import { DbService } from 'src/app/services/db.service';
 import { ExcelService } from 'src/app/services/excel.service';
+import { PdfService } from 'src/app/services/pdf.service';
 import { DashboardListDialogComponent } from './dashboard-list-dialog.component';
 
 const children: Child[] = [{ id: 123, firstName: 'test', lastName: 'child', classId: '123' }];
@@ -54,6 +55,9 @@ describe('DashboardListDialogComponent', () => {
     const excelService: Partial<ExcelService> = {
       export: jasmine.createSpy('export'),
     };
+    const pdfService: Partial<PdfService> = {
+      export: jasmine.createSpy('export'),
+    };
 
     TestBed.configureTestingModule({
       imports: [
@@ -73,6 +77,7 @@ describe('DashboardListDialogComponent', () => {
           useValue: null,
         },
         { provide: ExcelService, useValue: excelService },
+        { provide: PdfService, useValue: pdfService },
         DbService,
       ],
     });
