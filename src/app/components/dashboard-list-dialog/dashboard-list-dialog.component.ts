@@ -23,12 +23,14 @@ import { Lunch } from 'src/app/models/lunch';
 import { Pickup } from 'src/app/models/pickup';
 import { DbService } from 'src/app/services/db.service';
 import { ExcelService } from 'src/app/services/excel.service';
+import { PdfService } from 'src/app/services/pdf.service';
 import { ChildrenCreateUpdateDialogComponent } from '../children-create-update-dialog/children-create-update-dialog.component';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { MatButton } from '@angular/material/button';
+import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 
 const MONTHS = [
   { label: 'Januar', value: 0 },
@@ -71,11 +73,14 @@ const DAYS = [
     MatDialogActions,
     MatButton,
     MatDialogClose,
+    MatRadioGroup,
+    MatRadioButton,
   ],
 })
 export class DashboardListDialogComponent implements OnInit {
   dbService = inject(DbService);
   readonly excelService = inject(ExcelService);
+  readonly pdfService = inject(PdfService);
   dialogRef = inject<MatDialogRef<ChildrenCreateUpdateDialogComponent>>(MatDialogRef);
   readonly fb = inject(FormBuilder);
 
@@ -201,7 +206,18 @@ export class DashboardListDialogComponent implements OnInit {
         []
       ),
       courseSelect: this.fb.control(this.courses[0]?.id ?? '', []),
+      formatSelect: this.fb.control<'excel' | 'pdf'>('excel', []),
     });
+  }
+
+  /**
+   * Returns the export service matching the currently selected format.
+   * Both services expose an identical surface (`export`, `exportActivities`),
+   * so call sites can delegate without caring which one they got.
+   */
+  private exporter(): ExcelService | PdfService {
+    const format = this.listForm.get('formatSelect')?.value as 'excel' | 'pdf';
+    return format === 'pdf' ? this.pdfService : this.excelService;
   }
 
   private exportEarlyCareList(month: number, day: number, classId: number) {
@@ -232,7 +248,7 @@ export class DashboardListDialogComponent implements OnInit {
       }
     });
 
-    this.excelService.export(
+    this.exporter().export(
       list,
       this.getFileName(ActivityTypes.EarlyCare, selectedMonth, selectedDay, selectedClass),
       this.getFileHeading(ActivityTypes.EarlyCare, selectedDay, selectedClass)
@@ -266,7 +282,7 @@ export class DashboardListDialogComponent implements OnInit {
       }
     });
 
-    this.excelService.export(
+    this.exporter().export(
       list,
       this.getFileName(ActivityTypes.Lunch, selectedMonth, selectedDay, selectedClass),
       this.getFileHeading(ActivityTypes.Lunch, selectedDay, selectedClass, classScheduleForDay?.lunchTime)
@@ -300,7 +316,7 @@ export class DashboardListDialogComponent implements OnInit {
       }
     });
 
-    this.excelService.export(
+    this.exporter().export(
       list,
       this.getFileName(ActivityTypes.Homework, selectedMonth, selectedDay, selectedClass),
       this.getFileHeading(ActivityTypes.Homework, selectedDay, selectedClass, classScheduleForDay?.homeworkTime)
@@ -330,7 +346,7 @@ export class DashboardListDialogComponent implements OnInit {
       list.push(item);
     });
 
-    this.excelService.export(
+    this.exporter().export(
       list,
       this.getFileName('Kursliste', selectedMonth, selectedDay, selectedCourse),
       this.getFileHeading('Kursliste', selectedDay, selectedCourse)
@@ -373,7 +389,7 @@ export class DashboardListDialogComponent implements OnInit {
       }
     });
 
-    this.excelService.export(
+    this.exporter().export(
       list,
       this.getFileName(ActivityTypes.Pickup, selectedMonth, selectedDay, selectedClass),
       this.getFileHeading(ActivityTypes.Pickup, selectedDay, selectedClass)
@@ -402,7 +418,7 @@ export class DashboardListDialogComponent implements OnInit {
       list.push(item);
     });
 
-    this.excelService.export(
+    this.exporter().export(
       list,
       `Notfallkontakte${selectedClass ? '_' + selectedClass?.name : ''}`,
       `Notfallkontakte ${selectedClass ? selectedClass?.name : ''}`
@@ -431,7 +447,7 @@ export class DashboardListDialogComponent implements OnInit {
       list.push(item);
     });
 
-    this.excelService.export(
+    this.exporter().export(
       list,
       `Abholberechtigungen${selectedClass ? '_' + selectedClass?.name : ''}`,
       `Abholberechtigungen ${selectedClass ? selectedClass?.name : ''}`
@@ -460,7 +476,7 @@ export class DashboardListDialogComponent implements OnInit {
       list.push(item);
     });
 
-    this.excelService.export(
+    this.exporter().export(
       list,
       `Allergien${selectedClass ? '_' + selectedClass?.name : ''}`,
       `Allergien ${selectedClass ? selectedClass?.name : ''}`

@@ -1,0 +1,732 @@
+From 2fa92c062482c4a759c0ed097113b5164307b081 Mon Sep 17 00:00:00 2001
+From: Christopher Ramm <christopher@cramm.dev>
+Date: Tue, 21 Apr 2026 18:28:27 +0000
+Subject: [PATCH] feat: add PDF export alongside Excel
+
+- new PdfService mirroring ExcelService API (export, exportActivities)
+- uses jsPDF + jspdf-autotable, reuses #7ac9ff brand header color
+- auto-switches to landscape orientation when column count > 7
+- footer with creation date, app name, and page number on every page
+- dashboard list dialog: format radio group (Excel/PDF), transparent delegation
+- children table: second icon button for per-child activity PDF
+- test coverage: 7 new specs for PdfService, 1 new spec for PDF download path
+- README updated to mention PDF output and its print-optimized framing
+---
+ README.md                                     |   2 +-
+ package.json                                  |   2 +
+ .../children-table.component.html             |   5 +-
+ .../children-table.component.spec.ts          |  31 ++-
+ .../children-table.component.ts               |  14 +-
+ .../dashboard-list-dialog.component.html      |   8 +
+ .../dashboard-list-dialog.component.spec.ts   |   5 +
+ .../dashboard-list-dialog.component.ts        |  32 +++-
+ src/app/services/pdf.service.spec.ts          | 179 +++++++++++++++++
+ src/app/services/pdf.service.ts               | 181 ++++++++++++++++++
+ 10 files changed, 445 insertions(+), 14 deletions(-)
+ create mode 100644 src/app/services/pdf.service.spec.ts
+ create mode 100644 src/app/services/pdf.service.ts
+
+diff --git a/README.md b/README.md
+index 47b3bed..0c13bc7 100644
+--- a/README.md
++++ b/README.md
+@@ -12,7 +12,7 @@ Planungstool für den Ganztagsbereich einer Grundschule
+ 
+ ## Über das Projekt
+ 
+-Das Ziel des Projekts ist es die Planung des offenen Ganztagsbereichs einer Grundschule zu erleichtern. Die App ermöglicht das Erfassen der Stammdaten von Schülern und deren Teilnahme an Aktivitäten wie Frühbetreuung, Mittagessen, Hausaufgabenbetreuung und Kursangeboten. Basierend auf den erfassten Daten können dann automatisch Excel-Listen erzeugt werden, welche alle teilnehmenden Schüler einer Aktivität in einem bestimmten Zeitraum abbilden.
++Das Ziel des Projekts ist es die Planung des offenen Ganztagsbereichs einer Grundschule zu erleichtern. Die App ermöglicht das Erfassen der Stammdaten von Schülern und deren Teilnahme an Aktivitäten wie Frühbetreuung, Mittagessen, Hausaufgabenbetreuung und Kursangeboten. Basierend auf den erfassten Daten können dann automatisch Excel- oder PDF-Listen erzeugt werden, welche alle teilnehmenden Schüler einer Aktivität in einem bestimmten Zeitraum abbilden. PDF-Listen sind druckoptimiert (Seitenzahl, Erstellungsdatum im Footer, automatisches Querformat bei vielen Spalten) und eignen sich für Elternkommunikation und Aushang.
+ 
+ Technisch handelt es sich um eine Web-App bestehend aus [Angular](https://angular.io/) Frontend und [Node.js](https://nodejs.org/) Backend, welche mittels [Electron](https://www.electronjs.org/) als Desktopanwendung verfügbar gemacht wird. Als lokale Datenbank wird [SQLite](https://www.sqlite.org/) verwendet.
+ 
+diff --git a/package.json b/package.json
+index bfa905c..80504be 100644
+--- a/package.json
++++ b/package.json
+@@ -52,6 +52,8 @@
+     "better-sqlite3": "^12.8.0",
+     "bootstrap": "^5.3.3",
+     "electron-squirrel-startup": "^1.0.1",
++    "jspdf": "^4.2.1",
++    "jspdf-autotable": "^5.0.7",
+     "rxjs": "~7.8.1",
+     "tslib": "^2.7.0",
+     "xlsx-js-style": "^1.2.0",
+diff --git a/src/app/components/children-table/children-table.component.html b/src/app/components/children-table/children-table.component.html
+index bdf077d..45087f1 100644
+--- a/src/app/components/children-table/children-table.component.html
++++ b/src/app/components/children-table/children-table.component.html
+@@ -66,9 +66,12 @@
+           <td mat-cell *matCellDef="let child">
+             <ogs-children-activities-action [child]="child"></ogs-children-activities-action>
+             <ogs-children-create-update-action [child]="child" [isUpdate]="true"></ogs-children-create-update-action>
+-            <button mat-icon-button color="basic" (click)="download(child)">
++            <button mat-icon-button color="basic" (click)="download(child)" aria-label="Als Excel herunterladen">
+               <mat-icon>download</mat-icon>
+             </button>
++            <button mat-icon-button color="basic" (click)="download(child, 'pdf')" aria-label="Als PDF herunterladen">
++              <mat-icon>picture_as_pdf</mat-icon>
++            </button>
+             <ogs-children-delete-action [child]="child"></ogs-children-delete-action>
+           </td>
+         </ng-container>
+diff --git a/src/app/components/children-table/children-table.component.spec.ts b/src/app/components/children-table/children-table.component.spec.ts
+index 77b3518..3402fb6 100644
+--- a/src/app/components/children-table/children-table.component.spec.ts
++++ b/src/app/components/children-table/children-table.component.spec.ts
+@@ -19,6 +19,7 @@ import { Homework } from 'src/app/models/homework';
+ import { Lunch } from 'src/app/models/lunch';
+ import { Pickup } from 'src/app/models/pickup';
+ import { ExcelService } from 'src/app/services/excel.service';
++import { PdfService } from 'src/app/services/pdf.service';
+ import { ChildrenCreateUpdateActionComponent } from '../children-create-update-action/children-create-update-action.component';
+ import { ChildrenDeleteActionComponent } from '../children-delete-action/children-delete-action.component';
+ import { ChildrenTableComponent } from './children-table.component';
+@@ -52,6 +53,9 @@ describe('ChildrenTableComponent', () => {
+     const excelService: Partial<ExcelService> = {
+       exportActivities: jasmine.createSpy('exportActivities'),
+     };
++    const pdfService: Partial<PdfService> = {
++      exportActivities: jasmine.createSpy('exportActivities'),
++    };
+ 
+     TestBed.configureTestingModule({
+       imports: [
+@@ -67,7 +71,10 @@ describe('ChildrenTableComponent', () => {
+         ChildrenDeleteActionComponent,
+         ChildrenTableComponent,
+       ],
+-      providers: [{ provide: ExcelService, useValue: excelService }],
++      providers: [
++        { provide: ExcelService, useValue: excelService },
++        { provide: PdfService, useValue: pdfService },
++      ],
+     });
+     fixture = TestBed.createComponent(ChildrenTableComponent);
+     component = fixture.componentInstance;
+@@ -129,6 +136,28 @@ describe('ChildrenTableComponent', () => {
+     expect(component.download).toHaveBeenCalledTimes(1);
+   });
+ 
++  it('should allow download of child activities as pdf', () => {
++    // given
++    component.children = children;
++    component.classes = classes;
++    component.courses = courses;
++    component.earlyCare = earlyCare;
++    component.lunch = lunch;
++    component.homework = homework;
++    component.childCourses = childCourses;
++    component.pickup = pickup;
++    component.dataSource = new MatTableDataSource(children);
++    spyOn(component, 'download').and.callThrough();
++
++    // when
++    component.download(children[0], 'pdf');
++    fixture.detectChanges();
++
++    // then
++    expect(component.download).toHaveBeenCalledTimes(1);
++    expect(component.pdfService.exportActivities).toHaveBeenCalledTimes(1);
++  });
++
+   it('should allow download of child activities without class assignment', () => {
+     // given
+     const childWithoutClass: Child = { id: 456, firstName: 'no', lastName: 'class' };
+diff --git a/src/app/components/children-table/children-table.component.ts b/src/app/components/children-table/children-table.component.ts
+index 6e93593..1788a43 100644
+--- a/src/app/components/children-table/children-table.component.ts
++++ b/src/app/components/children-table/children-table.component.ts
+@@ -25,6 +25,7 @@ import { Pickup } from 'src/app/models/pickup';
+ import { ClassNamePipe } from 'src/app/pipes/class-name.pipe';
+ import { DbService } from 'src/app/services/db.service';
+ import { ExcelService } from 'src/app/services/excel.service';
++import { PdfService } from 'src/app/services/pdf.service';
+ import { SearchService } from 'src/app/services/search.service';
+ import { Child } from '../../models/child';
+ import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
+@@ -73,6 +74,7 @@ export class ChildrenTableComponent implements AfterViewInit, OnInit {
+ 
+   readonly dbService = inject(DbService);
+   readonly excelService = inject(ExcelService);
++  readonly pdfService = inject(PdfService);
+   readonly searchService = inject(SearchService);
+   readonly cdr = inject(ChangeDetectorRef);
+   children: Child[] = [];
+@@ -134,9 +136,9 @@ export class ChildrenTableComponent implements AfterViewInit, OnInit {
+     this.dataSource.sort = this.sort;
+   }
+ 
+-  download(child: Child) {
++  download(child: Child, format: 'excel' | 'pdf' = 'excel') {
+     const classId = child.classId ? Number.parseInt(child.classId) : undefined;
+-    this.excelService.exportActivities({
++    const payload = {
+       child: child,
+       childClass: classId ? this.classes.find((c) => c.id === classId) : undefined,
+       classSchedules: classId ? this.classSchedules.filter((s) => s.classId === classId) : [],
+@@ -146,6 +148,12 @@ export class ChildrenTableComponent implements AfterViewInit, OnInit {
+       homework: this.homework.filter((item) => item.childId === child.id),
+       childCourses: this.childCourses.filter((item) => item.childId === child.id),
+       pickup: this.pickup.filter((item) => item.childId === child.id),
+-    });
++    };
++
++    if (format === 'pdf') {
++      this.pdfService.exportActivities(payload);
++    } else {
++      this.excelService.exportActivities(payload);
++    }
+   }
+ }
+diff --git a/src/app/components/dashboard-list-dialog/dashboard-list-dialog.component.html b/src/app/components/dashboard-list-dialog/dashboard-list-dialog.component.html
+index 0cd40cd..b5527e4 100644
+--- a/src/app/components/dashboard-list-dialog/dashboard-list-dialog.component.html
++++ b/src/app/components/dashboard-list-dialog/dashboard-list-dialog.component.html
+@@ -54,6 +54,14 @@
+           </div>
+         }
+       </div>
++      <div class="row">
++        <div class="col-sm">
++          <mat-radio-group formControlName="formatSelect" aria-label="Ausgabeformat" class="format-group">
++            <mat-radio-button value="excel">Excel</mat-radio-button>
++            <mat-radio-button value="pdf">PDF</mat-radio-button>
++          </mat-radio-group>
++        </div>
++      </div>
+     </div>
+     <div mat-dialog-actions class="justify-content-center mb-16">
+       <button mat-raised-button mat-dialog-close color="basic" class="mx-8" (click)="closeDialog()">Abbrechen</button>
+diff --git a/src/app/components/dashboard-list-dialog/dashboard-list-dialog.component.spec.ts b/src/app/components/dashboard-list-dialog/dashboard-list-dialog.component.spec.ts
+index 798392c..65c0865 100644
+--- a/src/app/components/dashboard-list-dialog/dashboard-list-dialog.component.spec.ts
++++ b/src/app/components/dashboard-list-dialog/dashboard-list-dialog.component.spec.ts
+@@ -19,6 +19,7 @@ import { Lunch } from 'src/app/models/lunch';
+ import { Pickup } from 'src/app/models/pickup';
+ import { DbService } from 'src/app/services/db.service';
+ import { ExcelService } from 'src/app/services/excel.service';
++import { PdfService } from 'src/app/services/pdf.service';
+ import { DashboardListDialogComponent } from './dashboard-list-dialog.component';
+ 
+ const children: Child[] = [{ id: 123, firstName: 'test', lastName: 'child', classId: '123' }];
+@@ -54,6 +55,9 @@ describe('DashboardListDialogComponent', () => {
+     const excelService: Partial<ExcelService> = {
+       export: jasmine.createSpy('export'),
+     };
++    const pdfService: Partial<PdfService> = {
++      export: jasmine.createSpy('export'),
++    };
+ 
+     TestBed.configureTestingModule({
+       imports: [
+@@ -73,6 +77,7 @@ describe('DashboardListDialogComponent', () => {
+           useValue: null,
+         },
+         { provide: ExcelService, useValue: excelService },
++        { provide: PdfService, useValue: pdfService },
+         DbService,
+       ],
+     });
+diff --git a/src/app/components/dashboard-list-dialog/dashboard-list-dialog.component.ts b/src/app/components/dashboard-list-dialog/dashboard-list-dialog.component.ts
+index 9d4475c..b26dbc7 100644
+--- a/src/app/components/dashboard-list-dialog/dashboard-list-dialog.component.ts
++++ b/src/app/components/dashboard-list-dialog/dashboard-list-dialog.component.ts
+@@ -23,12 +23,14 @@ import { Lunch } from 'src/app/models/lunch';
+ import { Pickup } from 'src/app/models/pickup';
+ import { DbService } from 'src/app/services/db.service';
+ import { ExcelService } from 'src/app/services/excel.service';
++import { PdfService } from 'src/app/services/pdf.service';
+ import { ChildrenCreateUpdateDialogComponent } from '../children-create-update-dialog/children-create-update-dialog.component';
+ import { CdkScrollable } from '@angular/cdk/scrolling';
+ import { MatFormField, MatLabel } from '@angular/material/form-field';
+ import { MatSelect } from '@angular/material/select';
+ import { MatOption } from '@angular/material/core';
+ import { MatButton } from '@angular/material/button';
++import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
+ 
+ const MONTHS = [
+   { label: 'Januar', value: 0 },
+@@ -70,11 +72,14 @@ const DAYS = [
+     MatDialogActions,
+     MatButton,
+     MatDialogClose,
++    MatRadioGroup,
++    MatRadioButton,
+   ],
+ })
+ export class DashboardListDialogComponent implements OnInit {
+   dbService = inject(DbService);
+   readonly excelService = inject(ExcelService);
++  readonly pdfService = inject(PdfService);
+   dialogRef = inject<MatDialogRef<ChildrenCreateUpdateDialogComponent>>(MatDialogRef);
+   readonly fb = inject(FormBuilder);
+ 
+@@ -200,9 +205,20 @@ export class DashboardListDialogComponent implements OnInit {
+         []
+       ),
+       courseSelect: this.fb.control(this.courses[0]?.id ?? '', []),
++      formatSelect: this.fb.control<'excel' | 'pdf'>('excel', []),
+     });
+   }
+ 
++  /**
++   * Returns the export service matching the currently selected format.
++   * Both services expose an identical surface (`export`, `exportActivities`),
++   * so call sites can delegate without caring which one they got.
++   */
++  private exporter(): ExcelService | PdfService {
++    const format = this.listForm.get('formatSelect')?.value as 'excel' | 'pdf';
++    return format === 'pdf' ? this.pdfService : this.excelService;
++  }
++
+   private exportEarlyCareList(month: number, day: number, classId: number) {
+     const list: any[] = [];
+     const selectedMonth = MONTHS.find((m) => m.value === month);
+@@ -231,7 +247,7 @@ export class DashboardListDialogComponent implements OnInit {
+       }
+     });
+ 
+-    this.excelService.export(
++    this.exporter().export(
+       list,
+       this.getFileName(ActivityTypes.EarlyCare, selectedMonth, selectedDay, selectedClass),
+       this.getFileHeading(ActivityTypes.EarlyCare, selectedDay, selectedClass)
+@@ -265,7 +281,7 @@ export class DashboardListDialogComponent implements OnInit {
+       }
+     });
+ 
+-    this.excelService.export(
++    this.exporter().export(
+       list,
+       this.getFileName(ActivityTypes.Lunch, selectedMonth, selectedDay, selectedClass),
+       this.getFileHeading(ActivityTypes.Lunch, selectedDay, selectedClass, classScheduleForDay?.lunchTime)
+@@ -299,7 +315,7 @@ export class DashboardListDialogComponent implements OnInit {
+       }
+     });
+ 
+-    this.excelService.export(
++    this.exporter().export(
+       list,
+       this.getFileName(ActivityTypes.Homework, selectedMonth, selectedDay, selectedClass),
+       this.getFileHeading(ActivityTypes.Homework, selectedDay, selectedClass, classScheduleForDay?.homeworkTime)
+@@ -329,7 +345,7 @@ export class DashboardListDialogComponent implements OnInit {
+       list.push(item);
+     });
+ 
+-    this.excelService.export(
++    this.exporter().export(
+       list,
+       this.getFileName('Kursliste', selectedMonth, selectedDay, selectedCourse),
+       this.getFileHeading('Kursliste', selectedDay, selectedCourse)
+@@ -372,7 +388,7 @@ export class DashboardListDialogComponent implements OnInit {
+       }
+     });
+ 
+-    this.excelService.export(
++    this.exporter().export(
+       list,
+       this.getFileName(ActivityTypes.Pickup, selectedMonth, selectedDay, selectedClass),
+       this.getFileHeading(ActivityTypes.Pickup, selectedDay, selectedClass)
+@@ -401,7 +417,7 @@ export class DashboardListDialogComponent implements OnInit {
+       list.push(item);
+     });
+ 
+-    this.excelService.export(
++    this.exporter().export(
+       list,
+       `Notfallkontakte${selectedClass ? '_' + selectedClass?.name : ''}`,
+       `Notfallkontakte ${selectedClass ? selectedClass?.name : ''}`
+@@ -430,7 +446,7 @@ export class DashboardListDialogComponent implements OnInit {
+       list.push(item);
+     });
+ 
+-    this.excelService.export(
++    this.exporter().export(
+       list,
+       `Abholberechtigungen${selectedClass ? '_' + selectedClass?.name : ''}`,
+       `Abholberechtigungen ${selectedClass ? selectedClass?.name : ''}`
+@@ -459,7 +475,7 @@ export class DashboardListDialogComponent implements OnInit {
+       list.push(item);
+     });
+ 
+-    this.excelService.export(
++    this.exporter().export(
+       list,
+       `Allergien${selectedClass ? '_' + selectedClass?.name : ''}`,
+       `Allergien ${selectedClass ? selectedClass?.name : ''}`
+diff --git a/src/app/services/pdf.service.spec.ts b/src/app/services/pdf.service.spec.ts
+new file mode 100644
+index 0000000..98529ab
+--- /dev/null
++++ b/src/app/services/pdf.service.spec.ts
+@@ -0,0 +1,179 @@
++import { TestBed } from '@angular/core/testing';
++import { Child } from '../models/child';
++import { ChildCourse } from '../models/child-course';
++import { Class } from '../models/class';
++import { ClassSchedule } from '../models/class-schedule';
++import { Course } from '../models/course';
++import { Days } from '../models/days';
++import { EarlyCare } from '../models/early-care';
++import { Homework } from '../models/homework';
++import { Lunch } from '../models/lunch';
++import { Pickup } from '../models/pickup';
++import { PdfService } from './pdf.service';
++
++const children: Child[] = [{ id: 123, firstName: 'test', lastName: 'child', classId: '123' }];
++const classes: Class[] = [{ id: 123, name: '1a' }];
++const classSchedules: ClassSchedule[] = [];
++const courses: Course[] = [
++  {
++    id: 123,
++    name: 'course',
++    teacher: 'teacher',
++    day: Days.Monday,
++    start: 'start',
++    end: 'end',
++  },
++];
++const earlyCare: EarlyCare[] = [
++  { id: 123, childId: 123, day: 'Montag', participation: 1, start: '1. Stunde', note: 'test note' },
++];
++const lunch: Lunch[] = [{ id: 123, childId: 123, day: 'Montag', participation: 1, note: 'note' }];
++const homework: Homework[] = [{ id: 123, childId: 123, day: 'Montag', participation: 1, note: 'note' }];
++const childCourses: ChildCourse[] = [{ id: 123, childId: 123, courseId: 123 }];
++const pickup: Pickup[] = [
++  { id: 123, childId: 123, day: 'Montag', pickupTime: '12:00', pickupType: 'Wird abgeholt', note: 'note' },
++];
++
++describe('PdfService', () => {
++  let service: PdfService;
++
++  beforeEach(() => {
++    TestBed.configureTestingModule({});
++    service = TestBed.inject(PdfService);
++  });
++
++  it('should be created', () => {
++    expect(service).toBeTruthy();
++  });
++
++  it('should export pdf', () => {
++    // given
++    spyOn(service, 'download');
++    spyOn(service, 'export').and.callThrough();
++
++    // when
++    service.export([{ test: 'test' }], 'file name', 'heading');
++
++    // then
++    expect(service.export).toHaveBeenCalledTimes(1);
++    expect(service.download).toHaveBeenCalledTimes(1);
++  });
++
++  it('should show error toast for empty list', () => {
++    // given
++    spyOn(service, 'download');
++    spyOn(service, 'export').and.callThrough();
++
++    // when
++    service.export([], '', '');
++
++    // then
++    expect(service.export).toHaveBeenCalledTimes(1);
++    expect(service.download).toHaveBeenCalledTimes(0);
++  });
++
++  it('should export pdf in landscape orientation for wide lists', () => {
++    // given
++    spyOn(service, 'download');
++    spyOn(service, 'export').and.callThrough();
++    const wideRow = {
++      Klasse: '1a',
++      Name: 'Mustermann',
++      Vorname: 'Max',
++      Hinweis: '-',
++      '01.09.2025': '',
++      '08.09.2025': '',
++      '15.09.2025': '',
++      '22.09.2025': '',
++      '29.09.2025': '',
++    };
++
++    // when
++    service.export([wideRow], 'file name', 'heading');
++
++    // then
++    expect(service.export).toHaveBeenCalledTimes(1);
++    expect(service.download).toHaveBeenCalledTimes(1);
++  });
++
++  it('should export activities pdf', () => {
++    // given
++    spyOn(service, 'download');
++    spyOn(service, 'exportActivities').and.callThrough();
++
++    // when
++    service.exportActivities({
++      child: children[0],
++      childClass: classes.find((c) => c.id === Number.parseInt(children[0]?.classId as string)),
++      classSchedules: classSchedules,
++      courses: courses,
++      earlyCare: earlyCare.filter((item) => item.childId === children[0].id),
++      lunch: lunch.filter((item) => item.childId === children[0].id),
++      homework: homework.filter((item) => item.childId === children[0].id),
++      childCourses: childCourses.filter((item) => item.childId === children[0].id),
++      pickup: pickup.filter((item) => item.childId === children[0].id),
++    });
++
++    // then
++    expect(service.exportActivities).toHaveBeenCalledTimes(1);
++    expect(service.download).toHaveBeenCalledTimes(1);
++  });
++
++  it('should show error toast for missing activities', () => {
++    // given
++    spyOn(service, 'download');
++    spyOn(service, 'exportActivities').and.callThrough();
++
++    // when
++    service.exportActivities({});
++
++    // then
++    expect(service.exportActivities).toHaveBeenCalledTimes(1);
++    expect(service.download).toHaveBeenCalledTimes(0);
++  });
++
++  it('should export activities pdf without class schedules', () => {
++    // given
++    spyOn(service, 'download');
++    spyOn(service, 'exportActivities').and.callThrough();
++
++    // when
++    service.exportActivities({
++      child: children[0],
++      childClass: classes.find((c) => c.id === Number.parseInt(children[0]?.classId as string)),
++      courses: courses,
++      earlyCare: earlyCare.filter((item) => item.childId === children[0].id),
++      lunch: lunch.filter((item) => item.childId === children[0].id),
++      homework: homework.filter((item) => item.childId === children[0].id),
++      childCourses: childCourses.filter((item) => item.childId === children[0].id),
++      pickup: pickup.filter((item) => item.childId === children[0].id),
++    });
++
++    // then
++    expect(service.exportActivities).toHaveBeenCalledTimes(1);
++    expect(service.download).toHaveBeenCalledTimes(1);
++  });
++
++  it('should show error toast for missing class assignment', () => {
++    // given
++    spyOn(service, 'download');
++    spyOn(service, 'exportActivities').and.callThrough();
++
++    // when
++    service.exportActivities({
++      child: children[0],
++      childClass: undefined,
++      classSchedules: classSchedules,
++      courses: courses,
++      earlyCare: earlyCare.filter((item) => item.childId === children[0].id),
++      lunch: lunch.filter((item) => item.childId === children[0].id),
++      homework: homework.filter((item) => item.childId === children[0].id),
++      childCourses: childCourses.filter((item) => item.childId === children[0].id),
++      pickup: pickup.filter((item) => item.childId === children[0].id),
++    });
++
++    // then
++    expect(service.exportActivities).toHaveBeenCalledTimes(1);
++    expect(service.download).toHaveBeenCalledTimes(0);
++  });
++});
+diff --git a/src/app/services/pdf.service.ts b/src/app/services/pdf.service.ts
+new file mode 100644
+index 0000000..6770c2b
+--- /dev/null
++++ b/src/app/services/pdf.service.ts
+@@ -0,0 +1,181 @@
++/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument */
++import { Injectable, inject } from '@angular/core';
++import { jsPDF } from 'jspdf';
++import autoTable from 'jspdf-autotable';
++import { ActivityTypes } from '../models/activity-types';
++import { Child } from '../models/child';
++import { ChildCourse } from '../models/child-course';
++import { ClassSchedule } from '../models/class-schedule';
++import { Course } from '../models/course';
++import { Days } from '../models/days';
++import { EarlyCare } from '../models/early-care';
++import { Homework } from '../models/homework';
++import { Lunch } from '../models/lunch';
++import { Pickup } from '../models/pickup';
++import { ToastService } from './toast.service';
++
++const PDF_EXTENSION = '.pdf';
++
++// Brand color reused from ExcelService header row (#7ac9ff)
++const BRAND_HEADER_RGB: [number, number, number] = [122, 201, 255];
++const BRAND_TEXT_RGB: [number, number, number] = [0, 0, 0];
++
++// Switch to landscape once a list has more than this many columns.
++// Rationale: lists include dynamic day columns per month and become too
++// cramped on A4 portrait beyond this threshold.
++const LANDSCAPE_COLUMN_THRESHOLD = 7;
++
++@Injectable({
++  providedIn: 'root',
++})
++export class PdfService {
++  readonly toastService = inject(ToastService);
++
++  export(element: any[], fileName: string, heading: string) {
++    if (!element || element.length === 0) {
++      this.toastService.showErrorToast('Erstellen fehlgeschlagen', 'Liste würde keine Einträge enthalten.');
++      return;
++    }
++
++    const columns = Object.keys(element[0] as object);
++    const orientation = columns.length > LANDSCAPE_COLUMN_THRESHOLD ? 'landscape' : 'portrait';
++    const doc = new jsPDF({ orientation, unit: 'pt', format: 'a4' });
++
++    this.drawHeading(doc, heading);
++
++    const body = element.map((row) => columns.map((col) => this.stringify(row[col])));
++
++    autoTable(doc, {
++      head: [columns],
++      body,
++      startY: 80,
++      styles: { fontSize: 9, cellPadding: 4, textColor: BRAND_TEXT_RGB, overflow: 'linebreak' },
++      headStyles: { fillColor: BRAND_HEADER_RGB, textColor: BRAND_TEXT_RGB, fontStyle: 'bold' },
++      alternateRowStyles: { fillColor: [245, 245, 245] },
++      margin: { top: 80, right: 32, bottom: 48, left: 32 },
++      didDrawPage: () => this.drawFooter(doc),
++    });
++
++    this.download(doc, fileName);
++  }
++
++  exportActivities(data: any) {
++    if (!data?.earlyCare?.length) {
++      this.toastService.showErrorToast('Download fehlgeschlagen', 'Es wurden noch keine Aktivitäten gespeichert.');
++      return;
++    }
++
++    if (!data?.childClass) {
++      this.toastService.showErrorToast('Download fehlgeschlagen', 'Es wurde noch keine Klasse zugewiesen.');
++      return;
++    }
++
++    // prepare data (same shape as ExcelService.exportActivities)
++    const child: Child = data.child;
++    const classSchedules: ClassSchedule[] = data.classSchedules ?? [];
++    const courses: Course[] = data.courses;
++    const earlyCare: EarlyCare[] = data.earlyCare;
++    const lunch: Lunch[] = data.lunch;
++    const homework: Homework[] = data.homework;
++    const childCourses: ChildCourse[] = data.childCourses;
++    const pickup: Pickup[] = data.pickup;
++    const selectedCourseIds = new Set<number>(childCourses.map((c) => c.courseId));
++    const selectedCourses = courses.filter((course) => selectedCourseIds.has(course.id as number));
++
++    // Helpers to look up data by German day name
++    const ec = (day: string) => earlyCare.find((i) => i.day === day);
++    const lu = (day: string) => lunch.find((i) => i.day === day);
++    const hw = (day: string) => homework.find((i) => i.day === day);
++    const pu = (day: string) => pickup.find((i) => i.day === day);
++    const cs = (day: string) => classSchedules.find((i) => i.day === day);
++
++    const header = ['', ...Object.values(Days)];
++    const body: string[][] = [
++      this.buildParticipationRow(ActivityTypes.EarlyCare, ec, (day) => `Ja (${ec(day)?.start ?? ''})`),
++      this.buildNoteRow(ec),
++      this.buildParticipationRow(ActivityTypes.Lunch, lu, (day) => `Ja (${cs(day)?.lunchTime ?? ''} Uhr)`),
++      this.buildNoteRow(lu),
++      this.buildParticipationRow(ActivityTypes.Homework, hw, (day) => `Ja (${cs(day)?.homeworkTime ?? ''} Uhr)`),
++      this.buildNoteRow(hw),
++      [ActivityTypes.Courses, ...Object.values(Days).map((day) => this.getCoursesByDay(selectedCourses, day))],
++      this.buildPickupRow(pu),
++      this.buildNoteRow(pu),
++    ];
++
++    const doc = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
++    this.drawHeading(doc, `${child.firstName} ${child.lastName}`);
++
++    autoTable(doc, {
++      head: [header],
++      body,
++      startY: 80,
++      styles: { fontSize: 9, cellPadding: 4, textColor: BRAND_TEXT_RGB, overflow: 'linebreak' },
++      headStyles: { fillColor: BRAND_HEADER_RGB, textColor: BRAND_TEXT_RGB, fontStyle: 'bold' },
++      columnStyles: { 0: { fontStyle: 'bold' } },
++      alternateRowStyles: { fillColor: [245, 245, 245] },
++      margin: { top: 80, right: 32, bottom: 48, left: 32 },
++      didDrawPage: () => this.drawFooter(doc),
++    });
++
++    this.download(doc, `Aktivitäten_${child.firstName}_${child.lastName}`);
++  }
++
++  download(doc: jsPDF, fileName: string) {
++    doc.save(`${fileName}${PDF_EXTENSION}`);
++  }
++
++  private drawHeading(doc: jsPDF, heading: string) {
++    const pageWidth = doc.internal.pageSize.getWidth();
++    doc.setFontSize(18);
++    doc.setFont('helvetica', 'bold');
++    doc.text(heading, pageWidth / 2, 48, { align: 'center' });
++    doc.setFont('helvetica', 'normal');
++  }
++
++  private drawFooter(doc: jsPDF) {
++    const pageWidth = doc.internal.pageSize.getWidth();
++    const pageHeight = doc.internal.pageSize.getHeight();
++    const pageNumber = doc.getNumberOfPages();
++    const created = new Date().toLocaleDateString('de-DE');
++
++    doc.setFontSize(8);
++    doc.setTextColor(120);
++    doc.text(`Erstellt am ${created}`, 32, pageHeight - 20);
++    doc.text('OGS Planer', pageWidth / 2, pageHeight - 20, { align: 'center' });
++    doc.text(`Seite ${pageNumber}`, pageWidth - 32, pageHeight - 20, { align: 'right' });
++    doc.setTextColor(0);
++  }
++
++  private stringify(value: unknown): string {
++    if (value === null || value === undefined) return '';
++    return String(value);
++  }
++
++  private buildParticipationRow(
++    label: string,
++    lookup: (day: string) => { participation?: number } | undefined,
++    getInfo: (day: string) => string
++  ): string[] {
++    return [label, ...Object.values(Days).map((day) => (lookup(day)?.participation ? getInfo(day) : 'Nein'))];
++  }
++
++  private buildNoteRow(lookup: (day: string) => { note?: string } | undefined): string[] {
++    return ['- Notiz', ...Object.values(Days).map((day) => lookup(day)?.note ?? ' ')];
++  }
++
++  private buildPickupRow(pu: (day: string) => { pickupTime?: string; pickupType?: string } | undefined): string[] {
++    return [
++      ActivityTypes.Pickup,
++      ...Object.values(Days).map((day) => {
++        const entry = pu(day);
++        return entry?.pickupTime ? `${entry.pickupType} (${entry.pickupTime} Uhr)` : '-';
++      }),
++    ];
++  }
++
++  private getCoursesByDay(courses: Course[], day: Days): string {
++    const coursesForDay = courses.filter((course) => course.day === day);
++    if (coursesForDay.length === 0) return '-';
++    return coursesForDay.map((course) => `${course.name} (${course.start} Uhr)`).join(', ');
++  }
++}
+-- 
+2.43.0
+

@@ -54,6 +54,14 @@
           </div>
         }
       </div>
+      <div class="row">
+        <div class="col-sm">
+          <mat-radio-group formControlName="formatSelect" aria-label="Ausgabeformat" class="format-group">
+            <mat-radio-button value="excel">Excel</mat-radio-button>
+            <mat-radio-button value="pdf">PDF</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
     </div>
     <div mat-dialog-actions class="justify-content-center mb-16">
       <button mat-raised-button mat-dialog-close color="basic" class="mx-8" (click)="closeDialog()">Abbrechen</button>
